@@ -1,95 +1,105 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useCallback, useEffect, useState } from "react";
+// import { Context } from "./context/AirQualityContext";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import AirQualityCardSet from "./components/AirQualityCardSet";
+// import AirQualityCard from "./components/AirQualityCard";
+import DeviceControl from "./components/DeviceControl";
+import ProfileDropdown from "./components/ProfileDropdown";
+import "./App.css";
+import { fetchAPI, getLatestRecord } from "./test_get_data.js";
+
+const App: React.FC = () => {
+  const [isSidebarVisible, setSidebarVisible] = useState<boolean>(false);
+  const [isProfileDropdownVisible, setProfileDropdownVisible] =
+    useState<boolean>(false);
+
+  const toggleSidebar = () => setSidebarVisible(!isSidebarVisible);
+  const toggleProfileDropdown = () =>
+    setProfileDropdownVisible(!isProfileDropdownVisible);
+  const logout = () => alert("Logged out");
+
+  const [data, setData] = useState({
+    id: 25,
+    temperature: 10,
+    humidity: 10,
+    timestamp: "2024-12-25T16:36:07.000Z",
+  });
+  const [pm25, setPm25] = useState<number>(10);
+  const [co2, setCo2] = useState<number>(750);
+  const [pressure, setPressure] = useState<number>(5);
+  const [temperature, setTemperature] = useState<number>(25);
+  const [humidity, setHumidity] = useState<number>(60);
+
+  // async function getLatestRecord() {
+  //   const response = await fetchAPI();
+  //   const latest_record =
+  //     response.formattedData[response.formattedData.length - 1];
+  //   //   console.log(latest_record);
+  //   return latest_record;
+  // }
+
+  // const getData = useCallback(async () => {
+  //   const data = await getLatestRecord();
+  //   setData(data);
+  // }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      async () => {
+        const data = await getLatestRecord();
+        console.log(data);
+      };
+    }, 2000);
+
+    // getData();
+    return () => clearInterval(interval);
+  });
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className="app">
+      <Header
+        toggleSidebar={toggleSidebar}
+        toggleProfileDropdown={toggleProfileDropdown}
+      />
+      <div className="page">
+        <div className="page-content">
+          <AirQualityCardSet
+            pm25={pm25}
+            co2={co2}
+            pressure={pressure}
+            temperature={temperature}
+            humidity={humidity}
+          ></AirQualityCardSet>
         </div>
+      </div>
+
+      {/* <Sidebar isVisible={isSidebarVisible} />
+      <main className="main-content">
+        <h2>Room1 (House1)</h2>
+        <section className="device-controls">
+          <DeviceControl
+            title="เครื่องกรองอากาศ"
+            isActive={true}
+            toggle={() => {}}
+          />
+          <DeviceControl
+            title="พัดลมดูดอากาศ"
+            isActive={true}
+            toggle={() => {}}
+          />
+          <DeviceControl
+            title="เครื่องอัดอากาศ"
+            isActive={false}
+            toggle={() => {}}
+          />
+        </section>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <ProfileDropdown isVisible={isProfileDropdownVisible} logout={logout} /> */}
     </div>
   );
-}
+};
+
+export default App;
