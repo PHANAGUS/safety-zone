@@ -21,40 +21,49 @@ const App: React.FC = () => {
     setProfileDropdownVisible(!isProfileDropdownVisible);
   const logout = () => alert("Logged out");
 
-  const [data, setData] = useState({
-    id: 25,
-    temperature: 10,
-    humidity: 10,
-    timestamp: "2024-12-25T16:36:07.000Z",
-  });
+  // const [data, setData] = useState({
+  //   id: 25,
+  //   temperature: 10,
+  //   humidity: 10,
+  //   timestamp: "2024-12-25T16:36:07.000Z",
+  // });
   const [pm25, setPm25] = useState<number>(10);
   const [co2, setCo2] = useState<number>(750);
   const [pressure, setPressure] = useState<number>(5);
   const [temperature, setTemperature] = useState<number>(25);
   const [humidity, setHumidity] = useState<number>(60);
-
-  // async function getLatestRecord() {
-  //   const response = await fetchAPI();
-  //   const latest_record =
-  //     response.formattedData[response.formattedData.length - 1];
-  //   //   console.log(latest_record);
-  //   return latest_record;
-  // }
-
-  // const getData = useCallback(async () => {
-  //   const data = await getLatestRecord();
-  //   setData(data);
-  // }, []);
+  const [timestamp, setTimestamp] = useState<string>();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      async () => {
-        const data = await getLatestRecord();
-        console.log(data);
-      };
+    const interval = setInterval(async () => {
+      const new_data = await getLatestRecord();
+      // console.log(new_data);
+      // console.log(
+      //   "Timestamp(",
+      //   typeof new_data.timestamp,
+      //   ") : ",
+      //   new_data.timestamp
+      // );
+      // console.log(
+      //   "Temperature(",
+      //   typeof new_data.temperature,
+      //   ") : ",
+      //   new_data.temperature
+      // );
+      // console.log(
+      //   "Humidity(",
+      //   typeof new_data.humidity,
+      //   ") : ",
+      //   new_data.humidity
+      // );
+      setPm25(10);
+      setCo2(750);
+      setPressure(5);
+      // setTemperature(25);
+      setTemperature(new_data.temperature);
+      setHumidity(new_data.humidity);
     }, 2000);
 
-    // getData();
     return () => clearInterval(interval);
   });
 
