@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useContext } from "react";
-// import { Context } from "../context/AirQualityContext";
+import React from "react";
 import AirQualityCard from "./AirQualityCard";
+
+import { setTemperatureColor, setHumidityColor } from "../data/convertData.js";
 
 interface AirQualityCardSetProps {
   pm25: number;
@@ -21,26 +22,26 @@ const AirQualityCardSet: React.FC<AirQualityCardSetProps> = ({
   humidity,
 }) => {
   return (
-    <div className="aq-container">
-      <AirQualityCard title="PM2.5" value={pm25} unit="µg/m³" color="#87D677" />
-      <AirQualityCard title="CO2" value={co2} unit="ppm" color="#87D677" />
+    <div className="aqcard-container aqcard-container-scrollbar">
+      <AirQualityCard title="PM2.5" value={pm25} unit="µg/m³" color="#cccccc" />
+      <AirQualityCard title="CO2" value={co2} unit="ppm" color="#cccccc" />
       <AirQualityCard
         title="ความกดอากาศ"
         value={pressure}
         unit="Pascal"
-        color="#87D677"
+        color="#cccccc"
       />
       <AirQualityCard
         title="อุณหภูมิ"
         value={temperature}
         unit="°C"
-        color="#7ED2F0"
+        color={setTemperatureColor(temperature)}
       />
       <AirQualityCard
         title="ความชื้นสัมพัทธ์"
         value={humidity}
         unit="%"
-        color="#7ED2F0"
+        color={setHumidityColor(humidity)}
       />
     </div>
   );

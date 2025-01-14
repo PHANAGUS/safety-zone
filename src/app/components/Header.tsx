@@ -3,14 +3,16 @@
 import React from "react";
 
 interface HeaderProps {
-  toggleSidebar: () => void;
-  toggleProfileDropdown: () => void;
+  // toggleSidebar: () => void;
+  // toggleProfileDropdown: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  toggleSidebar,
-  toggleProfileDropdown,
-}) => {
+const Header: React.FC<HeaderProps> = (
+  {
+    // toggleSidebar,
+    // toggleProfileDropdown,
+  }
+) => {
   return (
     <div className="header">
       {/* <button onClick={toggleSidebar} className="btn-sidebar">

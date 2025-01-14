@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
-// import { Context } from "../context/AirQualityContext";
+import React from "react";
 
 interface AirQualityCardProps {
   title: string;

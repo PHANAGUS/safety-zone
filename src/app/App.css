@@ -53,15 +53,18 @@
 body {
   font-family: Prompt;
   background-color: #ffffff;
+  /* background-color: #ffffff; */
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
 }
 
+/* Web */
+
 .header {
   top: 0;
-  min-width: 100;
+  min-width: 100%;
   height: 50px;
   background-color: #71b78e;
   display: flex;
@@ -72,56 +75,162 @@ body {
   font-weight: 200;
   position: sticky;
 }
-
-.page {
+.space-part {
+  background-color: #ffffff;
+  /* background-color: #424242; */
   width: 100%;
-  background-color: #424242;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* overflow-x: scroll; */
+}
+
+/* Content Area */
+
+.content-area {
+  width: 75%;
+  /* min-width: 480px; */
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.page-content {
-  width: 75%;
-  padding-left: 25px;
-  padding-right: 25px;
   background-color: #ffffff;
 }
 
-.sidebar {
-  position: fixed;
-  left: -250px;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  background-color: white;
-  transition: 0.3s;
-}
+/* Content Area
+   |___________> แบ่ง Content Section */
 
-.sidebar.visible {
-  left: 0;
-}
-
-.main-content {
-  padding: 1rem;
-}
-
-/* .aq-container {
-  padding-left: 25px;
-  padding-right: 25px;
-} */
-
-.aq-container {
-  padding-left: 25px;
-  padding-right: 25px;
+.content-section {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #ccc; */
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Header */
+
+.content-header {
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content-header-text-area {
+  /* background-color: #999595; */
+  font-family: Prompt;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.content-header-title {
+  font-weight: 700;
+  font-size: 22px;
+  color: #424242;
+}
+.content-header-description {
+  font-weight: 300;
+  font-size: 14px;
+  color: #9f9f9f;
+}
+.content-header-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-weight: 300;
+  font-size: 16px;
+  color: #68726d;
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Header
+   |________________________________________________> ปุ่มเลือก Display ตัวชี้วัดคุณภาพอากาศ */
+
+.card-button-default {
+  background-image: url("./image/card_button_default.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("./image/card_button_default_hover.png");
+  }
+}
+.card-button-selected {
+  background-image: url("./image/card_button_selected.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("./image/card_button_selected_hover.png");
+  }
+}
+
+.graph-button-default {
+  background-image: url("./image/graph_button_default.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("./image/graph_button_default_hover.png");
+  }
+}
+.graph-button-selected {
+  background-image: url("./image/graph_button_selected.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("./image/graph_button_selected_hover.png");
+  }
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Container */
+
+.content-container {
+  width: 100%;
+  /* padding-left: 25px;
+  padding-right: 25px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Container
+   |___________________________________________________> Air Quality Card Container */
+
+.aqcard-container {
+  width: 95%;
+  height: 260px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 15px;
   display: flex;
   flex-flow: row nowrap;
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
   gap: 1rem;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   /* --mask: linear-gradient(
       to right,
       rgba(0, 0, 0, 1) 0,
@@ -133,13 +242,39 @@ body {
   -webkit-mask: var(--mask);
   mask: var(--mask); */
 }
+.aqcard-container-scrollbar {
+  /* scrollbar-color: transparent transparent; */
+  scrollbar-color: #f3f3f3 transparent;
+  transition: scrollbar-color 0.3s;
 
-/* ::-webkit-scrollbar {
-  display: none;
-} */
+  &:hover {
+    scrollbar-color: #becac3 transparent;
+  }
+
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    transition: background 0.3s;
+    background: rgb(0, 0, 0);
+  }
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Container
+   |___________________________________________________> Air Quality Card Container
+   |_______________________________________________________________________________> Air Quality Card */
 
 .aqcard {
   min-width: 250px;
+  height: 230px;
   border-radius: 25px;
   overflow: hidden;
   display: flex;
@@ -147,17 +282,25 @@ body {
   font-family: Prompt;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
-}
 
+  user-select: none;
+  transition: 0.3s;
+
+  &:hover {
+    min-width: 260px;
+    height: 235px;
+  }
+}
 .aqcard-bg {
-  width: 250px;
-  height: 150px;
+  width: 100%;
+  /* height: 150px; */
+  height: 65%;
 }
-
 .aqcard-detailbox {
   background-color: white;
-  width: 250px;
-  height: 80px;
+  width: 100%;
+  /* height: 80px; */
+  height: 35%;
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 15px;
@@ -167,7 +310,6 @@ body {
   justify-content: space-between;
   align-items: flex-start;
 }
-
 .aqcard-detailbox-textbox {
   display: flex;
   flex-direction: column;
@@ -190,6 +332,102 @@ body {
   color: #9f9f9f;
 }
 
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Container
+   |___________________________________________________> Air Quality Graph Container */
+
+.aqgraph-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: #424242;
+  /* background-color: #ac7777; */
+  column-gap: 3%;
+  row-gap: 30px;
+  overflow: visible;
+}
+
+/* Content Area
+   |___________> แบ่ง Content Section
+   |________________________________> Content Container
+   |___________________________________________________> Air Quality Graph Container
+   |________________________________________________________________________________> Air Quality Graph */
+
+.aqgraph {
+  min-width: 600px;
+  height: 480px;
+  /* padding-top: 20px; */
+  background-color: #ffffff;
+
+  border-radius: 25px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  user-select: none;
+
+  font-family: Prompt;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
+  transition: 0.3s;
+
+  &:hover {
+    min-width: 610px;
+    height: 485px;
+  }
+}
+
+.aqgraph-textarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.aqgraph-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #424242;
+}
+.aqgraph-unit {
+  font-weight: 200;
+  font-size: 14px;
+  color: #9f9f9f;
+}
+.aqgraph-chartarea {
+  /* width: 520px;
+  height: 350px; */
+  width: 85%;
+  height: 72%;
+  /* background-color: #71b78e; */
+}
+
+/* ============================================================================================================================================ */
+.sidebar {
+  position: fixed;
+  left: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  transition: 0.3s;
+}
+
+.sidebar.visible {
+  left: 0;
+}
 .device-controls {
   display: flex;
   gap: 1rem;
