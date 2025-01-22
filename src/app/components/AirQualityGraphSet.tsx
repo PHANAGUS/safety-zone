@@ -29,6 +29,30 @@ const AirQualityGraphSet: React.FC<AirQualityGraphSetProps> = ({
   return (
     <div className="aqgraph-container">
       <AirQualityGraph
+        title={"PM2.5"}
+        unit={"µg/m³"}
+        timestamp={timestamp}
+        value={pm25}
+        color={setTemperatureColor(temperature[temperature.length - 1])}
+        daysEarlier={daysEarlier}
+      />
+      <AirQualityGraph
+        title={"CO2"}
+        unit={"ppm"}
+        timestamp={timestamp}
+        value={co2}
+        color={setTemperatureColor(temperature[temperature.length - 1])}
+        daysEarlier={daysEarlier}
+      />
+      <AirQualityGraph
+        title={"ความกดอากาศ"}
+        unit={"Pascal"}
+        timestamp={timestamp}
+        value={pressure}
+        color={setTemperatureColor(temperature[temperature.length - 1])}
+        daysEarlier={daysEarlier}
+      />
+      <AirQualityGraph
         title={"อุณหภูมิ"}
         unit={"°C"}
         timestamp={timestamp}

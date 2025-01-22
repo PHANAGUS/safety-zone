@@ -37,50 +37,47 @@ const AirQualityGraph: React.FC<AirQualityGraphProps> = ({
     setTimetick(new_timetick);
   }, [timestamp]);
   return (
-    <>
-      {timestamp.length > 1 ? (
-        <div className="aqgraph">
-          <div className="aqgraph-textarea">
-            <p className="aqgraph-title">{title}</p>
-            <p className="aqgraph-unit">{unit}</p>
-          </div>
-          <div className="aqgraph-chartarea">
-            <Line
-              data={{
-                // labels: timetick,
-                labels: timetick,
-                datasets: [
-                  {
-                    label: title,
-                    data: value,
-                    backgroundColor: color,
-                    borderColor: color,
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false, // ปิดการแสดง Legend
-                  },
+    <div className={value.length > 1 ? "aqgraph" : "aqgraph-empty"}>
+      <div className="aqgraph-textarea">
+        <p className="aqgraph-title">{title}</p>
+        <p className="aqgraph-unit">{unit}</p>
+      </div>
+      <div className="aqgraph-chartarea">
+        {value.length > 1 ? (
+          <Line
+            data={{
+              labels: timetick,
+              datasets: [
+                {
+                  label: title,
+                  data: value,
+                  backgroundColor: color,
+                  borderColor: color,
                 },
-                // scales: {
-                //   x: {
-                //     ticks: {
-                //       maxTicksLimit: 5, // จำกัดให้แสดงแค่ 10 labels ในแกน X
-                //     },
-                //   },
-                // },
-              }}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="aqgraph">
-          <p>ข้อมูลไม่เพียงพอสำหรับการสร้างกราฟ</p>
-        </div>
-      )}
-    </>
+              ],
+            }}
+            options={{
+              elements: { line: { tension: 0.3 } },
+              plugins: {
+                legend: {
+                  display: false, // ปิดการแสดง Legend
+                },
+              },
+              // scales: {
+              //   x: {
+              //     ticks: {
+              //       maxTicksLimit: 5, // จำกัดให้แสดงแค่ 10 labels ในแกน X
+              //     },
+              //   },
+              // },
+            }}
+          />
+        ) : (
+          <></>
+          // <p>ข้อมูลไม่เพียงพอสำหรับการแสดงผลกราฟ</p>
+        )}
+      </div>
+    </div>
   );
 };
 
