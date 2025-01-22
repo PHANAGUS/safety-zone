@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import "../css/AirQualityCard.css";
 
 interface AirQualityCardProps {
   title: string;

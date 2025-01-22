@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import "../css/AirQualityGraph.css";
 import AirQualityGraph from "./AirQualityGraph";
 
 import { setTemperatureColor, setHumidityColor } from "../data/convertData.js";

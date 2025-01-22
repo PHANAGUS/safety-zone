@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import "../css/AirQualityGraph.css";
 
 import Chart from "chart.js/auto";
 import { CategoryScale, defaults } from "chart.js";
