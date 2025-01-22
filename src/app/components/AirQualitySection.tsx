@@ -25,30 +25,24 @@ const AirQualitySection: React.FC = () => {
   const [lastIndex, setLastIndex] = useState<number>(0);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
+    const fetchData = async () => {
+      // console.log(displayMode , daysEarlier)
       const new_dataset = await getDateRangeRecords(daysEarlier);
-
-      // setTimestamp(
-      //   new_dataset.map((x: any) => changeTimeFormat(x.timestamp, daysEarlier))
-      // );
-
+      // console.log(new_dataset);
+  
       setTimestamp(new_dataset.map((x: any) => new Date(x.timestamp)));
-
-      setLastIndex(timestamp.length - 1);
-
-      // setPm25(new_dataset.map((x: any) => x.pm25));
-      // setCo2(new_dataset.map((x: any) => x.co2));
-      // setPressure(new_dataset.map((x: any) => x.pressure));
-
+  
+      setLastIndex(new_dataset.length - 1);
+  
       setTemperature(new_dataset.map((x: any) => x.temperature));
       setHumidity(new_dataset.map((x: any) => x.humidity));
-
-      // console.log(timestamp);
-      // console.log(typeof timestamp[0]);
-    }, 2000);
-
-    return () => clearInterval(interval);
+    };
+  
+    fetchData(); // Call the async function once
+  
+    // No cleanup needed as this runs only once
   }, [displayMode, daysEarlier]);
+  
 
   return (
     <div className="content-section">
