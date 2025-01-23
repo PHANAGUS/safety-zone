@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import "../css/Section.css";
+// import "../css/Section.css";
+import styles from "../../layout.module.css";
+
 import AirQualityCardSet from "./AirQualityCardSet";
 import AirQualityGraphSet from "./AirQualityGraphSet";
-import { getDateRangeRecords } from "../data/getData.js";
+import { getDateRangeRecords } from "../../../data/getData.js";
 
 // interface AirQualitySectionProps {
 //   title: string;
@@ -51,17 +53,17 @@ const AirQualitySection: React.FC = () => {
   }, [displayMode, daysEarlier]);
 
   return (
-    <div className="section">
-      <div className="section-header">
-        <div className="section-header-text-area">
-          <p className="section-header-title">ตัวชี้วัดคุณภาพอากาศ</p>
+    <div className={styles.section}>
+      <div className={styles["section-header"]}>
+        <div className={styles["section-header-text-area"]}>
+          <p className={styles["section-header-title"]}>ตัวชี้วัดคุณภาพอากาศ</p>
         </div>
-        <div className="section-header-button-container">
+        <div className={styles["section-header-button-container"]}>
           <div
             className={
               displayMode === "card"
-                ? "card-button-selected"
-                : "card-button-default"
+                ? styles["card-button-selected"]
+                : styles["card-button-default"]
             }
             onClick={() => {
               setDisplayMode("card");
@@ -70,8 +72,8 @@ const AirQualitySection: React.FC = () => {
           <div
             className={
               displayMode === "graph"
-                ? "graph-button-selected"
-                : "graph-button-default"
+                ? styles["graph-button-selected"]
+                : styles["graph-button-default"]
             }
             onClick={() => {
               setDisplayMode("graph");
@@ -80,7 +82,7 @@ const AirQualitySection: React.FC = () => {
         </div>
       </div>
       {/* <p style={{ color: "black" }}>Mode: {displayMode}</p> */}
-      <div className="section-container">
+      <div className={styles["section-container"]}>
         {fetchComplete ? (
           <>
             {displayMode === "card" ? (
@@ -106,12 +108,12 @@ const AirQualitySection: React.FC = () => {
             )}
           </>
         ) : (
-          <>
-            <div className="section-failed-pic"></div>
-            <div className="section-failed-text">
-              เกิดข้อผิดพลาดในการอ่านข้อมูล
-            </div>
-          </>
+          <div className={styles["section-failed-box"]}>
+            <div className={styles["section-failed-pic"]}></div>
+            <p className={styles["section-failed-text"]}>
+              ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
+            </p>
+          </div>
         )}
       </div>
     </div>

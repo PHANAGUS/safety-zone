@@ -4,7 +4,10 @@ import React, { useEffect, useState } from "react";
 import "../css/AirQualityGraph.css";
 import AirQualityGraph from "./AirQualityGraph";
 
-import { setTemperatureColor, setHumidityColor } from "../data/convertData.js";
+import {
+  setTemperatureColor,
+  setHumidityColor,
+} from "../../../data/convertData.js";
 
 interface AirQualityGraphSetProps {
   pm25: number[];

@@ -76,7 +76,7 @@
   }
 }
 .aqgraph-empty {
-  background-image: url("../image/aqchart_empty.png");
+  background-image: url("../../../image/aqchart_empty.png");
   background-size: contain;
   min-width: 600px;
   height: 480px;

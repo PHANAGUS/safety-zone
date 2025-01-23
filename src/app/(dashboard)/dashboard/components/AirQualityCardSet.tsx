@@ -4,7 +4,10 @@ import React from "react";
 import "../css/AirQualityCard.css";
 import AirQualityCard from "./AirQualityCard";
 
-import { setTemperatureColor, setHumidityColor } from "../data/convertData.js";
+import {
+  setTemperatureColor,
+  setHumidityColor,
+} from "../../../data/convertData.js";
 
 interface AirQualityCardSetProps {
   pm25: number;
