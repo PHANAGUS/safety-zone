@@ -30,7 +30,7 @@ app.prepare().then(() => {
             console.error('Error starting server:', err);
             process.exit(1); // Exit if there's a fatal error
         }
-        console.log(`> Ready on http://3.25.192.169:${port}`);
+        console.log(`> Ready on http://3.25.73.147:${port}`);
     });
 }).catch((err) => {
     console.error('Error during Next.js preparation:', err);
