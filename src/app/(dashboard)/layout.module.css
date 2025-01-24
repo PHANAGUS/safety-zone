@@ -1,0 +1,165 @@
+.header {
+  position: sticky;
+  top: 0;
+  min-width: 100%;
+  height: 50px;
+  background-color: #71b78e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.area {
+  width: 75vw;
+  /* min-width: 480px; */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #ccc; */
+}
+
+/* Content Area
+     |___________> แบ่ง Content Section
+     |________________________________> Content Header */
+
+.section-header {
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.section-header-text-area {
+  /* background-color: #999595; */
+  font-family: Prompt;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.section-header-title {
+  font-weight: 700;
+  font-size: 22px;
+  color: #424242;
+}
+.section-header-description {
+  font-weight: 300;
+  font-size: 14px;
+  color: #9f9f9f;
+}
+.section-header-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-weight: 300;
+  font-size: 16px;
+  color: #68726d;
+}
+
+/* Content Area
+     |___________> แบ่ง Content Section
+     |________________________________> Content Header
+     |________________________________________________> ปุ่มเลือก Display ตัวชี้วัดคุณภาพอากาศ */
+
+.card-button-default {
+  background-image: url("../image/card_button_default.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../image/card_button_default_hover.png");
+  }
+}
+.card-button-selected {
+  background-image: url("../image/card_button_selected.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../image/card_button_selected_hover.png");
+  }
+}
+
+.graph-button-default {
+  background-image: url("../image/graph_button_default.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../image/graph_button_default_hover.png");
+  }
+}
+.graph-button-selected {
+  background-image: url("../image/graph_button_selected.png");
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../image/graph_button_selected_hover.png");
+  }
+}
+
+.section-container {
+  width: 100%;
+  /* padding-left: 25px;
+    padding-right: 25px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* background-color: #818181; */
+}
+
+.section-failed-box {
+  width: 95%;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  background-color: #f7f7f7;
+}
+.section-failed-pic {
+  background-image: url("../image/unlink.png");
+  background-size: contain;
+  width: 175px;
+  height: 175px;
+}
+.section-failed-text {
+  font-family: Prompt;
+  font-weight: 400;
+  font-size: 16px;
+  color: #9b9b9b;
+
+  text-align: center;
+}

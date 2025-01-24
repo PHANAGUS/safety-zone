@@ -1,4 +1,4 @@
-const url = "http://3.25.192.169:3000/calculate";
+const url = process.env.REACT_APP_DATA_URL;
 
 async function fetchAPI() {
   const response = fetch(url)
