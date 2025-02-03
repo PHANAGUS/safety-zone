@@ -5,9 +5,12 @@ import "../css/AirQualityGraph.css";
 import AirQualityGraph from "./AirQualityGraph";
 
 import {
+  setPm25Color,
+  setCo2Color,
+  setPressureColor,
   setTemperatureColor,
   setHumidityColor,
-} from "../../../data/convertData.js";
+} from "../../../api/convertData.js";
 
 interface AirQualityGraphSetProps {
   pm25: number[];
@@ -37,7 +40,7 @@ const AirQualityGraphSet: React.FC<AirQualityGraphSetProps> = ({
         unit={"µg/m³"}
         timestamp={timestamp}
         value={pm25}
-        color={setTemperatureColor(temperature[temperature.length - 1])}
+        color={setPm25Color(pm25[pm25.length - 1])}
         daysEarlier={daysEarlier}
       />
       <AirQualityGraph
@@ -45,7 +48,7 @@ const AirQualityGraphSet: React.FC<AirQualityGraphSetProps> = ({
         unit={"ppm"}
         timestamp={timestamp}
         value={co2}
-        color={setTemperatureColor(temperature[temperature.length - 1])}
+        color={setCo2Color(co2[co2.length - 1])}
         daysEarlier={daysEarlier}
       />
       <AirQualityGraph
@@ -53,7 +56,7 @@ const AirQualityGraphSet: React.FC<AirQualityGraphSetProps> = ({
         unit={"Pascal"}
         timestamp={timestamp}
         value={pressure}
-        color={setTemperatureColor(temperature[temperature.length - 1])}
+        color={setPressureColor(pressure[pressure.length - 1])}
         daysEarlier={daysEarlier}
       />
       <AirQualityGraph

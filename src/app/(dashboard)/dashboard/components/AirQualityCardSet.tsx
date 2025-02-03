@@ -5,9 +5,12 @@ import "../css/AirQualityCard.css";
 import AirQualityCard from "./AirQualityCard";
 
 import {
+  setPm25Color,
+  setCo2Color,
+  setPressureColor,
   setTemperatureColor,
   setHumidityColor,
-} from "../../../data/convertData.js";
+} from "../../../api/convertData.js";
 
 interface AirQualityCardSetProps {
   pm25: number;
@@ -27,13 +30,23 @@ const AirQualityCardSet: React.FC<AirQualityCardSetProps> = ({
 }) => {
   return (
     <div className="aqcard-container aqcard-container-scrollbar">
-      <AirQualityCard title="PM2.5" value={pm25} unit="µg/m³" color="#cccccc" />
-      <AirQualityCard title="CO2" value={co2} unit="ppm" color="#cccccc" />
+      <AirQualityCard
+        title="PM2.5"
+        value={pm25}
+        unit="µg/m³"
+        color={setPm25Color(pm25)}
+      />
+      <AirQualityCard
+        title="CO2"
+        value={co2}
+        unit="ppm"
+        color={setCo2Color(co2)}
+      />
       <AirQualityCard
         title="ความกดอากาศ"
         value={pressure}
         unit="Pascal"
-        color="#cccccc"
+        color={setPressureColor(pressure)}
       />
       <AirQualityCard
         title="อุณหภูมิ"

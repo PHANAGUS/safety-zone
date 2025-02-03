@@ -6,14 +6,18 @@ import styles from "../../layout.module.css";
 
 import AirQualityCardSet from "./AirQualityCardSet";
 import AirQualityGraphSet from "./AirQualityGraphSet";
-import { getDateRangeRecords } from "../../../data/getData.js";
+import { getDateRangeRecords } from "../../../api/getData.js";
 
 // interface AirQualitySectionProps {
 //   title: string;
 //   description: string;
 // }
 
+const room_sensor_url = process.env.NEXT_PUBLIC_ROOM_SENSOR_URL;
+
 const AirQualitySection: React.FC = () => {
+  const [room_id, setRoomID] = useState(1);
+
   // ตัวแปรระบุโหมดการแสดงผล Air Quality [โหมด card, โหมด graph]
   const [displayMode, setDisplayMode] = useState<string>("card");
   const [fetchComplete, setFetchComplete] = useState<boolean>(true);
@@ -29,17 +33,25 @@ const AirQualitySection: React.FC = () => {
   const [daysEarlier, setDaysEarlier] = useState(30);
 
   useEffect(() => {
+    console.log(room_sensor_url);
     const fetchData = async () => {
       // console.log(displayMode , daysEarlier)
-      const new_dataset = await getDateRangeRecords(daysEarlier);
+      const new_dataset = await getDateRangeRecords(
+        room_sensor_url,
+        room_id,
+        daysEarlier
+      );
       // console.log(new_dataset);
 
       if (new_dataset != null) {
         setFetchComplete(true);
 
-        setTimestamp(new_dataset.map((x: any) => new Date(x.timestamp)));
+        setTimestamp(new_dataset.map((x: any) => new Date(x.recorded_at)));
         setLastIndex(new_dataset.length - 1);
 
+        setPm25(new_dataset.map((x: any) => x.pm25));
+        setCo2(new_dataset.map((x: any) => x.co2));
+        setPressure(new_dataset.map((x: any) => x.pressure - 1012));
         setTemperature(new_dataset.map((x: any) => x.temperature));
         setHumidity(new_dataset.map((x: any) => x.humidity));
       } else {
@@ -87,14 +99,17 @@ const AirQualitySection: React.FC = () => {
           <>
             {displayMode === "card" ? (
               <AirQualityCardSet
-                pm25={pm25[0]}
-                co2={co2[0]}
-                pressure={pressure[0]}
+                pm25={pm25[lastIndex]}
+                co2={co2[lastIndex]}
+                pressure={pressure[lastIndex]}
                 temperature={temperature[lastIndex]}
                 humidity={humidity[lastIndex]}
               />
             ) : (
-              <>
+              <div>
+                <div className="aqduration-dropdown">
+                  <div className="aqduration-dropdown-btn"></div>
+                </div>
                 <AirQualityGraphSet
                   pm25={pm25}
                   co2={co2}
@@ -104,7 +119,7 @@ const AirQualitySection: React.FC = () => {
                   timestamp={timestamp}
                   daysEarlier={daysEarlier}
                 />
-              </>
+              </div>
             )}
           </>
         ) : (

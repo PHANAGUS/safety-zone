@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "chart.js": "^4.4.7",
-    "express": "^4.21.2",
     "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "next": "15.1.2",
     "package.json": "^2.0.1",
     "react": "^19.0.0",

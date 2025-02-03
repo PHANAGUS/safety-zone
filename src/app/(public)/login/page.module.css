@@ -1,0 +1,131 @@
+.bg {
+  background-image: linear-gradient(45deg, #71b78e, #7dd09f);
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.window-white {
+  background-color: white;
+  height: 500px;
+  width: 600px;
+  border-radius: 20px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-title {
+  font-weight: 700;
+  font-size: 24px;
+  color: black;
+}
+
+.input-section {
+  font-weight: 300;
+  font-size: 14px;
+  color: #424242;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.input-box {
+  width: 300px;
+  height: 40px;
+  background-color: white;
+  border: solid #80c59d 1px;
+  border-radius: 12px;
+
+  padding-left: 10px;
+
+  font-family: Prompt;
+
+  font-weight: 300;
+  font-size: 16px;
+  color: #424242;
+
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  outline: none;
+
+  &:focus {
+    border: solid #6baf88 1px;
+  }
+}
+
+.password-input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.eye-button-show {
+  background-image: url("../../image/visible_button.png");
+  background-size: contain;
+  width: 35px;
+  height: 35px;
+
+  /* position: absolute; */
+  margin-left: -40px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../../image/visible_button_hover.png");
+  }
+}
+
+.eye-button-hide {
+  background-image: url("../../image/invisible_button.png");
+  background-size: contain;
+  width: 35px;
+  height: 35px;
+
+  /* position: absolute; */
+  margin-left: -40px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../../image/invisible_button_hover.png");
+  }
+}
+
+.login-button {
+  width: 300px;
+  height: 40px;
+  background-color: #599973;
+  border-radius: 20px;
+
+  font-weight: 300;
+  font-size: 14px;
+  color: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+}
+
+.btn-and-warning-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  font-weight: 300;
+  font-size: 14px;
+  /* color: #f34949; */
+}

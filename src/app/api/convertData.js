@@ -32,6 +32,60 @@ export function changeTimeFormat(datetime, daysEarlier) {
   }
 }
 
+export function setPm25Color(value) {
+  let color = "#87D677";
+  if (value >= 0 && value <= 12) {
+    color = "#87D677"; // green
+  } else if (value >= 12.1 && value <= 35.4) {
+    color = "#fadc46"; // yellow
+  } else if (value >= 35.5 && value <= 55.4) {
+    color = "#e69430"; // orange
+  } else if (value >= 55.5 && value <= 150.4) {
+    color = "#d63429"; // red
+  } else if (value >= 150.5 && value <= 250.4) {
+    color = "#442e8c"; // purple
+  } else {
+    color = "#753d2f"; // brown
+  }
+  return color;
+}
+
+export function setCo2Color(value) {
+  let color = "#87D677";
+  if (value < 400) {
+    color = "#87D677"; // green
+  } else if (value >= 400 && value <= 600) {
+    color = "#87D677"; // green
+  } else if (value >= 601 && value <= 1000) {
+    color = "#fadc46"; // yellow
+  } else if (value >= 1001 && value <= 2000) {
+    color = "#e69430"; // orange
+  } else if (value >= 2001 && value <= 5000) {
+    color = "#d63429"; // red
+  } else if (value >= 5001 && value <= 40000) {
+    color = "#442e8c"; // purple
+  } else {
+    color = "#363636"; // black
+  }
+  return color;
+}
+
+export function setPressureColor(value) {
+  let color = "#87D677";
+  if (value < 0) {
+    color = "#d63429"; // red
+  } else if (value >= 0 && value < 3) {
+    color = "#e69430"; // orange
+  } else if (value >= 3 && value <= 8) {
+    color = "#87D677"; // green
+  } else if (value > 8 && value <= 15) {
+    color = "#fadc46"; // yellow
+  } else {
+    color = "#442e8c"; // purple
+  }
+  return color;
+}
+
 export function setTemperatureColor(value) {
   let color = "#87D677";
   if (value < 0) {

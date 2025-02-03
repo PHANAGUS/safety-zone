@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import Header from "./components/Header";
 import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
@@ -14,9 +15,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div>
-      <div className={styles.header}>
-        <p>Comfy Breath Room</p>
-      </div>
+      <Header />
       <div className={styles.area}>{children}</div>
     </div>
   );

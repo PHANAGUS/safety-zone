@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/context/ThemeContext.js",
-    "src/app/data/test_get_data.js"
+    "src/app/api/test_get_data.js"
   ],
   "exclude": ["node_modules"]
 }

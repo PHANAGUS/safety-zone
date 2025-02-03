@@ -1,0 +1,79 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
+
+import { fetchAPI } from "../../api/login.js";
+
+const login_url = process.env.NEXT_PUBLIC_LOGIN_URL;
+
+const Login: React.FC = () => {
+  const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(true);
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const login = async () => {
+    const response = await fetchAPI(login_url, username, password);
+    if (response.message === "Login successful") {
+      setMessage(response.message);
+      router.push("/homelist");
+    } else {
+      setMessage(response.message);
+    }
+  };
+
+  useEffect(() => {}, []);
+
+  return (
+    <div className={styles.bg}>
+      <div className={styles["window-white"]}>
+        <p className={styles["login-title"]}>Log In</p>
+        <div className={styles["input-section"]}>
+          <p>Username</p>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={styles["input-box"]}
+          />
+          {/* <p className="mt-2 text-gray-600">คุณพิมพ์ว่า: {username}</p> */}
+          <p>Password</p>
+          <div className={styles["password-input-container"]}>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles["input-box"]}
+            />
+            <div
+              className={
+                styles[showPassword ? "eye-button-show" : "eye-button-hide"]
+              }
+              onClick={() => setShowPassword(!showPassword)}
+            ></div>
+          </div>
+        </div>
+        <div className={styles["btn-and-warning-message"]}>
+          <p
+            style={{
+              color: message === "Login successful" ? "#40bf15" : "#f34949",
+            }}
+          >
+            {message}
+          </p>
+          <div className={styles["login-button"]} onClick={login}>
+            Log in
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
