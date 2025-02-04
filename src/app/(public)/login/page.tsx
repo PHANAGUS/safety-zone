@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGlobalState } from "@/context/GlobalStateContext";
+
 import styles from "./page.module.css";
 
 import { fetchAPI } from "../../api/login.js";
@@ -10,36 +12,65 @@ const login_url = process.env.NEXT_PUBLIC_LOGIN_URL;
 
 const Login: React.FC = () => {
   const router = useRouter();
+  const {
+    loading,
+    setLoading,
+    username,
+    setUsername,
+    userID,
+    setUserID,
+    homeName,
+    setHomeName,
+    homeID,
+    setHomeID,
+    roomName,
+    setRoomName,
+    roomID,
+    setRoomID,
+  } = useGlobalState();
 
   const [showPassword, setShowPassword] = useState(true);
 
-  const [username, setUsername] = useState("");
+  const [typingUsername, setTypingUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [message, setMessage] = useState("");
 
   const login = async () => {
-    const response = await fetchAPI(login_url, username, password);
+    const response = await fetchAPI(login_url, typingUsername, password);
     if (response.message === "Login successful") {
       setMessage(response.message);
+      setUsername(typingUsername);
+      setUserID(1);
+
       router.push("/homelist");
     } else {
       setMessage(response.message);
     }
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   if (username !== "") {
+  //     router.push("/homelist");
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   setTypingUsername(username); // อัปเดตค่าเมื่อ username เปลี่ยน
+  // }, [username]);
 
   return (
     <div className={styles.bg}>
       <div className={styles["window-white"]}>
         <p className={styles["login-title"]}>Log In</p>
+        <p>john_doe</p>
+        <p>securepassword123</p>
         <div className={styles["input-section"]}>
           <p>Username</p>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={typingUsername}
+            onChange={(e) => setTypingUsername(e.target.value)}
             className={styles["input-box"]}
           />
           {/* <p className="mt-2 text-gray-600">คุณพิมพ์ว่า: {username}</p> */}

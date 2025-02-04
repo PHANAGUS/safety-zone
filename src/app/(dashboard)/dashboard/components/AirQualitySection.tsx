@@ -33,7 +33,7 @@ const AirQualitySection: React.FC = () => {
   const [daysEarlier, setDaysEarlier] = useState(30);
 
   useEffect(() => {
-    console.log(room_sensor_url);
+    // console.log(room_sensor_url);
     const fetchData = async () => {
       // console.log(displayMode , daysEarlier)
       const new_dataset = await getDateRangeRecords(

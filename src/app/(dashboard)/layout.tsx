@@ -16,7 +16,7 @@ export default function DashboardLayout({
   return (
     <div>
       <Header />
-      <div className={styles.area}>{children}</div>
+      {children}
     </div>
   );
 }
