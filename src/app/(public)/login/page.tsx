@@ -6,9 +6,21 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 
 import styles from "./page.module.css";
 
-import { fetchAPI } from "../../api/login.js";
+import { fetchLoginData } from "../../api/login.js";
 
-const login_url = process.env.NEXT_PUBLIC_LOGIN_URL;
+const login_url = process.env.NEXT_PUBLIC_URL;
+
+interface User {
+  user_id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+}
+
+interface LoginResponse {
+  message: string;
+  user: User[];
+}
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -37,11 +49,12 @@ const Login: React.FC = () => {
   const [message, setMessage] = useState("");
 
   const login = async () => {
-    const response = await fetchAPI(login_url, typingUsername, password);
+    // console.log(login_url);
+    const response : LoginResponse = await fetchLoginData(login_url, typingUsername, password);
     if (response.message === "Login successful") {
       setMessage(response.message);
-      setUsername(typingUsername);
-      setUserID(1);
+      setUsername(response.user[0].username);
+      setUserID(response.user[0].user_id);
 
       router.push("/homelist");
     } else {

@@ -16,7 +16,17 @@ import AddHomeCard from "./components/AddHomeCard";
 
 import { get_homelist } from "../../api/get_homelist.js";
 
-const homelist_url = process.env.NEXT_PUBLIC_HOMELIST_URL;
+const main_url = process.env.NEXT_PUBLIC_URL;
+
+interface response_homelist {
+  message: string;
+  homes: homes[];
+}
+
+interface homes{
+  home_name: string;
+  home_id: number;
+}
 
 const Homelist: React.FC = () => {
   const router = useRouter();
@@ -37,7 +47,7 @@ const Homelist: React.FC = () => {
     setRoomID,
   } = useGlobalState();
 
-  const [homelist, setHomelist] = useState([]);
+  const [homelist, setHomelist] = useState<homes[]>([]);
 
   useEffect(() => {
     if (loading) return;
@@ -48,12 +58,12 @@ const Homelist: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await get_homelist(homelist_url, userID);
+      const response : response_homelist = await get_homelist(main_url, userID);
       console.log(response);
       setHomelist(response.homes);
       console.log(homelist);
     };
-
+    console.log("homelist");
     fetchData();
   }, []);
 
