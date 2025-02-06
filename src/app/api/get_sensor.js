@@ -1,14 +1,8 @@
-// require("dotenv").config();
-
-// const room_sensor_url = process.env.REACT_APP_ROOM_SENSOR_URL;
-
 async function fetchAPI(room_sensor_url, room_id) {
-  // require("dotenv").config();
-  // const room_sensor_url = process.env.REACT_APP_ROOM_SENSOR_URL;
-  // console.log(room_sensor_url);
+  if (room_id === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_room_sensor_url = `${room_sensor_url}/get/roomSensor?roomID=${room_id}`;
+  // console.log(full_room_sensor_url);
 
-  const full_room_sensor_url = room_sensor_url + "roomID=" + room_id.toString();
-  console.log(full_room_sensor_url);
   const response = fetch(full_room_sensor_url)
     .then((res) => res.json())
     .catch((error) => {
@@ -54,8 +48,3 @@ export async function getDateRangeRecords(
     return null;
   }
 }
-
-// fetchAPI(1);
-
-// getDateRangeRecords(1, 30);
-// console.log(room_sensor_url);

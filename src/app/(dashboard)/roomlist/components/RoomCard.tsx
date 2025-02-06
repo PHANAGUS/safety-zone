@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 
-import "../css/HomeCard.css";
+import "../css/RoomCard.css";
 
-interface HomeCardProps {
-  home_name: string;
-  home_id: number;
+interface RoomCardProps {
+  room_name: string;
+  room_id: number;
 }
 
-const HomeCard: React.FC<HomeCardProps> = ({ home_name, home_id }) => {
+const RoomCard: React.FC<RoomCardProps> = ({ room_name, room_id }) => {
   const router = useRouter();
   const {
     loading,
@@ -33,28 +33,28 @@ const HomeCard: React.FC<HomeCardProps> = ({ home_name, home_id }) => {
   const [clicked, setClicked] = useState<boolean>(false);
 
   const go_to_roomlist = () => {
-    setHomeID(home_id);
-    setHomeName(home_name);
+    setRoomID(room_id);
+    setRoomName(room_name);
     setClicked(true);
     // ฟังก์ชันนี้แค่ set เฉยๆ จะไปจั๊มป์หน้าใน useEffect
   };
 
   useEffect(() => {
-    if (homeID === home_id && clicked) {
-      // console.log("Updated homeID:", homeID);
-      // console.log(homeName);
+    if (roomID === room_id && clicked) {
+      // console.log("Updated roomID:", roomID);
+      // console.log(roomName);
       setClicked(false);
-      router.push("/roomlist");
+      router.push("/dashboard");
     }
-  }, [homeID, clicked]);
+  }, [roomID, clicked]);
 
   return (
-    <div className="home-card" onClick={go_to_roomlist}>
+    <div className="room-card" onClick={go_to_roomlist}>
       <div className="square"></div>
-      <p>{home_name}</p>
-      <p>ID: {home_id}</p>
+      <p>{room_name}</p>
+      <p>ID: {room_id}</p>
     </div>
   );
 };
 
-export default HomeCard;
+export default RoomCard;

@@ -13,6 +13,8 @@ import styles from "../layout.module.css";
 
 import AirQualitySection from "./components/AirQualitySection";
 
+const main_url = process.env.NEXT_PUBLIC_URL;
+
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const {
@@ -42,7 +44,11 @@ const Dashboard: React.FC = () => {
   return (
     <div className={styles["area"]}>
       <div className={styles["big-topic"]}>
-        <p>Room1</p>
+        <div className={styles["big-topic-left"]}>
+          <div className={styles["back-button"]} />
+          <p>{roomName}</p>
+          <p className={styles["big-topic-bracket"]}>({homeName})</p>
+        </div>
       </div>
       <AirQualitySection />
     </div>

@@ -8,7 +8,7 @@ import { CategoryScale, defaults } from "chart.js";
 Chart.register(CategoryScale);
 import { Line } from "react-chartjs-2";
 
-import { changeTimeFormat } from "../../../api/convertData.js";
+import { changeTimeFormat } from "../../../api/convert_data.js";
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;

@@ -11,24 +11,24 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 // } from "react-router-dom";
 
 import styles from "../layout.module.css";
-import HomeCard from "./components/HomeCard";
-import AddHomeCard from "./components/AddHomeCard";
+import RoomCard from "./components/RoomCard";
+import AddRoomCard from "./components/AddRoomCard";
 
-import { get_homelist } from "../../api/get_homelist.js";
+import { get_roomlist } from "../../api/get_roomlist.js";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
-interface response_homelist {
+interface response_roomlist {
   message: string;
-  homes: homes[];
+  rooms: rooms[];
 }
 
-interface homes {
-  home_name: string;
-  home_id: number;
+interface rooms {
+  room_name: string;
+  room_id: number;
 }
 
-const Homelist: React.FC = () => {
+const Roomlist: React.FC = () => {
   const router = useRouter();
   const {
     loading,
@@ -47,7 +47,7 @@ const Homelist: React.FC = () => {
     setRoomID,
   } = useGlobalState();
 
-  const [homelist, setHomelist] = useState<homes[]>([]);
+  const [roomlist, setRoomlist] = useState<rooms[]>([]);
 
   useEffect(() => {
     if (loading) return;
@@ -55,14 +55,14 @@ const Homelist: React.FC = () => {
       router.push("/login");
     } else {
       const fetchData = async () => {
-        const response: response_homelist = await get_homelist(
+        const response: response_roomlist = await get_roomlist(
           main_url,
-          userID
+          homeID
         );
         // console.log(response);
-        // console.log(userID);
-        setHomelist(response.homes);
-        // console.log(homelist);
+        // console.log(homeID);
+        setRoomlist(response.rooms);
+        // console.log(roomlist);
       };
       fetchData();
     }
@@ -71,17 +71,20 @@ const Homelist: React.FC = () => {
   return (
     <div className={styles["area"]}>
       <div className={styles["big-topic"]}>
-        <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p>
+        <div className={styles["big-topic-left"]}>
+          <p>โปรดเลือกห้องเพื่อดำเนินการต่อ</p>
+          <p className={styles["big-topic-bracket"]}>({homeName})</p>
+        </div>
       </div>
       <div className={styles["homelist-container"]}>
-        {homelist.map((item, index) => (
-          <HomeCard
+        {roomlist.map((item, index) => (
+          <RoomCard
             key={index}
-            home_name={item["home_name"]}
-            home_id={item["home_id"]}
+            room_name={item["room_name"]}
+            room_id={item["room_id"]}
           />
         ))}
-        <AddHomeCard />
+        <AddRoomCard />
       </div>
       {/* <div className={styles["section-failed-box"]}>
           <div className={styles["section-failed-pic"]}></div>
@@ -93,4 +96,4 @@ const Homelist: React.FC = () => {
   );
 };
 
-export default Homelist;
+export default Roomlist;

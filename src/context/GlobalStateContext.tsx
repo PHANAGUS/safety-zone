@@ -82,12 +82,6 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
 
   // ทุกครั้งที่ username เปลี่ยนแปลงให้เก็บค่าใน localStorage
   useEffect(() => {
-    // const storedUsername = localStorage.getItem("username");
-    // const storedUserID = localStorage.getItem("userID");
-    // const storedHomeName = localStorage.getItem("homeName");
-    // const storedHomeID = localStorage.getItem("homeID");
-    // const storedRoomName = localStorage.getItem("roomName");
-    // const storedRoomID = localStorage.getItem("roomID");
     if (username !== "") {
       localStorage.setItem("username", username);
       localStorage.setItem("userID", String(userID));

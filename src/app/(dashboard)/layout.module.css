@@ -11,8 +11,8 @@
 
 .big-topic {
   width: 100%;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   padding-left: 25px;
   padding-right: 25px;
   border-bottom: solid #c5c5c5 1px;
@@ -25,6 +25,36 @@
   font-weight: 600;
   font-size: 25px;
   color: #424242;
+}
+
+.big-topic-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-button {
+  background-image: url("../image/back_button.png");
+  background-size: contain;
+  width: 45px;
+  height: 45px;
+
+  position: absolute;
+  margin-left: -45px;
+
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../image/back_button_hover.png");
+  }
+}
+
+.big-topic-bracket {
+  font-weight: 300;
+  font-size: 16px;
+  color: #9b9b9b;
 }
 
 .homelist-container {

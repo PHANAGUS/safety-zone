@@ -1,29 +1,44 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-// import "../css/Section.css";
+import { useGlobalState } from "@/context/GlobalStateContext";
 import styles from "../../layout.module.css";
 
 import AirQualityCardSet from "./AirQualityCardSet";
 import AirQualityGraphSet from "./AirQualityGraphSet";
-import { getDateRangeRecords } from "../../../api/getData.js";
+import { getDateRangeRecords } from "../../../api/get_sensor.js";
 
 // interface AirQualitySectionProps {
 //   title: string;
 //   description: string;
 // }
 
-const room_sensor_url = process.env.NEXT_PUBLIC_ROOM_SENSOR_URL;
+const main_url = process.env.NEXT_PUBLIC_URL;
 
 const AirQualitySection: React.FC = () => {
-  const [room_id, setRoomID] = useState(1);
+  const {
+    loading,
+    setLoading,
+    username,
+    setUsername,
+    userID,
+    setUserID,
+    homeName,
+    setHomeName,
+    homeID,
+    setHomeID,
+    roomName,
+    setRoomName,
+    roomID,
+    setRoomID,
+  } = useGlobalState();
 
   // ตัวแปรระบุโหมดการแสดงผล Air Quality [โหมด card, โหมด graph]
   const [displayMode, setDisplayMode] = useState<string>("card");
   const [fetchComplete, setFetchComplete] = useState<boolean>(true);
 
   const [pm25, setPm25] = useState([10]);
-  const [co2, setCo2] = useState([750]);
+  const [co2, setCo2] = useState([400]);
   const [pressure, setPressure] = useState([5]);
   const [temperature, setTemperature] = useState([25]);
   const [humidity, setHumidity] = useState([60]);
@@ -37,8 +52,8 @@ const AirQualitySection: React.FC = () => {
     const fetchData = async () => {
       // console.log(displayMode , daysEarlier)
       const new_dataset = await getDateRangeRecords(
-        room_sensor_url,
-        room_id,
+        main_url,
+        roomID,
         daysEarlier
       );
       // console.log(new_dataset);

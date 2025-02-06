@@ -33,7 +33,7 @@ export function changeTimeFormat(datetime, daysEarlier) {
 }
 
 export function setPm25Color(value) {
-  let color = "#87D677";
+  let color = "#D9D9D9"; // grey
   if (value >= 0 && value <= 12) {
     color = "#87D677"; // green
   } else if (value >= 12.1 && value <= 35.4) {
@@ -44,14 +44,16 @@ export function setPm25Color(value) {
     color = "#d63429"; // red
   } else if (value >= 150.5 && value <= 250.4) {
     color = "#442e8c"; // purple
-  } else {
+  } else if (value > 250.4) {
     color = "#753d2f"; // brown
+  } else {
+    color = "#D9D9D9"; // grey
   }
   return color;
 }
 
 export function setCo2Color(value) {
-  let color = "#87D677";
+  let color = "#D9D9D9"; // grey
   if (value < 400) {
     color = "#87D677"; // green
   } else if (value >= 400 && value <= 600) {
@@ -64,14 +66,16 @@ export function setCo2Color(value) {
     color = "#d63429"; // red
   } else if (value >= 5001 && value <= 40000) {
     color = "#442e8c"; // purple
-  } else {
+  } else if (value > 40000) {
     color = "#363636"; // black
+  } else {
+    color = "#D9D9D9"; // grey
   }
   return color;
 }
 
 export function setPressureColor(value) {
-  let color = "#87D677";
+  let color = "#D9D9D9"; // grey
   if (value < 0) {
     color = "#d63429"; // red
   } else if (value >= 0 && value < 3) {
@@ -80,14 +84,16 @@ export function setPressureColor(value) {
     color = "#87D677"; // green
   } else if (value > 8 && value <= 15) {
     color = "#fadc46"; // yellow
-  } else {
+  } else if (value > 15) {
     color = "#442e8c"; // purple
+  } else {
+    color = "#D9D9D9"; // grey
   }
   return color;
 }
 
 export function setTemperatureColor(value) {
-  let color = "#87D677";
+  let color = "#D9D9D9"; // grey
   if (value < 0) {
     color = "#442e8c"; // purple
   } else if (value > 0 && value < 10) {
@@ -102,14 +108,16 @@ export function setTemperatureColor(value) {
     color = "#e69430"; // orange
   } else if (value >= 35 && value <= 40) {
     color = "#e65a30"; // red orange
-  } else {
+  } else if (value > 40) {
     color = "#d63429"; // red
+  } else {
+    color = "#D9D9D9"; // grey
   }
   return color;
 }
 
 export function setHumidityColor(value) {
-  let color = "#87D677"; // green
+  let color = "#D9D9D9"; // grey
   if (value >= 0 && value <= 10) {
     color = "#753d2f"; // brown
   } else if (value > 10 && value <= 20) {
@@ -124,8 +132,10 @@ export function setHumidityColor(value) {
     color = "#71aeeb"; // indigo blue
   } else if (value > 80 && value <= 90) {
     color = "#283f9c"; // navy
-  } else {
+  } else if (value > 90) {
     color = "#442e8c"; // purple
+  } else {
+    color = "#D9D9D9"; // grey
   }
   return color;
 }

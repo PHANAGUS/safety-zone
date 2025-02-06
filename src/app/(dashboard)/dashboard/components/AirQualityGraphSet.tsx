@@ -10,7 +10,7 @@ import {
   setPressureColor,
   setTemperatureColor,
   setHumidityColor,
-} from "../../../api/convertData.js";
+} from "../../../api/convert_data.js";
 
 interface AirQualityGraphSetProps {
   pm25: number[];

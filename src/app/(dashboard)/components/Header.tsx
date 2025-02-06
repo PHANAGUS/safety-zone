@@ -30,6 +30,9 @@ const Header: React.FC = ({}) => {
       <Link href="/homelist">
         <button>ไปที่หน้า Homelist</button>
       </Link>
+      <Link href="/roomlist">
+        <button>ไปที่หน้า Roomlist</button>
+      </Link>
       <Link href="/dashboard">
         <button>ไปที่หน้า Dashboard</button>
       </Link>
