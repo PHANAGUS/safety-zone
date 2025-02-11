@@ -11,6 +11,7 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 // } from "react-router-dom";
 
 import styles from "../layout.module.css";
+// import styles from "./page.module.css";
 import HomeCard from "./components/HomeCard";
 import AddHomeCard from "./components/AddHomeCard";
 
@@ -45,6 +46,8 @@ const Homelist: React.FC = () => {
     setRoomName,
     roomID,
     setRoomID,
+    currentPage,
+    setCurrentPage,
   } = useGlobalState();
 
   const [homelist, setHomelist] = useState<homes[]>([]);
@@ -68,12 +71,18 @@ const Homelist: React.FC = () => {
     }
   }, [username, userID, loading]);
 
+  useEffect(() => {
+    setCurrentPage("homelist");
+    // console.log(currentPage);
+  }, [currentPage]);
+
   return (
     <div className={styles["area"]}>
       <div className={styles["big-topic"]}>
-        <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p>
+        {/* <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p> */}
+        <p>บ้านของคุณ</p>
       </div>
-      <div className={styles["homelist-container"]}>
+      <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
         {homelist.map((item, index) => (
           <HomeCard
             key={index}

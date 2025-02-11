@@ -39,6 +39,8 @@ const Login: React.FC = () => {
     setRoomName,
     roomID,
     setRoomID,
+    currentPage,
+    setCurrentPage,
   } = useGlobalState();
 
   const [showPassword, setShowPassword] = useState(true);
@@ -50,7 +52,11 @@ const Login: React.FC = () => {
 
   const login = async () => {
     // console.log(login_url);
-    const response : LoginResponse = await fetchLoginData(login_url, typingUsername, password);
+    const response: LoginResponse = await fetchLoginData(
+      login_url,
+      typingUsername,
+      password
+    );
     if (response.message === "Login successful") {
       setMessage(response.message);
       setUsername(response.user[0].username);
@@ -62,11 +68,10 @@ const Login: React.FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (username !== "") {
-  //     router.push("/homelist");
-  //   }
-  // }, []);
+  useEffect(() => {
+    setCurrentPage("login");
+    // console.log(currentPage);
+  }, []);
 
   // useEffect(() => {
   //   setTypingUsername(username); // อัปเดตค่าเมื่อ username เปลี่ยน

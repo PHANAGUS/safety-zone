@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useGlobalState } from "@/context/GlobalStateContext";
-import styles from "../../layout.module.css";
+import styles from "@/app/(dashboard)/layout.module.css";
 
 import AirQualityCardSet from "./AirQualityCardSet";
 import AirQualityGraphSet from "./AirQualityGraphSet";

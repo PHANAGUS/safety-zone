@@ -14,7 +14,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div
+      style={{
+        height: "100dvh",
+        maxHeight: "100dvh",
+        width: "100dvw",
+        maxWidth: "100dvw",
+      }}
+    >
       <Header />
       {children}
     </div>

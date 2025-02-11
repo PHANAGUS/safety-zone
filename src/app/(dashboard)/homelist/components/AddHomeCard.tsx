@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import "../css/AddHomeCard.css";
+import styles from "./AddHomeCard.module.css";
 
 // interface AddHomeCardProps {
 //   homename: string;
@@ -9,8 +9,8 @@ import "../css/AddHomeCard.css";
 
 const AddHomeCard: React.FC = () => {
   return (
-    <div className="add-home-card">
-      <div className="plus-img" />
+    <div className={styles["add-home-card"]}>
+      <div className={styles["plus-img"]} />
       <p>เพิ่มบ้านหลังใหม่</p>
     </div>
   );

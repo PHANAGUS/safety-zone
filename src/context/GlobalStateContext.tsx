@@ -27,6 +27,9 @@ interface GlobalStateType {
   setRoomName: (value: string) => void;
   roomID: number;
   setRoomID: (value: number) => void;
+
+  currentPage: string;
+  setCurrentPage: (value: string) => void;
 }
 
 // สร้าง Context
@@ -49,6 +52,8 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
 
   const [roomName, setRoomName] = useState<string>("");
   const [roomID, setRoomID] = useState<number>(0);
+
+  const [currentPage, setCurrentPage] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -113,6 +118,8 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
         setRoomName,
         roomID,
         setRoomID,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

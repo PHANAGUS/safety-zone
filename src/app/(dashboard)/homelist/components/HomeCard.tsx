@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 
-import "../css/HomeCard.css";
+import styles from "./HomeCard.module.css";
 
 interface HomeCardProps {
   home_name: string;
@@ -49,10 +49,12 @@ const HomeCard: React.FC<HomeCardProps> = ({ home_name, home_id }) => {
   }, [homeID, clicked]);
 
   return (
-    <div className="home-card" onClick={go_to_roomlist}>
-      <div className="square"></div>
-      <p>{home_name}</p>
-      <p>ID: {home_id}</p>
+    <div className={styles["home-card"]} onClick={go_to_roomlist}>
+      <div className={styles["square"]}></div>
+      <div className={styles["text-container"]}>
+        <p className={styles["homename"]}>{home_name}</p>
+        <p className={styles["homeid"]}>ID: {home_id}</p>
+      </div>
     </div>
   );
 };

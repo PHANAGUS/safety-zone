@@ -32,6 +32,8 @@ const Dashboard: React.FC = () => {
     setRoomName,
     roomID,
     setRoomID,
+    currentPage,
+    setCurrentPage,
   } = useGlobalState();
 
   useEffect(() => {
@@ -40,6 +42,11 @@ const Dashboard: React.FC = () => {
       router.push("/login");
     }
   }, [username, loading]);
+
+  useEffect(() => {
+    setCurrentPage("login");
+    // console.log(currentPage);
+  }, []);
 
   return (
     <div className={styles["area"]}>

@@ -1,8 +1,10 @@
 .area {
-  width: 75vw;
+  width: max(75vw, calc(60vw + 8em));
   /* min-width: 480px; */
   margin-left: auto;
   margin-right: auto;
+  /* padding-left: min(12.5%, calc(8% + 3em));
+  padding-right: min(12.5%, calc(8% + 3em)); */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +25,8 @@
   align-items: center;
 
   font-weight: 600;
-  font-size: 25px;
+  /* font-size: calc(1vw + 0.3em); */
+  font-size: clamp(20px, calc(1vw + 0.3em), 25px);
   color: #424242;
 }
 
@@ -41,8 +44,8 @@
   width: 45px;
   height: 45px;
 
-  position: absolute;
-  margin-left: -45px;
+  /* position: absolute; */
+  margin-left: -55px;
 
   transition: background-image 0.1s;
 
@@ -64,11 +67,81 @@
   padding-left: 25px;
   padding-right: 25px;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* grid-template-rows: repeat(3, minmax(100px, auto)); */
+  column-gap: 20px;
+  row-gap: 1em;
+
+  max-height: clamp(calc(330px + 2em), calc(24vw + 2em + 30px), 450px);
+  overflow-y: auto;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(3rem);
+  scroll-snap-type: y mandatory;
+  scroll-padding: 15px;
+}
+
+.roomlist-container {
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  column-gap: 20px;
+  row-gap: 1em;
+
+  max-height: clamp(calc(350px + 1em), calc(20vw + 1em + 30px), 380px);
+  overflow-y: auto;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(3rem);
+  scroll-snap-type: y mandatory;
+  scroll-padding: 15px;
+}
+
+.devicelist-container {
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  column-gap: 20px;
+  row-gap: 1em;
+
+  max-height: clamp(calc(350px + 1em), calc(20vw + 1em + 30px), 380px);
+  overflow-y: auto;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-y: repeat(3rem);
+  scroll-snap-type: y mandatory;
+  scroll-padding: 15px;
+}
+
+.scrollbar {
+  scrollbar-color: #f3f3f3 transparent;
+  transition: scrollbar-color 0.3s;
+
+  &:hover {
+    scrollbar-color: #becac3 transparent;
+  }
+
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    transition: background 0.3s;
+    background: rgb(0, 0, 0);
+  }
 }
 
 .section {

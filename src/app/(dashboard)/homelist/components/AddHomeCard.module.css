@@ -1,6 +1,9 @@
-.add-room-card {
-  width: 375px;
-  height: 190px;
+.add-home-card {
+  /* width: 375px; */
+  /* height: 190px; */
+  width: 100%;
+  height: clamp(100px, 8vw, 150px);
+  padding: 1em;
   border-radius: 20px;
 
   background-color: rgba(248, 248, 248, 0.8);
@@ -30,9 +33,15 @@
   }
 }
 
+@container (max-height: 120px) {
+  .add-home-card {
+    flex-direction: row;
+  }
+}
+
 .plus-img {
+  aspect-ratio: 1 / 1;
   background-image: url("../../../image/add_button.png");
   background-size: contain;
-  width: 70px;
-  height: 70px;
+  height: 60px;
 }

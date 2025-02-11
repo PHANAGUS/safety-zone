@@ -11,13 +11,22 @@ async function fetchAPI(room_sensor_url, room_id) {
   return response;
 }
 
-// export async function getLatestRecord() {
-//   const response = await fetchAPI();
-//   const latest_record =
-//     response.formattedData[response.formattedData.length - 1];
-//   // console.log(new Date(latest_record.timestamp).getHours());
-//   return latest_record;
-// }
+export async function getLatestRecord(room_sensor_url, room_id) {
+  const response = await fetchAPI(room_sensor_url, room_id);
+
+  let all_records;
+  try {
+    all_records = response.data;
+    if (!all_records) {
+      throw new Error("Data is undefined or invalid");
+    }
+
+    const latest_record = response.data[response.data.length - 1];
+    return latest_record;
+  } catch (err) {
+    return null;
+  }
+}
 
 export async function getDateRangeRecords(
   room_sensor_url,
@@ -41,7 +50,7 @@ export async function getDateRangeRecords(
       const date = new Date(x.recorded_at);
       return date >= start_time && date <= end_time;
     });
-    console.log(filtered_records);
+    // console.log(filtered_records);
 
     return filtered_records;
   } catch (err) {

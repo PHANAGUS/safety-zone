@@ -2,11 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 
 import "../css/Header.css";
 
 const Header: React.FC = ({}) => {
+  const router = useRouter();
   const {
     loading,
     setLoading,
@@ -27,20 +29,18 @@ const Header: React.FC = ({}) => {
   return (
     <div className="header">
       <p>Comfy Breath Room</p>
-      <Link href="/homelist">
-        <button>ไปที่หน้า Homelist</button>
-      </Link>
-      <Link href="/roomlist">
-        <button>ไปที่หน้า Roomlist</button>
-      </Link>
-      <Link href="/dashboard">
-        <button>ไปที่หน้า Dashboard</button>
-      </Link>
+      <button onClick={() => router.replace("/homelist")}>
+        ไปที่หน้า Homelist
+      </button>
+      <button onClick={() => router.replace("/roomlist")}>
+        ไปที่หน้า Roomlist
+      </button>
+      <button onClick={() => router.replace("/dashboard")}>
+        ไปที่หน้า Dashboard
+      </button>
+      <button onClick={() => router.replace("/login")}>Log out</button>
       <p>{username}</p>
       <p>{userID}</p>
-      <Link href="/login">
-        <button>Log out</button>
-      </Link>
     </div>
   );
 };
