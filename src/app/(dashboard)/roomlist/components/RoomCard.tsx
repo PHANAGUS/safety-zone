@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 
 import { getLatestRecord } from "@/app/api/get_sensor.js";
+import { delete_room } from "@/app/api/manage_room";
 
 import styles from "./RoomCard.module.css";
 
@@ -13,9 +14,15 @@ const main_url = process.env.NEXT_PUBLIC_URL;
 interface RoomCardProps {
   room_name: string;
   room_id: number;
+
+  setNeedRefresh: (needRefresh: boolean) => void;
 }
 
-const RoomCard: React.FC<RoomCardProps> = ({ room_name, room_id }) => {
+const RoomCard: React.FC<RoomCardProps> = ({
+  room_name,
+  room_id,
+  setNeedRefresh,
+}) => {
   const router = useRouter();
   const {
     loading,
@@ -57,6 +64,11 @@ const RoomCard: React.FC<RoomCardProps> = ({ room_name, room_id }) => {
     }
   }, [roomID, clicked]);
 
+  const delete_this_room = async () => {
+    await delete_room(main_url, roomID);
+    setNeedRefresh(true);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const new_data = await getLatestRecord(main_url, room_id);
@@ -77,12 +89,12 @@ const RoomCard: React.FC<RoomCardProps> = ({ room_name, room_id }) => {
   }, []);
 
   return (
-    <div className={styles["room-card"]} onClick={go_to_dashboard}>
+    <div className={styles["room-card"]}>
       <div className={styles["square"]}></div>
       <div className={styles["text-container"]}>
         <div className={styles["room-detail-container"]}>
           <p className={styles["roomname"]}>{room_name}</p>
-          {/* <p className="roomid">ID: {room_id}</p> */}
+          <p className={styles["roomid"]}>(ID: {room_id})</p>
         </div>
         <div className={styles["hr"]} />
         <div className={styles["variable-container"]}>
@@ -102,6 +114,15 @@ const RoomCard: React.FC<RoomCardProps> = ({ room_name, room_id }) => {
             <p className={styles["value"]}>{co2}</p>
             {/* <p className={styles["value"]}>400</p> */}
           </div>
+        </div>
+        <div className={styles["delete-button"]} onClick={delete_this_room}>
+          ลบห้อง
+        </div>
+        <div
+          className={styles["go-dashboard-button"]}
+          onClick={go_to_dashboard}
+        >
+          ไปยัง Dashboard
         </div>
       </div>
     </div>

@@ -4,8 +4,8 @@ import Header from "./components/Header";
 import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
-  title: "Dashboard - Comfy Breath Room",
-  description: "Dashboard - Comfy Breath Room",
+  title: "Auto Comfort Air System",
+  description: "Auto Comfort Air System",
 };
 
 export default function DashboardLayout({
@@ -14,14 +14,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      style={{
-        height: "100dvh",
-        maxHeight: "100dvh",
-        width: "100dvw",
-        maxWidth: "100dvw",
-      }}
-    >
+    <div className={`${styles["page-layout"]} ${styles["scrollbar"]}`}>
       <Header />
       {children}
     </div>

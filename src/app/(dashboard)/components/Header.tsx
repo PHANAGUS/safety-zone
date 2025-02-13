@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 
-import "../css/Header.css";
+import styles from "./Header.module.css";
 
 const Header: React.FC = ({}) => {
   const router = useRouter();
@@ -27,20 +27,36 @@ const Header: React.FC = ({}) => {
   } = useGlobalState();
 
   return (
-    <div className="header">
-      <p>Comfy Breath Room</p>
-      <button onClick={() => router.replace("/homelist")}>
-        ไปที่หน้า Homelist
+    <div className={styles["header"]}>
+      {/* <p>Comfy Breath Room</p> */}
+      <div className={styles["button-container"]}>
+        <button
+          className={styles["button"]}
+          onClick={() => router.replace("/homelist")}
+        >
+          Homelist
+        </button>
+        <button
+          className={styles["button"]}
+          onClick={() => router.replace("/roomlist")}
+        >
+          Roomlist
+        </button>
+        <button
+          className={styles["button"]}
+          onClick={() => router.replace("/dashboard")}
+        >
+          Dashboard
+        </button>
+      </div>
+      <button
+        className={styles["button"]}
+        onClick={() => router.replace("/login")}
+      >
+        Log out
       </button>
-      <button onClick={() => router.replace("/roomlist")}>
-        ไปที่หน้า Roomlist
-      </button>
-      <button onClick={() => router.replace("/dashboard")}>
-        ไปที่หน้า Dashboard
-      </button>
-      <button onClick={() => router.replace("/login")}>Log out</button>
-      <p>{username}</p>
-      <p>{userID}</p>
+      {/* <p>{username}</p>
+      <p>{userID}</p> */}
     </div>
   );
 };

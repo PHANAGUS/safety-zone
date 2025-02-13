@@ -10,8 +10,8 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 //   useParams,
 // } from "react-router-dom";
 
-import styles from "../layout.module.css";
-// import styles from "./page.module.css";
+// import styles from "../layout.module.css";
+import styles from "./page.module.css";
 import HomeCard from "./components/HomeCard";
 import AddHomeCard from "./components/AddHomeCard";
 
@@ -38,6 +38,10 @@ const Homelist: React.FC = () => {
     setUsername,
     userID,
     setUserID,
+    firstname,
+    setFirstname,
+    lastname,
+    setLastname,
     homeName,
     setHomeName,
     homeID,
@@ -77,27 +81,53 @@ const Homelist: React.FC = () => {
   }, [currentPage]);
 
   return (
-    <div className={styles["area"]}>
-      <div className={styles["big-topic"]}>
-        {/* <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p> */}
-        <p>บ้านของคุณ</p>
+    // <div className={styles["area"]}>
+    //   <div className={styles["big-topic"]}>
+    //     {/* <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p> */}
+    //     <p>บ้านของคุณ</p>
+    //   </div>
+    //   <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
+    //     {homelist.map((item, index) => (
+    //       <HomeCard
+    //         key={index}
+    //         home_name={item["home_name"]}
+    //         home_id={item["home_id"]}
+    //       />
+    //     ))}
+    //     <AddHomeCard />
+    //   </div>
+    //   {/* <div className={styles["section-failed-box"]}>
+    //       <div className={styles["section-failed-pic"]}></div>
+    //       <p className={styles["section-failed-text"]}>
+    //         ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
+    //       </p>
+    //     </div> */}
+    // </div>
+
+    <div className={styles["page-grid"]}>
+      <div className={styles["greeting-part"]}>
+        <p className={styles[""]}>สวัสดี !</p>
+        <p className={styles[""]}>
+          คุณ {firstname} {lastname}
+        </p>
       </div>
-      <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
-        {homelist.map((item, index) => (
-          <HomeCard
-            key={index}
-            home_name={item["home_name"]}
-            home_id={item["home_id"]}
-          />
-        ))}
-        <AddHomeCard />
+      <div className={styles["content-part"]}>
+        <div className={styles["topic"]}>
+          <div className={styles["topic-left"]}>บ้านของฉัน</div>
+          <div className={styles["topic-right"]}>
+            <div className={styles["plus-button"]}>+ เพิ่มบ้าน</div>
+          </div>
+        </div>
+        <div className={styles["homelist-container"]}>
+          {homelist.map((item, index) => (
+            <HomeCard
+              key={index}
+              home_name={item["home_name"]}
+              home_id={item["home_id"]}
+            />
+          ))}
+        </div>
       </div>
-      {/* <div className={styles["section-failed-box"]}>
-          <div className={styles["section-failed-pic"]}></div>
-          <p className={styles["section-failed-text"]}>
-            ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
-          </p>
-        </div> */}
     </div>
   );
 };

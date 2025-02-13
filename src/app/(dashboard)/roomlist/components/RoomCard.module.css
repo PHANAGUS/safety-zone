@@ -2,7 +2,7 @@
   /* width: 375px; */
   /* height: 190px; */
   width: 100%;
-  height: clamp(160px, 10vw, 190px);
+  /* height: clamp(160px, 10vw, 190px); */
   padding: 1em;
   border-radius: 20px;
 
@@ -12,8 +12,8 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 1.2em;
 
   font-weight: 300;
   font-size: 14px;
@@ -26,10 +26,9 @@
   transition: 0.3s;
 
   &:hover {
-    width: calc(100% + 3px);
-    height: clamp(162px, calc(10vw + 2px), 192px);
-    /* width: 378px;
-    height: 192px; */
+    /* width: calc(100% + 3px);
+    height: clamp(162px, calc(10vw + 2px), 192px); */
+    scale: 1.01;
 
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
@@ -41,7 +40,7 @@
 
 .square {
   aspect-ratio: 1 / 1;
-  height: 100%;
+  height: min(100%, 130px);
   border-radius: 1.2em;
   background-color: rgb(200, 233, 122);
 }
@@ -68,28 +67,26 @@
 }
 
 .room-detail-container {
-  /* padding-top: 5px;
-  padding-bottom: 10px; */
-  padding-top: 0.4em;
+  /* padding-top: 0.4em; */
   padding-bottom: 0.7em;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
-  /* gap: 5px; */
+  align-items: baseline;
+  gap: 5px;
 }
 
 .roomname {
   font-weight: 600;
-  /* font-size: 20px; */
   font-size: clamp(1.2em, calc(1vw + 0.5em), 18px);
   color: #424242;
 }
 
 .roomid {
   font-weight: 300;
-  font-size: 14px;
+  /* font-size: 12px; */
+  font-size: clamp(0.8em, calc(0.8vw + 0.2em), 12px);
   color: #9f9f9f;
 }
 
@@ -145,4 +142,32 @@
   /* font-size: 21px; */
   font-size: clamp(1.3em, calc(1vw + 0.5em), 20px);
   color: #76be70;
+}
+
+.delete-button {
+  background-color: #c95858;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 4px;
+
+  font-weight: 300;
+  /* font-size: 11px; */
+  font-size: clamp(0.7em, calc(1vw + 0.3em), 11px);
+  color: #ffffff;
+}
+
+.go-dashboard-button {
+  background-color: #509b66;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 4px;
+
+  font-weight: 300;
+  /* font-size: 11px; */
+  font-size: clamp(0.7em, calc(1vw + 0.3em), 11px);
+  color: #ffffff;
 }

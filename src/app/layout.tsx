@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { GlobalStateProvider } from "@/context/GlobalStateContext";
 import "./globals.css";
+// import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const metadata: Metadata = {
   title: "Comfy Breath Room",

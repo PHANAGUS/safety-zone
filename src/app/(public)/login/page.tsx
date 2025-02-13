@@ -31,6 +31,10 @@ const Login: React.FC = () => {
     setUsername,
     userID,
     setUserID,
+    firstname,
+    setFirstname,
+    lastname,
+    setLastname,
     homeName,
     setHomeName,
     homeID,
@@ -61,6 +65,8 @@ const Login: React.FC = () => {
       setMessage(response.message);
       setUsername(response.user[0].username);
       setUserID(response.user[0].user_id);
+      setFirstname(response.user[0].first_name);
+      setLastname(response.user[0].last_name);
 
       router.push("/homelist");
     } else {

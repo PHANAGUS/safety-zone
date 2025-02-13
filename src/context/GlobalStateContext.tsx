@@ -13,6 +13,11 @@ interface GlobalStateType {
   loading: boolean;
   setLoading: (value: boolean) => void;
 
+  firstname: string;
+  setFirstname: (value: string) => void;
+  lastname: string;
+  setLastname: (value: string) => void;
+
   username: string;
   setUsername: (value: string) => void;
   userID: number;
@@ -44,6 +49,8 @@ interface GlobalStateProviderProps {
 export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [userID, setUserID] = useState<number>(0);
 
@@ -57,39 +64,57 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const storedFirstname = localStorage.getItem("firstname");
+      const storedLastname = localStorage.getItem("lastname");
       const storedUsername = localStorage.getItem("username");
       const storedUserID = localStorage.getItem("userID");
+
       const storedHomeName = localStorage.getItem("homeName");
       const storedHomeID = localStorage.getItem("homeID");
+
       const storedRoomName = localStorage.getItem("roomName");
       const storedRoomID = localStorage.getItem("roomID");
+
+      if (storedFirstname) {
+        setFirstname(storedFirstname);
+      }
+      if (storedLastname) {
+        setLastname(storedLastname);
+      }
       if (storedUsername) {
-        setUsername(storedUsername); // หากมีค่าจาก localStorage ให้ตั้งค่า
+        setUsername(storedUsername);
       }
       if (storedUserID) {
         setUserID(Number(storedUserID));
       }
+
       if (storedHomeName) {
         setHomeName(storedHomeName);
       }
       if (storedHomeID) {
         setHomeID(Number(storedHomeID));
       }
+
       if (storedRoomName) {
         setRoomName(storedRoomName);
       }
       if (storedRoomID) {
         setRoomID(Number(storedRoomID));
       }
-      setLoading(false); // เมื่อโหลดข้อมูลเสร็จให้ตั้ง loading เป็น false
+      setLoading(false);
     }
-  }, []); // รันแค่ครั้งเดียวหลังจาก component แสดงผล
+  }, []);
 
-  // ทุกครั้งที่ username เปลี่ยนแปลงให้เก็บค่าใน localStorage
   useEffect(() => {
+    // if (firstname !== "") {
+    // }
+    // if (lastname !== "") {
+    // }
     if (username !== "") {
       localStorage.setItem("username", username);
       localStorage.setItem("userID", String(userID));
+      localStorage.setItem("firstname", firstname);
+      localStorage.setItem("lastname", lastname);
     }
     if (homeID !== 0) {
       localStorage.setItem("homeName", homeName);
@@ -99,13 +124,17 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
       localStorage.setItem("roomName", roomName);
       localStorage.setItem("roomID", String(roomID));
     }
-  }, [username, homeID, roomID]);
+  }, [firstname, lastname, username, homeID, roomID]);
 
   return (
     <GlobalStateContext.Provider
       value={{
         loading,
         setLoading,
+        firstname,
+        setFirstname,
+        lastname,
+        setLastname,
         username,
         setUsername,
         userID,

@@ -1,0 +1,48 @@
+.header {
+  position: sticky;
+  top: 0;
+  min-width: 100%;
+  height: 60px;
+  /* background-color: #71b78e; */
+  background-color: #71b78e04;
+  /* border: 1px solid black; */
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: Prompt;
+  font-weight: 500;
+  font-size: 16px;
+  color: white;
+}
+
+.button-container {
+  display: inline-flex;
+  gap: 0.2em;
+}
+
+.button {
+  font-family: Prompt;
+  font-weight: 500;
+  font-size: clamp(0.8em, calc(0.2vw + 0.8em), 1em);
+  color: #ffffff;
+
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  /* background-color: rgba(red, green, blue, alpha); */
+  background-color: transparent;
+  border-radius: 0.7em;
+  border: none;
+  outline: none;
+
+  /* user-select: none; */
+  transition: 0.1s;
+
+  &:hover {
+    background-color: #5b8f7057;
+  }
+}

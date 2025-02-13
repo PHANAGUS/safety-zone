@@ -10,10 +10,14 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 //   useParams,
 // } from "react-router-dom";
 
-import styles from "../layout.module.css";
+// import styles from "../layout.module.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
+
+import styles from "./page.module.css";
 import RoomCard from "./components/RoomCard";
 import AddRoomCard from "./components/AddRoomCard";
 import DeviceCard from "./components/DeviceCard";
+import NewRoomModal from "@/app/(dashboard)/components/NewRoomModal";
 
 import { get_roomlist } from "../../api/get_roomlist.js";
 import { get_room_devices } from "../../api/get_devicelist.js";
@@ -67,6 +71,9 @@ const Roomlist: React.FC = () => {
   const [roomlist, setRoomlist] = useState<rooms[]>([]);
   const [devicelist, setDeviceList] = useState<devices[]>([]);
 
+  const [showNewRoomModal, setShowNewRoomModal] = useState<boolean>(false);
+  const [needRefresh, setNeedRefresh] = useState<boolean>(false);
+
   useEffect(() => {
     if (loading) return;
     if (username === "" || userID === 0) {
@@ -107,50 +114,117 @@ const Roomlist: React.FC = () => {
   }, [username, userID, loading]);
 
   useEffect(() => {
+    if (needRefresh) {
+      window.location.reload();
+    }
+  }, [needRefresh]);
+
+  useEffect(() => {
     setDeviceList([]);
     setCurrentPage("roomlist");
     // console.log(currentPage);
   }, []);
 
   return (
-    <div className={styles["area"]}>
-      <div className={styles["big-topic"]}>
-        <div className={styles["big-topic-left"]}>
-          {/* <p>โปรดเลือกห้องเพื่อดำเนินการต่อ</p> */}
-          <p>ห้องของคุณ</p>
-          <p className={styles["big-topic-bracket"]}>({homeName})</p>
+    // <div className={styles["area"]}>
+    //   <div className={styles["big-topic"]}>
+    //     <div className={styles["big-topic-left"]}>
+    //       {/* <p>โปรดเลือกห้องเพื่อดำเนินการต่อ</p> */}
+    //       <p>ห้องของคุณ</p>
+    //       <p className={styles["big-topic-bracket"]}>({homeName})</p>
+    //     </div>
+    //   </div>
+    //   <div className={`${styles["roomlist-container"]} ${styles["scrollbar"]}`}>
+    //     {roomlist.map((item, index) => (
+    //       <RoomCard
+    //         key={index}
+    //         room_name={item["room_name"]}
+    //         room_id={item["room_id"]}
+    //       />
+    //     ))}
+    //     <AddRoomCard />
+    //   </div>
+    //   <div className={styles["big-topic"]}>
+    //     <p>อุปกรณ์ของคุณ</p>
+    //   </div>
+    //   <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
+    //     {devicelist.map((item, index) => (
+    //       <DeviceCard
+    //         key={index}
+    //         deviceID={item["deviceID"]}
+    //         deviceName={item["deviceName"]}
+    //         deviceStatus={item["deviceStatus"]}
+    //         deviceInRoom={item["deviceInHomes"]}
+    //       />
+    //     ))}
+    //   </div>
+    //   {/* <div className={styles["section-failed-box"]}>
+    //       <div className={styles["section-failed-pic"]}></div>
+    //       <p className={styles["section-failed-text"]}>
+    //         ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
+    //       </p>
+    //     </div> */}
+    // </div>
+    <div className={styles["page-grid"]}>
+      <div className={styles["homeinfo-part"]}>
+        <div className={styles["home-part"]}>{homeName}</div>
+        <div className={styles["member-part"]}>Member</div>
+      </div>
+      <div className={styles["content-part"]}>
+        <div className={styles["topic"]}>
+          <div className={styles["topic-left"]}>
+            <div
+              className={styles["back-button"]}
+              onClick={() => router.replace("/homelist")}
+            />
+            <p className={styles[""]}>รายการห้อง</p>
+          </div>
+          <div className={styles["topic-right"]}>
+            <div
+              className={styles["plus-button"]}
+              onClick={() => setShowNewRoomModal(true)}
+            >
+              + เพิ่มห้อง
+            </div>
+          </div>
         </div>
+        <div className={styles["roomlist-container"]}>
+          {roomlist.map((item, index) => (
+            <RoomCard
+              key={index}
+              room_name={item["room_name"]}
+              room_id={item["room_id"]}
+              setNeedRefresh={setNeedRefresh}
+            />
+          ))}
+        </div>
+        <div className={styles["hr"]}></div>
+        <div className={styles["topic"]}>
+          <div className={styles["topic-left"]}>
+            <p className={styles[""]}>อุปกรณ์</p>
+          </div>
+          <div className={styles["topic-right"]}>
+            <div className={styles["plus-button"]}>+ เพิ่มอุปกรณ์</div>
+          </div>
+        </div>
+        <div className={styles["roomlist-container"]}>
+          {devicelist.map((item, index) => (
+            <DeviceCard
+              key={index}
+              deviceID={item["deviceID"]}
+              deviceName={item["deviceName"]}
+              deviceStatus={item["deviceStatus"]}
+              deviceInRoom={item["deviceInHomes"]}
+            />
+          ))}
+        </div>
+
+        <NewRoomModal
+          show={showNewRoomModal}
+          handleClose={() => setShowNewRoomModal(false)}
+          setNeedRefresh={setNeedRefresh}
+        />
       </div>
-      <div className={`${styles["roomlist-container"]} ${styles["scrollbar"]}`}>
-        {roomlist.map((item, index) => (
-          <RoomCard
-            key={index}
-            room_name={item["room_name"]}
-            room_id={item["room_id"]}
-          />
-        ))}
-        <AddRoomCard />
-      </div>
-      <div className={styles["big-topic"]}>
-        <p>อุปกรณ์ของคุณ</p>
-      </div>
-      <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
-        {devicelist.map((item, index) => (
-          <DeviceCard
-            key={index}
-            deviceID={item["deviceID"]}
-            deviceName={item["deviceName"]}
-            deviceStatus={item["deviceStatus"]}
-            deviceInRoom={item["deviceInHomes"]}
-          />
-        ))}
-      </div>
-      {/* <div className={styles["section-failed-box"]}>
-          <div className={styles["section-failed-pic"]}></div>
-          <p className={styles["section-failed-text"]}>
-            ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
-          </p>
-        </div> */}
     </div>
   );
 };

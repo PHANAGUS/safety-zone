@@ -67,7 +67,8 @@ body {
   /* max-height: 100dvh; */
   color: var(--foreground);
   background: var(--background);
-  font-family: Prompt;
+  font-family: Prompt !important;
+  gap: 0px !important;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -77,6 +78,8 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* margin: 0 !important; */
+  margin-bottom: 0 !important;
 }
 
 a {
