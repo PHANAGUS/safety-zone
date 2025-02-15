@@ -64,21 +64,18 @@ const Register: React.FC = () => {
 
   const [message, setMessage] = useState("");
 
-  const checkConfirmPassword = () => {
-    if (typingConfirmPassword === typingPassword) {
+  useEffect(() => {
+    if (
+      (typingPassword === "" && typingConfirmPassword === "") ||
+      (typingPassword !== "" && typingConfirmPassword === "")
+    ) {
+      setConfirmPasswordDesc("โปรดยืนยันรหัสผ่านอีกครั้ง");
+    } else if (typingConfirmPassword === typingPassword) {
       setConfirmPasswordDesc("✅รหัสผ่านตรงกัน");
     } else {
       setConfirmPasswordDesc("❌รหัสผ่านไม่ตรงกัน");
     }
-  };
-
-  //   useEffect(() => {
-  //     if (typingConfirmPassword === typingPassword) {
-  //       setConfirmPasswordDesc("✅รหัสผ่านตรงกัน");
-  //     } else {
-  //       setConfirmPasswordDesc("❌รหัสผ่านไม่ตรงกัน");
-  //     }
-  //   }, [typingConfirmPassword]);
+  }, [typingPassword, typingConfirmPassword]);
 
   const login = async () => {
     // console.log(login_url);
@@ -108,6 +105,10 @@ const Register: React.FC = () => {
     <div className={styles["window"]}>
       <div className={styles["window-left"]}></div>
       <div className={styles["window-right"]}>
+        <div
+          className={styles["back-button"]}
+          onClick={() => router.replace("/login")}
+        />
         <div className={styles["register-title"]}>Sign Up</div>
         <div className={styles["input-grid"]}>
           <div className={styles["firstname-section"]}>
@@ -143,7 +144,9 @@ const Register: React.FC = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 value={typingPassword}
-                onChange={(e) => setTypingPassword(e.target.value)}
+                onChange={(e) => {
+                  setTypingPassword(e.target.value);
+                }}
                 className={styles["input-box"]}
               />
               <div
@@ -162,7 +165,6 @@ const Register: React.FC = () => {
                 value={typingConfirmPassword}
                 onChange={(e) => {
                   setTypingConfirmPassword(e.target.value);
-                  checkConfirmPassword();
                 }}
                 className={styles["input-box"]}
               />
@@ -177,7 +179,14 @@ const Register: React.FC = () => {
             </div>
             <p
               className={styles["confirm-password-description"]}
-              style={{ color: `#d4d4d4` }}
+              style={{
+                color:
+                  confirmPasswordDesc === "โปรดยืนยันรหัสผ่านอีกครั้ง"
+                    ? "#9c9c9c"
+                    : confirmPasswordDesc === "✅รหัสผ่านตรงกัน"
+                    ? "#63cc5a"
+                    : "#cc5a5a",
+              }}
             >
               {confirmPasswordDesc}
             </p>

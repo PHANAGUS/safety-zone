@@ -50,7 +50,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [typingUsername, setTypingUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [typingPassword, setTypingPassword] = useState("");
 
   const [message, setMessage] = useState("");
 
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
     const response: LoginResponse = await fetchLoginData(
       login_url,
       typingUsername,
-      password
+      typingPassword
     );
     if (response.message === "Login successful") {
       setMessage(response.message);
@@ -84,58 +84,49 @@ const Login: React.FC = () => {
   // }, [username]);
 
   return (
-    <div className={styles.bg}>
-      <div className={styles["window-white"]}>
-        <p className={styles["login-title"]}>Log In</p>
-        <p>john_doe</p>
-        <p>securepassword123</p>
-        <div className={styles["input-section"]}>
-          <p>Username</p>
-          <input
-            type="text"
-            value={typingUsername}
-            onChange={(e) => setTypingUsername(e.target.value)}
-            className={styles["input-box"]}
-          />
-          {/* <p className="mt-2 text-gray-600">คุณพิมพ์ว่า: {username}</p> */}
-          <p>Password</p>
-          <div className={styles["password-input-container"]}>
+    <div className={styles["window"]}>
+      <div className={styles["window-left"]}></div>
+      <div className={styles["window-right"]}>
+        <div className={styles["login-title"]}>Log in</div>
+        <div className={styles["input-grid"]}>
+          <div className={styles["username-section"]}>
+            <p className={styles["input-title"]}>Username</p>
             <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="text"
+              value={typingUsername}
+              onChange={(e) => setTypingUsername(e.target.value)}
               className={styles["input-box"]}
             />
-            <div
-              className={
-                styles[showPassword ? "eye-button-show" : "eye-button-hide"]
-              }
-              onClick={() => setShowPassword(!showPassword)}
-            ></div>
+          </div>
+          <div className={styles["password-section"]}>
+            <p className={styles["input-title"]}>Password</p>
+            <div className={styles["password-input-box"]}>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={typingPassword}
+                onChange={(e) => {
+                  setTypingPassword(e.target.value);
+                }}
+                className={styles["input-box"]}
+              />
+              <div
+                className={
+                  styles[showPassword ? "eye-button-show" : "eye-button-hide"]
+                }
+                onClick={() => setShowPassword(!showPassword)}
+              ></div>
+            </div>
           </div>
         </div>
-        <div className={styles["btn-and-warning-message"]}>
+        <div className={styles["login-btn"]}>Log in</div>
+        <div className={styles["goto-register-line"]}>
+          <p className={styles["goto-register-text"]}>Don't have an account?</p>
           <p
-            style={{
-              color: message === "Login successful" ? "#40bf15" : "#f34949",
-            }}
+            className={styles["goto-register-link"]}
+            onClick={() => router.replace("/register")}
           >
-            {message}
+            Sign up
           </p>
-          <div className={styles["login-button"]} onClick={login}>
-            Log in
-          </div>
-        </div>
-        <div className={styles[""]}>
-          <p className={styles[""]}>Don’t have an account?</p>
-          <div
-            className={styles[""]}
-            onClick={() => {
-              router.replace("/register");
-            }}
-          >
-            Sign Up
-          </div>
         </div>
       </div>
     </div>

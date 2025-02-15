@@ -3,7 +3,7 @@
 
   display: grid;
   grid-template-areas: "window-left window-right";
-  grid-template-columns: clamp(200px, 25vw, 400px) clamp(300px, 25vw, 400px);
+  grid-template-columns: clamp(300px, 30vw, 350px) clamp(400px, 30vw, 500px);
 
   border-radius: 30px;
   overflow: hidden;
@@ -12,41 +12,59 @@
   font-size: 16px;
   color: #424242;
 }
-
 .window-left {
-  grid-area: "window-left";
+  grid-area: window-left;
 
   width: 100%;
   height: 100%;
   background-color: rgb(138, 194, 145);
 }
-
 .window-right {
-  grid-area: "window-right";
+  grid-area: window-right;
 
   width: 100%;
   background-color: rgb(255, 255, 255);
 
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding-left: 3em;
+  padding-right: 3em;
+  padding-top: 5em;
+  padding-bottom: 5em;
 
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2em;
+
+  position: relative;
+}
+@media (max-width: 1300px) {
+  .window {
+    grid-template-columns: 0 clamp(500px, 30vw, 600px);
+  }
+  .window-right {
+    padding-left: 4em;
+    padding-right: 4em;
+  }
 }
 @media (max-width: 500px) {
   .window {
     width: 100%;
     height: 100dvh;
 
-    grid-template-columns: 0 100%;
+    grid-template-areas:
+      "window-left"
+      "window-right";
+    /* grid-template-rows: clamp(15dvh, calc(15dvh + 5dvw), 20dvh) 1fr; */
+    grid-template-rows: 0 1fr;
+    grid-template-columns: 1fr;
 
     border-radius: 0;
   }
-  /* .window-right {
-    height: 100dvh;
-  } */
+  .window-right {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 }
 
 .register-title {
@@ -63,6 +81,10 @@
     "confirm-password-section confirm-password-section";
   grid-template-columns: 1fr 1fr;
   column-gap: 1em;
+  row-gap: 1em;
+
+  /* padding-left: 1em;
+  padding-right: 1em; */
 }
 
 .firstname-section {
@@ -72,56 +94,56 @@
 
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.3em;
 }
 .lastname-section {
-  grid-area: "lastname-section";
+  grid-area: lastname-section;
 
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.3em;
 }
 .username-section {
-  grid-area: "username-section";
+  grid-area: username-section;
 
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.3em;
 }
 .password-section {
-  grid-area: "password-section";
+  grid-area: password-section;
 
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.3em;
 }
 .confirm-password-section {
-  grid-area: "confirm-password-section";
+  grid-area: confirm-password-section;
 
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.3em;
 }
 
 .input-title {
   font-weight: 400;
   font-size: clamp(0.8em, calc(1em + 1vw), 1em);
-  color: #666666;
+  color: #757575;
 }
 .input-box {
   width: 100%;
-  height: 40px;
+  height: 2.5em;
   background-color: white;
-  border: solid #80c59d 1px;
-  border-radius: 12px;
+  border: solid #d3d3d3 1px;
+  border-radius: 6px;
 
   padding-left: 10px;
 
@@ -134,11 +156,85 @@
   font-size: 16px;
   color: #424242;
 
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
   outline: none;
 
   &:focus {
-    border: solid #6baf88 1px;
+    border: solid #a0ada6 1px;
+  }
+}
+.password-input-box {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.eye-button-show {
+  background-image: url("../../image/visible_button.png");
+  background-size: contain;
+  width: 35px;
+  height: 35px;
+
+  margin-left: -40px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../../image/visible_button_hover.png");
+  }
+}
+.eye-button-hide {
+  background-image: url("../../image/invisible_button.png");
+  background-size: contain;
+  width: 35px;
+  height: 35px;
+
+  /* position: absolute; */
+  margin-left: -40px;
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../../image/invisible_button_hover.png");
+  }
+}
+
+.confirm-password-description {
+  font-weight: 400;
+  font-size: clamp(0.7em, calc(0.7em + 0.5vw), 0.9em);
+}
+
+.signup-btn {
+  width: 100%;
+  height: 3em;
+  background-color: #599973;
+  border-radius: 6px;
+
+  font-weight: 300;
+  font-size: clamp(0.8em, calc(0.8em + 0.5vw), 0.9em);
+  color: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+}
+.back-button {
+  background-image: url("../../image/back_button.png");
+  background-size: contain;
+  height: 2.5em;
+  aspect-ratio: 1/1;
+
+  position: absolute;
+  top: 1em;
+  left: 1em;
+
+  transition: background-image 0.1s;
+
+  &:hover {
+    background-image: url("../../image/back_button_hover.png");
   }
 }
