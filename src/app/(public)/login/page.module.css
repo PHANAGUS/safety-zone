@@ -193,6 +193,8 @@
 .goto-register-line {
   display: inline-flex;
   gap: 0.5em;
+
+  user-select: none;
 }
 @media (max-width: 360px) {
   .goto-register-line {

@@ -118,7 +118,14 @@ const Login: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles["login-btn"]}>Log in</div>
+        <div
+          className={styles["login-btn"]}
+          onClick={() => {
+            login();
+          }}
+        >
+          Log in
+        </div>
         <div className={styles["goto-register-line"]}>
           <p className={styles["goto-register-text"]}>Don't have an account?</p>
           <p

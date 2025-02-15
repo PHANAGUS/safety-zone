@@ -7,8 +7,9 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 import styles from "./page.module.css";
 
 import { fetchLoginData } from "../../api/login.js";
+import { create_new_user } from "@/app/api/register.js";
 
-const login_url = process.env.NEXT_PUBLIC_URL;
+const main_url = process.env.NEXT_PUBLIC_URL;
 
 interface User {
   user_id: number;
@@ -20,6 +21,13 @@ interface User {
 interface LoginResponse {
   message: string;
   user: User[];
+}
+
+interface RegisterResponse {
+  first_name: string;
+  last_name: string;
+  username: string;
+  password: string;
 }
 
 const Register: React.FC = () => {
@@ -62,8 +70,12 @@ const Register: React.FC = () => {
     "โปรดยืนยันรหัสผ่านอีกครั้ง"
   );
 
-  const [message, setMessage] = useState("");
+  const [isFinishRegister, setIsFinishRegister] = useState<boolean>(false);
 
+  const [registerMessage, setRegisterMessage] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
+
+  //ตรวจสอบการยืนยันรหัสผ่าน
   useEffect(() => {
     if (
       (typingPassword === "" && typingConfirmPassword === "") ||
@@ -80,12 +92,12 @@ const Register: React.FC = () => {
   const login = async () => {
     // console.log(login_url);
     const response: LoginResponse = await fetchLoginData(
-      login_url,
+      main_url,
       typingUsername,
       typingPassword
     );
     if (response.message === "Login successful") {
-      setMessage(response.message);
+      setLoginMessage(response.message);
       setUsername(response.user[0].username);
       setUserID(response.user[0].user_id);
       setFirstname(response.user[0].first_name);
@@ -93,9 +105,33 @@ const Register: React.FC = () => {
 
       router.replace("/homelist");
     } else {
-      setMessage(response.message);
+      setLoginMessage(response.message);
     }
   };
+
+  const register = async () => {
+    if (typingConfirmPassword === typingPassword) {
+      const response = await create_new_user(
+        main_url,
+        typingFirstname,
+        typingLastname,
+        typingUsername,
+        typingPassword
+      );
+      if (response.message === "Data inserted successfully") {
+        setRegisterMessage(response.message);
+        setIsFinishRegister(true);
+      } else {
+        setRegisterMessage(response.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isFinishRegister) {
+      login();
+    }
+  }, [isFinishRegister]);
 
   useEffect(() => {
     setCurrentPage("login");
@@ -192,7 +228,15 @@ const Register: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className={styles["signup-btn"]}>Sign Up</div>
+        <div
+          className={styles["signup-btn"]}
+          onClick={() => {
+            register();
+          }}
+        >
+          Sign Up
+        </div>
+        <p>{registerMessage}</p>
       </div>
     </div>
   );
