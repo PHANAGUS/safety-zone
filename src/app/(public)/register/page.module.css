@@ -1,0 +1,144 @@
+.window {
+  height: auto;
+
+  display: grid;
+  grid-template-areas: "window-left window-right";
+  grid-template-columns: clamp(200px, 25vw, 400px) clamp(300px, 25vw, 400px);
+
+  border-radius: 30px;
+  overflow: hidden;
+
+  font-family: Prompt !important;
+  font-size: 16px;
+  color: #424242;
+}
+
+.window-left {
+  grid-area: "window-left";
+
+  width: 100%;
+  height: 100%;
+  background-color: rgb(138, 194, 145);
+}
+
+.window-right {
+  grid-area: "window-right";
+
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 500px) {
+  .window {
+    width: 100%;
+    height: 100dvh;
+
+    grid-template-columns: 0 100%;
+
+    border-radius: 0;
+  }
+  /* .window-right {
+    height: 100dvh;
+  } */
+}
+
+.register-title {
+  font-weight: 700;
+  font-size: clamp(1em, calc(1em + 1vw), 1.5em);
+}
+
+.input-grid {
+  display: grid;
+  grid-template-areas:
+    "firstname-section lastname-section"
+    "username-section username-section"
+    "password-section password-section"
+    "confirm-password-section confirm-password-section";
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1em;
+}
+
+.firstname-section {
+  grid-area: firstname-section;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.lastname-section {
+  grid-area: "lastname-section";
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.username-section {
+  grid-area: "username-section";
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.password-section {
+  grid-area: "password-section";
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.confirm-password-section {
+  grid-area: "confirm-password-section";
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.input-title {
+  font-weight: 400;
+  font-size: clamp(0.8em, calc(1em + 1vw), 1em);
+  color: #666666;
+}
+.input-box {
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  border: solid #80c59d 1px;
+  border-radius: 12px;
+
+  padding-left: 10px;
+
+  font-family: Prompt;
+  font-weight: 400;
+  font-size: clamp(0.7em, calc(1em + 1vw), 0.9em);
+  color: #666666;
+
+  font-weight: 300;
+  font-size: 16px;
+  color: #424242;
+
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  outline: none;
+
+  &:focus {
+    border: solid #6baf88 1px;
+  }
+}

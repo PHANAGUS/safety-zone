@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     setCurrentPage,
   } = useGlobalState();
 
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [typingUsername, setTypingUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
       setFirstname(response.user[0].first_name);
       setLastname(response.user[0].last_name);
 
-      router.push("/homelist");
+      router.replace("/homelist");
     } else {
       setMessage(response.message);
     }
@@ -124,6 +124,17 @@ const Login: React.FC = () => {
           </p>
           <div className={styles["login-button"]} onClick={login}>
             Log in
+          </div>
+        </div>
+        <div className={styles[""]}>
+          <p className={styles[""]}>Don’t have an account?</p>
+          <div
+            className={styles[""]}
+            onClick={() => {
+              router.replace("/register");
+            }}
+          >
+            Sign Up
           </div>
         </div>
       </div>
