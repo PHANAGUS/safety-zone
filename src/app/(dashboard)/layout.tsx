@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "../globals.css";
+
+import AnimationLayout from "./animationLayout";
+
 import Header from "./components/Header";
 import styles from "./layout.module.css";
 
@@ -16,7 +19,7 @@ export default function DashboardLayout({
   return (
     <div className={`${styles["page-layout"]} ${styles["scrollbar"]}`}>
       <Header />
-      {children}
+      <AnimationLayout>{children}</AnimationLayout>
     </div>
   );
 }

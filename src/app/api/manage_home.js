@@ -1,7 +1,11 @@
-export async function create_new_room(add_room_url, home_id, room_name) {
-  if (home_id === "" || room_name === "")
+export async function create_new_home(
+  add_home_url,
+  creator_user_id,
+  home_name
+) {
+  if (creator_user_id === "" || home_name === "")
     return { message: "กรุณาลองใหม่อีกครั้ง" };
-  const full_url = `${add_room_url}/post/add_room`;
+  const full_url = `${add_home_url}/post/add_home`;
   // console.log(full_url);
 
   try {
@@ -11,8 +15,8 @@ export async function create_new_room(add_room_url, home_id, room_name) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        home_ID: home_id,
-        room_name: room_name,
+        add_by_user_id: creator_user_id,
+        home_name: home_name,
       }),
     });
 
@@ -20,20 +24,19 @@ export async function create_new_room(add_room_url, home_id, room_name) {
 
     if (!response.ok) {
       console.log(text);
+      return { message: text };
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     console.log(text);
-
-    // const data = await response.json();
-    // console.log(data);
   } catch (error) {
+    return { message: String(error) };
     console.error("Error:", error);
   }
 }
 
-export async function delete_room(delete_room_url, room_id) {
+export async function delete_home(delete_home_url, home_id) {
   if (room_id === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
-  const full_url = `${delete_room_url}/delete/delete_rooms?room_id=${room_id}`;
+  const full_url = `${delete_home_url}/delete/delete_homes?home_id=${home_id}`;
 
   try {
     const response = await fetch(full_url, {
@@ -54,13 +57,13 @@ export async function delete_room(delete_room_url, room_id) {
   }
 }
 
-export async function get_roomlist(get_roomlist_url, homeid) {
-  if (homeid === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
-  const full_roomlist_url = `${get_roomlist_url}/get/roomList?homeID=${homeid}`;
+export async function get_homelist(get_homelist_url, userid) {
+  if (userid === "") return { message: "กรุณากรอกชื่อผู้ใช้งานและรหัสผ่าน" };
+  const full_homelist_url = `${get_homelist_url}/get/homelist?userID=${userid}`;
 
   // const full_login_url = get_homelist_url + "userID=" + userid;
   // console.log(full_login_url);
-  const response = fetch(full_roomlist_url)
+  const response = fetch(full_homelist_url)
     .then((res) => res.json())
     .catch((error) => {
       console.log("Error fetching data: ", error);

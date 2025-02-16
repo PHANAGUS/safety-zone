@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { GlobalStateProvider } from "@/context/GlobalStateContext";
+// import AnimationLayout from "./animationLayout";
+
 import "./globals.css";
 // import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";

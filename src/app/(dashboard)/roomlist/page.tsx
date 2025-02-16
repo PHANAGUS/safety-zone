@@ -17,9 +17,9 @@ import styles from "./page.module.css";
 import RoomCard from "./components/RoomCard";
 import AddRoomCard from "./components/AddRoomCard";
 import DeviceCard from "./components/DeviceCard";
-import NewRoomModal from "@/app/(dashboard)/components/NewRoomModal";
+import CreateRoomModal from "./components/CreateRoomModal";
 
-import { get_roomlist } from "../../api/get_roomlist.js";
+import { get_roomlist } from "../../api/manage_room.js";
 import { get_room_devices } from "../../api/get_devicelist.js";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
@@ -69,10 +69,18 @@ const Roomlist: React.FC = () => {
   } = useGlobalState();
 
   const [roomlist, setRoomlist] = useState<rooms[]>([]);
+  const [roomlistKey, setRoomlistKey] = useState<number>(0);
+
+  const [showCreateRoomModal, setShowCreateRoomModal] =
+    useState<boolean>(false);
+
   const [devicelist, setDeviceList] = useState<devices[]>([]);
 
-  const [showNewRoomModal, setShowNewRoomModal] = useState<boolean>(false);
   const [needRefresh, setNeedRefresh] = useState<boolean>(false);
+
+  const refreshRoomlist = () => {
+    setRoomlistKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
 
   useEffect(() => {
     if (loading) return;
@@ -111,7 +119,7 @@ const Roomlist: React.FC = () => {
       };
       fetchData();
     }
-  }, [username, userID, loading]);
+  }, [username, userID, loading, roomlistKey]);
 
   useEffect(() => {
     if (needRefresh) {
@@ -126,45 +134,6 @@ const Roomlist: React.FC = () => {
   }, []);
 
   return (
-    // <div className={styles["area"]}>
-    //   <div className={styles["big-topic"]}>
-    //     <div className={styles["big-topic-left"]}>
-    //       {/* <p>โปรดเลือกห้องเพื่อดำเนินการต่อ</p> */}
-    //       <p>ห้องของคุณ</p>
-    //       <p className={styles["big-topic-bracket"]}>({homeName})</p>
-    //     </div>
-    //   </div>
-    //   <div className={`${styles["roomlist-container"]} ${styles["scrollbar"]}`}>
-    //     {roomlist.map((item, index) => (
-    //       <RoomCard
-    //         key={index}
-    //         room_name={item["room_name"]}
-    //         room_id={item["room_id"]}
-    //       />
-    //     ))}
-    //     <AddRoomCard />
-    //   </div>
-    //   <div className={styles["big-topic"]}>
-    //     <p>อุปกรณ์ของคุณ</p>
-    //   </div>
-    //   <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
-    //     {devicelist.map((item, index) => (
-    //       <DeviceCard
-    //         key={index}
-    //         deviceID={item["deviceID"]}
-    //         deviceName={item["deviceName"]}
-    //         deviceStatus={item["deviceStatus"]}
-    //         deviceInRoom={item["deviceInHomes"]}
-    //       />
-    //     ))}
-    //   </div>
-    //   {/* <div className={styles["section-failed-box"]}>
-    //       <div className={styles["section-failed-pic"]}></div>
-    //       <p className={styles["section-failed-text"]}>
-    //         ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
-    //       </p>
-    //     </div> */}
-    // </div>
     <div className={styles["page-grid"]}>
       <div className={styles["homeinfo-part"]}>
         <div className={styles["home-part"]}>{homeName}</div>
@@ -182,7 +151,7 @@ const Roomlist: React.FC = () => {
           <div className={styles["topic-right"]}>
             <div
               className={styles["plus-button"]}
-              onClick={() => setShowNewRoomModal(true)}
+              onClick={() => setShowCreateRoomModal(true)}
             >
               + เพิ่มห้อง
             </div>
@@ -194,7 +163,7 @@ const Roomlist: React.FC = () => {
               key={index}
               room_name={item["room_name"]}
               room_id={item["room_id"]}
-              setNeedRefresh={setNeedRefresh}
+              refreshRoomlist={refreshRoomlist}
             />
           ))}
         </div>
@@ -219,10 +188,10 @@ const Roomlist: React.FC = () => {
           ))}
         </div>
 
-        <NewRoomModal
-          show={showNewRoomModal}
-          handleClose={() => setShowNewRoomModal(false)}
-          setNeedRefresh={setNeedRefresh}
+        <CreateRoomModal
+          show={showCreateRoomModal}
+          handleClose={() => setShowCreateRoomModal(false)}
+          refreshRoomlist={refreshRoomlist}
         />
       </div>
     </div>

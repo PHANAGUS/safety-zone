@@ -126,6 +126,8 @@ const Login: React.FC = () => {
         >
           Log in
         </div>
+        <p className={styles["goto-register-text"]}>john_doe</p>
+        <p className={styles["goto-register-text"]}>securepassword123</p>
         <div className={styles["goto-register-line"]}>
           <p className={styles["goto-register-text"]}>Don't have an account?</p>
           <p

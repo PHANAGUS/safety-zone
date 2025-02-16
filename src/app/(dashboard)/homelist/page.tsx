@@ -14,8 +14,9 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 import styles from "./page.module.css";
 import HomeCard from "./components/HomeCard";
 import AddHomeCard from "./components/AddHomeCard";
+import CreateHomeModal from "./components/CreateHomeModal";
 
-import { get_homelist } from "../../api/get_homelist.js";
+import { get_homelist } from "../../api/manage_home.js";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -55,6 +56,14 @@ const Homelist: React.FC = () => {
   } = useGlobalState();
 
   const [homelist, setHomelist] = useState<homes[]>([]);
+  const [homelistKey, setHomelistKey] = useState<number>(0);
+
+  const [showCreateHomeModal, setShowCreateHomeModal] =
+    useState<boolean>(false);
+
+  const refreshHomelist = () => {
+    setHomelistKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
 
   useEffect(() => {
     if (loading) return;
@@ -73,7 +82,7 @@ const Homelist: React.FC = () => {
       };
       fetchData();
     }
-  }, [username, userID, loading]);
+  }, [username, userID, loading, homelistKey]);
 
   useEffect(() => {
     setCurrentPage("homelist");
@@ -81,29 +90,6 @@ const Homelist: React.FC = () => {
   }, [currentPage]);
 
   return (
-    // <div className={styles["area"]}>
-    //   <div className={styles["big-topic"]}>
-    //     {/* <p>โปรดเลือกบ้านเพื่อดำเนินการต่อ</p> */}
-    //     <p>บ้านของคุณ</p>
-    //   </div>
-    //   <div className={`${styles["homelist-container"]} ${styles["scrollbar"]}`}>
-    //     {homelist.map((item, index) => (
-    //       <HomeCard
-    //         key={index}
-    //         home_name={item["home_name"]}
-    //         home_id={item["home_id"]}
-    //       />
-    //     ))}
-    //     <AddHomeCard />
-    //   </div>
-    //   {/* <div className={styles["section-failed-box"]}>
-    //       <div className={styles["section-failed-pic"]}></div>
-    //       <p className={styles["section-failed-text"]}>
-    //         ขออภัย ระบบเกิดข้อขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง
-    //       </p>
-    //     </div> */}
-    // </div>
-
     <div className={styles["page-grid"]}>
       <div className={styles["greeting-part"]}>
         <p className={styles[""]}>สวัสดี !</p>
@@ -115,10 +101,15 @@ const Homelist: React.FC = () => {
         <div className={styles["topic"]}>
           <div className={styles["topic-left"]}>บ้านของฉัน</div>
           <div className={styles["topic-right"]}>
-            <div className={styles["plus-button"]}>+ เพิ่มบ้าน</div>
+            <div
+              className={styles["plus-button"]}
+              onClick={() => setShowCreateHomeModal(true)}
+            >
+              + เพิ่มบ้าน
+            </div>
           </div>
         </div>
-        <div className={styles["homelist-container"]}>
+        <div className={styles["homelist-container"]} key={homelistKey}>
           {homelist.map((item, index) => (
             <HomeCard
               key={index}
@@ -128,6 +119,11 @@ const Homelist: React.FC = () => {
           ))}
         </div>
       </div>
+      <CreateHomeModal
+        show={showCreateHomeModal}
+        handleClose={() => setShowCreateHomeModal(false)}
+        refreshHomelist={refreshHomelist}
+      />
     </div>
   );
 };

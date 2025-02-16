@@ -15,13 +15,13 @@ interface RoomCardProps {
   room_name: string;
   room_id: number;
 
-  setNeedRefresh: (needRefresh: boolean) => void;
+  refreshRoomlist: () => void;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({
   room_name,
   room_id,
-  setNeedRefresh,
+  refreshRoomlist,
 }) => {
   const router = useRouter();
   const {
@@ -65,8 +65,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
   }, [roomID, clicked]);
 
   const delete_this_room = async () => {
-    await delete_room(main_url, roomID);
-    setNeedRefresh(true);
+    await delete_room(main_url, room_id);
+    refreshRoomlist();
   };
 
   useEffect(() => {
