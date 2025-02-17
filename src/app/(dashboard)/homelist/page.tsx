@@ -94,7 +94,7 @@ const Homelist: React.FC = () => {
       <div className={styles["greeting-part"]}>
         <p className={styles[""]}>สวัสดี !</p>
         <p className={styles[""]}>
-          คุณ {firstname} {lastname}
+          คุณ {firstname} {lastname} ({username})
         </p>
       </div>
       <div className={styles["content-part"]}>

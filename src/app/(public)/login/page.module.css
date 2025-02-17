@@ -154,6 +154,8 @@
   margin-left: -40px;
   transition: background-image 0.1s;
 
+  cursor: pointer;
+
   &:hover {
     background-image: url("../../image/visible_button_hover.png");
   }
@@ -167,6 +169,8 @@
   /* position: absolute; */
   margin-left: -40px;
   transition: background-image 0.1s;
+
+  cursor: pointer;
 
   &:hover {
     background-image: url("../../image/invisible_button_hover.png");
@@ -188,6 +192,7 @@
   align-items: center;
 
   user-select: none;
+  cursor: pointer;
 }
 
 .goto-register-line {
@@ -214,4 +219,5 @@
   font-size: clamp(0.7em, calc(0.7em + 0.5vw), 0.9em);
   text-decoration: underline;
   color: #2958ad;
+  cursor: pointer;
 }

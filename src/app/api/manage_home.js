@@ -70,3 +70,39 @@ export async function get_homelist(get_homelist_url, userid) {
     });
   return response;
 }
+
+export async function add_user_to_home(
+  add_user_to_home_url,
+  invited_user_id,
+  home_id
+) {
+  if (invited_user_id === "" || home_id === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${add_user_to_home_url}/post/add_user_home`;
+  // console.log(full_url);
+
+  try {
+    const response = await fetch(full_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: invited_user_id,
+        home_id: home_id,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      console.log(text);
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log(text);
+  } catch (error) {
+    return { message: String(error) };
+    console.error("Error:", error);
+  }
+}

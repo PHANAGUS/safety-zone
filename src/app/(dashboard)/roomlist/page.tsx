@@ -19,6 +19,9 @@ import AddRoomCard from "./components/AddRoomCard";
 import DeviceCard from "./components/DeviceCard";
 import CreateRoomModal from "./components/CreateRoomModal";
 
+import { IoHome } from "react-icons/io5";
+import { IoChevronBack } from "react-icons/io5";
+
 import { get_roomlist } from "../../api/manage_room.js";
 import { get_room_devices } from "../../api/get_devicelist.js";
 
@@ -136,16 +139,31 @@ const Roomlist: React.FC = () => {
   return (
     <div className={styles["page-grid"]}>
       <div className={styles["homeinfo-part"]}>
-        <div className={styles["home-part"]}>{homeName}</div>
-        <div className={styles["member-part"]}>Member</div>
+        <div className={styles["info-part"]}>
+          <div className={styles["homename-line"]}>
+            <IoHome className={styles["home-icon"]} />
+            <p className={styles["homename-text"]}>{homeName}</p>
+          </div>
+          <div className={styles["info-box"]}>
+            <p className={styles["homeid-text"]}>ID: {homeID}</p>
+            <p className={styles["home-detail-text"]}>
+              มีทั้งหมด {roomlist.length} ห้อง | x อุปกรณ์
+            </p>
+          </div>
+        </div>
+        <div className={styles["picture-part"]}></div>
       </div>
       <div className={styles["content-part"]}>
         <div className={styles["topic"]}>
           <div className={styles["topic-left"]}>
-            <div
-              className={styles["back-button"]}
+            <IoChevronBack
+              className={styles["back-button2"]}
               onClick={() => router.replace("/homelist")}
             />
+            {/* <div
+              className={styles["back-button"]}
+              onClick={() => router.replace("/homelist")}
+            /> */}
             <p className={styles[""]}>รายการห้อง</p>
           </div>
           <div className={styles["topic-right"]}>
@@ -167,6 +185,7 @@ const Roomlist: React.FC = () => {
             />
           ))}
         </div>
+
         <div className={styles["hr"]}></div>
         <div className={styles["topic"]}>
           <div className={styles["topic-left"]}>

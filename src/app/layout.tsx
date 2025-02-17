@@ -7,8 +7,8 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const metadata: Metadata = {
-  title: "Comfy Breath Room",
-  description: "Comfy Breath Room",
+  title: "Auto Air Comfort System",
+  description: "Auto Air Comfort System",
 };
 
 export default function RootLayout({

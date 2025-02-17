@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/", // เมื่อเข้าหน้าหลัก
-        destination: "/dashboard", // เปลี่ยนเส้นทางไปยัง "/login"
+        destination: "/homelist", // เปลี่ยนเส้นทางไปยัง "/login"
         permanent: true, // true หมายถึงใช้การ redirect แบบ 301 (permanent)
       },
     ];

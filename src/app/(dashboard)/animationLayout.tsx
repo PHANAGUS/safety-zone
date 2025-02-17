@@ -11,10 +11,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div style={{ position: "relative" }}>
         <motion.div
           key={pathname}
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 60 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
+          exit={{ opacity: 0, x: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           style={{ position: "absolute", width: "100%" }}
         >
           {children}
