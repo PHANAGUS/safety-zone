@@ -7,21 +7,18 @@ import { Modal, Button } from "react-bootstrap";
 
 import styles from "./CreateRoomModal.module.css";
 
-import { create_new_room } from "@/app/api/manage_room";
+import { add_user_to_home } from "@/app/api/manage_home";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
-interface NewRoomModalProps {
+interface AddHomeMemberModalProps {
   show: boolean;
   handleClose: () => void;
-
-  refreshRoomlist: () => void;
 }
 
-const NewRoomModal: React.FC<NewRoomModalProps> = ({
+const AddHomeMemberModal: React.FC<AddHomeMemberModalProps> = ({
   show,
   handleClose,
-  refreshRoomlist,
 }) => {
   const {
     loading,
@@ -38,29 +35,30 @@ const NewRoomModal: React.FC<NewRoomModalProps> = ({
     setCurrentPage,
   } = useGlobalState();
 
-  const [typingRoomname, setTypingRoomname] = useState<string>("");
+  const [typingInvitedID, setTypingInvitedID] = useState<string>("");
 
   const confirm_clicked = async () => {
-    await create_new_room(main_url, home.home_id, typingRoomname);
-    refreshRoomlist();
+    await add_user_to_home(main_url, Number(typingInvitedID), home.home_id);
     handleClose();
   };
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title className={styles["title"]}>เพิ่มห้องใหม่</Modal.Title>
+        <Modal.Title className={styles["title"]}>เพิ่มสมาชิก</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className={styles["input-section"]}>
-          <p className={styles["input-title"]}>ชื่อห้อง</p>
+          <p className={styles["input-title"]}>User ID ของผู้ที่ต้องการเพิ่ม</p>
           <input
-            type="text"
-            value={typingRoomname}
-            onChange={(e) => setTypingRoomname(e.target.value)}
+            type="number"
+            value={typingInvitedID}
+            onChange={(e) => setTypingInvitedID(e.target.value)}
             className={styles["input-box"]}
           />
-          <p>{typingRoomname}</p>
+          <p>
+            {typingInvitedID} {typeof typingInvitedID}
+          </p>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -75,4 +73,4 @@ const NewRoomModal: React.FC<NewRoomModalProps> = ({
   );
 };
 
-export default NewRoomModal;
+export default AddHomeMemberModal;

@@ -35,7 +35,7 @@ export async function create_new_home(
 }
 
 export async function delete_home(delete_home_url, home_id) {
-  if (room_id === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
+  if (home_id === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
   const full_url = `${delete_home_url}/delete/delete_homes?home_id=${home_id}`;
 
   try {

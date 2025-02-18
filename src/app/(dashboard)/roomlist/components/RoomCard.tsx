@@ -11,16 +11,19 @@ import styles from "./RoomCard.module.css";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
-interface RoomCardProps {
+interface rooms {
   room_name: string;
   room_id: number;
+}
+
+interface RoomCardProps {
+  this_card_room: rooms;
 
   refreshRoomlist: () => void;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({
-  room_name,
-  room_id,
+  this_card_room,
   refreshRoomlist,
 }) => {
   const router = useRouter();
@@ -31,14 +34,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
     setUsername,
     userID,
     setUserID,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
+    // homeName,
+    // setHomeName,
+    // homeID,
+    // setHomeID,
+    // roomName,
+    // setRoomName,
+    // roomID,
+    // setRoomID,
+    home,
+    setHome,
+    room,
+    setRoom,
   } = useGlobalState();
 
   const [fetchComplete, setFetchComplete] = useState<boolean>(true);
@@ -49,29 +56,30 @@ const RoomCard: React.FC<RoomCardProps> = ({
   const [clicked, setClicked] = useState<boolean>(false);
 
   const go_to_dashboard = () => {
-    setRoomID(room_id);
-    setRoomName(room_name);
+    // setRoomID(room_id);
+    // setRoomName(room_name);
+    setRoom(this_card_room);
     setClicked(true);
     // ฟังก์ชันนี้แค่ set เฉยๆ จะไปจั๊มป์หน้าใน useEffect
   };
 
   useEffect(() => {
-    if (roomID === room_id && clicked) {
+    if (room.room_id === this_card_room.room_id && clicked) {
       // console.log("Updated roomID:", roomID);
       // console.log(roomName);
       setClicked(false);
       router.push("/dashboard");
     }
-  }, [roomID, clicked]);
+  }, [room, clicked]);
 
   const delete_this_room = async () => {
-    await delete_room(main_url, room_id);
+    await delete_room(main_url, this_card_room.room_id);
     refreshRoomlist();
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const new_data = await getLatestRecord(main_url, room_id);
+      const new_data = await getLatestRecord(main_url, this_card_room.room_id);
 
       if (new_data != null) {
         setFetchComplete(true);
@@ -93,8 +101,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
       <div className={styles["square"]}></div>
       <div className={styles["text-container"]}>
         <div className={styles["room-detail-container"]}>
-          <p className={styles["roomname"]}>{room_name}</p>
-          <p className={styles["roomid"]}>(ID: {room_id})</p>
+          <p className={styles["roomname"]}>{this_card_room.room_name}</p>
+          <p className={styles["roomid"]}>(ID: {this_card_room.room_id})</p>
         </div>
         <div className={styles["hr"]} />
         <div className={styles["variable-container"]}>

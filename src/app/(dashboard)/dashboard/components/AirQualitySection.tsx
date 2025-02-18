@@ -2,16 +2,12 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useGlobalState } from "@/context/GlobalStateContext";
-import styles from "@/app/(dashboard)/layout.module.css";
+// import styles from "@/app/(dashboard)/layout.module.css";
+import styles from "./AirQualitySection.module.css";
 
 import AirQualityCardSet from "./AirQualityCardSet";
 import AirQualityGraphSet from "./AirQualityGraphSet";
-import { getDateRangeRecords } from "../../../api/get_sensor.js";
-
-// interface AirQualitySectionProps {
-//   title: string;
-//   description: string;
-// }
+import { getDateRangeRecords } from "@/app/api/get_sensor";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -23,14 +19,10 @@ const AirQualitySection: React.FC = () => {
     setUsername,
     userID,
     setUserID,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
+    home,
+    setHome,
+    room,
+    setRoom,
   } = useGlobalState();
 
   // ตัวแปรระบุโหมดการแสดงผล Air Quality [โหมด card, โหมด graph]
@@ -53,7 +45,7 @@ const AirQualitySection: React.FC = () => {
       // console.log(displayMode , daysEarlier)
       const new_dataset = await getDateRangeRecords(
         main_url,
-        roomID,
+        room.room_id,
         daysEarlier
       );
       // console.log(new_dataset);
@@ -147,6 +139,7 @@ const AirQualitySection: React.FC = () => {
         )}
       </div>
     </div>
+    // <div className={styles["section"]}></div>
   );
 };
 

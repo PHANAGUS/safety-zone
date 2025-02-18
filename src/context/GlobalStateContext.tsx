@@ -8,6 +8,17 @@ import {
   ReactNode,
 } from "react";
 
+interface homes {
+  home_id: number;
+  home_name: string;
+  mainUserID: number;
+}
+
+interface rooms {
+  room_name: string;
+  room_id: number;
+}
+
 // กำหนด Type สำหรับ Context
 interface GlobalStateType {
   loading: boolean;
@@ -23,15 +34,20 @@ interface GlobalStateType {
   userID: number;
   setUserID: (value: number) => void;
 
-  homeName: string;
-  setHomeName: (value: string) => void;
-  homeID: number;
-  setHomeID: (value: number) => void;
+  // homeName: string;
+  // setHomeName: (value: string) => void;
+  // homeID: number;
+  // setHomeID: (value: number) => void;
 
-  roomName: string;
-  setRoomName: (value: string) => void;
-  roomID: number;
-  setRoomID: (value: number) => void;
+  // roomName: string;
+  // setRoomName: (value: string) => void;
+  // roomID: number;
+  // setRoomID: (value: number) => void;
+
+  home: homes;
+  setHome: (value: homes) => void;
+  room: rooms;
+  setRoom: (value: rooms) => void;
 
   currentPage: string;
   setCurrentPage: (value: string) => void;
@@ -54,11 +70,18 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
   const [username, setUsername] = useState<string>("");
   const [userID, setUserID] = useState<number>(0);
 
-  const [homeName, setHomeName] = useState<string>("");
-  const [homeID, setHomeID] = useState<number>(0);
+  // const [homeName, setHomeName] = useState<string>("");
+  // const [homeID, setHomeID] = useState<number>(0);
 
-  const [roomName, setRoomName] = useState<string>("");
-  const [roomID, setRoomID] = useState<number>(0);
+  // const [roomName, setRoomName] = useState<string>("");
+  // const [roomID, setRoomID] = useState<number>(0);
+
+  const [home, setHome] = useState<homes>({
+    home_id: 0,
+    home_name: "",
+    mainUserID: 0,
+  });
+  const [room, setRoom] = useState<rooms>({ room_id: 0, room_name: "" });
 
   const [currentPage, setCurrentPage] = useState<string>("");
 
@@ -69,11 +92,14 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
       const storedUsername = localStorage.getItem("username");
       const storedUserID = localStorage.getItem("userID");
 
-      const storedHomeName = localStorage.getItem("homeName");
-      const storedHomeID = localStorage.getItem("homeID");
+      // const storedHomeName = localStorage.getItem("homeName");
+      // const storedHomeID = localStorage.getItem("homeID");
 
-      const storedRoomName = localStorage.getItem("roomName");
-      const storedRoomID = localStorage.getItem("roomID");
+      // const storedRoomName = localStorage.getItem("roomName");
+      // const storedRoomID = localStorage.getItem("roomID");
+
+      const storedHome = localStorage.getItem("home");
+      const storedRoom = localStorage.getItem("room");
 
       if (storedFirstname) {
         setFirstname(storedFirstname);
@@ -88,43 +114,63 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
         setUserID(Number(storedUserID));
       }
 
-      if (storedHomeName) {
-        setHomeName(storedHomeName);
-      }
-      if (storedHomeID) {
-        setHomeID(Number(storedHomeID));
+      // if (storedHomeName) {
+      //   setHomeName(storedHomeName);
+      // }
+      // if (storedHomeID) {
+      //   setHomeID(Number(storedHomeID));
+      // }
+
+      // if (storedRoomName) {
+      //   setRoomName(storedRoomName);
+      // }
+      // if (storedRoomID) {
+      //   setRoomID(Number(storedRoomID));
+      // }
+
+      if (storedHome) {
+        const jsonObject = JSON.parse(storedHome);
+        setHome({
+          home_id: jsonObject.home_id,
+          home_name: jsonObject.home_name,
+          mainUserID: jsonObject.mainUserID,
+        });
       }
 
-      if (storedRoomName) {
-        setRoomName(storedRoomName);
+      if (storedRoom) {
+        const jsonObject = JSON.parse(storedRoom);
+        setRoom({
+          room_id: jsonObject.room_id,
+          room_name: jsonObject.room_name,
+        });
       }
-      if (storedRoomID) {
-        setRoomID(Number(storedRoomID));
-      }
+
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    // if (firstname !== "") {
-    // }
-    // if (lastname !== "") {
-    // }
     if (username !== "") {
       localStorage.setItem("username", username);
       localStorage.setItem("userID", String(userID));
       localStorage.setItem("firstname", firstname);
       localStorage.setItem("lastname", lastname);
     }
-    if (homeID !== 0) {
-      localStorage.setItem("homeName", homeName);
-      localStorage.setItem("homeID", String(homeID));
+    // if (homeID !== 0) {
+    //   localStorage.setItem("homeName", homeName);
+    //   localStorage.setItem("homeID", String(homeID));
+    // }
+    // if (roomID !== 0) {
+    //   localStorage.setItem("roomName", roomName);
+    //   localStorage.setItem("roomID", String(roomID));
+    // }
+    if (home !== undefined) {
+      localStorage.setItem("home", JSON.stringify(home));
     }
-    if (roomID !== 0) {
-      localStorage.setItem("roomName", roomName);
-      localStorage.setItem("roomID", String(roomID));
+    if (room !== undefined) {
+      localStorage.setItem("room", JSON.stringify(room));
     }
-  }, [firstname, lastname, username, homeID, roomID]);
+  }, [firstname, lastname, username, home, room]);
 
   return (
     <GlobalStateContext.Provider
@@ -139,14 +185,18 @@ export const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
         setUsername,
         userID,
         setUserID,
-        homeName,
-        setHomeName,
-        homeID,
-        setHomeID,
-        roomName,
-        setRoomName,
-        roomID,
-        setRoomID,
+        // homeName,
+        // setHomeName,
+        // homeID,
+        // setHomeID,
+        // roomName,
+        // setRoomName,
+        // roomID,
+        // setRoomID,
+        home,
+        setHome,
+        room,
+        setRoom,
         currentPage,
         setCurrentPage,
       }}
