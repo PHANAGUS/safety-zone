@@ -1,0 +1,38 @@
+.title {
+  font-weight: 600;
+  font-size: clamp(1.25em, calc(1vw + 0.3em), 1.56em);
+  color: #424242;
+}
+
+.content-section {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: flex-start;
+  /* align-items: center; */
+}
+
+.textline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+.content-text {
+  font-family: Prompt;
+  font-weight: 400;
+  font-size: clamp(0.8em, calc(0.7em + 1vw), 1em);
+  color: #666666;
+}
+
+.roomname-text {
+  font-family: Prompt;
+  font-weight: 500;
+  font-size: clamp(0.9em, calc(0.8em + 1vw), 1.1em);
+  color: #ee8945;
+}

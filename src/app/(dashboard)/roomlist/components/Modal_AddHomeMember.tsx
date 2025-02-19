@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { Modal, Button } from "react-bootstrap";
 
-import styles from "./CreateRoomModal.module.css";
+import styles from "./Modal_AddHomeMember.module.css";
 
 import { add_user_to_home } from "@/app/api/manage_home";
 

@@ -5,23 +5,23 @@ import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { Modal, Button } from "react-bootstrap";
 
-import styles from "./CreateHomeModal.module.css";
+import styles from "./Modal_CreateRoom.module.css";
 
-import { create_new_home } from "@/app/api/manage_home";
+import { create_new_room } from "@/app/api/manage_room";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
-interface NewHomeModalProps {
+interface NewRoomModalProps {
   show: boolean;
   handleClose: () => void;
 
-  refreshHomelist: () => void;
+  refreshRoomlist: () => void;
 }
 
-const NewHomeModal: React.FC<NewHomeModalProps> = ({
+const NewRoomModal: React.FC<NewRoomModalProps> = ({
   show,
   handleClose,
-  refreshHomelist,
+  refreshRoomlist,
 }) => {
   const {
     loading,
@@ -30,41 +30,37 @@ const NewHomeModal: React.FC<NewHomeModalProps> = ({
     setUsername,
     userID,
     setUserID,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
+    home,
+    setHome,
+    room,
+    setRoom,
     currentPage,
     setCurrentPage,
   } = useGlobalState();
 
-  const [typingHomename, setTypingHomename] = useState<string>("");
+  const [typingRoomname, setTypingRoomname] = useState<string>("");
 
   const confirm_clicked = async () => {
-    await create_new_home(main_url, userID, typingHomename);
-    refreshHomelist();
+    await create_new_room(main_url, home.home_id, typingRoomname);
+    refreshRoomlist();
     handleClose();
   };
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title className={styles["title"]}>เพิ่มบ้านหลังใหม่</Modal.Title>
+        <Modal.Title className={styles["title"]}>เพิ่มห้องใหม่</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className={styles["input-section"]}>
-          <p className={styles["input-title"]}>ชื่อบ้าน</p>
+          <p className={styles["input-title"]}>ชื่อห้อง</p>
           <input
             type="text"
-            value={typingHomename}
-            onChange={(e) => setTypingHomename(e.target.value)}
+            value={typingRoomname}
+            onChange={(e) => setTypingRoomname(e.target.value)}
             className={styles["input-box"]}
           />
-          <p>{typingHomename}</p>
+          <p>{typingRoomname}</p>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -79,4 +75,4 @@ const NewHomeModal: React.FC<NewHomeModalProps> = ({
   );
 };
 
-export default NewHomeModal;
+export default NewRoomModal;

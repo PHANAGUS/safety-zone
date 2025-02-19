@@ -9,6 +9,13 @@ import { delete_room } from "@/app/api/manage_room";
 
 import styles from "./RoomCard.module.css";
 
+import ConfirmDeleteRoomModal from "./Modal_ConfirmDeleteRoom";
+import EditRoomModal from "./Modal_EditRoom";
+
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { BiEdit } from "react-icons/bi";
+import { MdNavigateNext } from "react-icons/md";
+
 const main_url = process.env.NEXT_PUBLIC_URL;
 
 interface rooms {
@@ -34,30 +41,24 @@ const RoomCard: React.FC<RoomCardProps> = ({
     setUsername,
     userID,
     setUserID,
-    // homeName,
-    // setHomeName,
-    // homeID,
-    // setHomeID,
-    // roomName,
-    // setRoomName,
-    // roomID,
-    // setRoomID,
     home,
     setHome,
     room,
     setRoom,
   } = useGlobalState();
 
-  const [fetchComplete, setFetchComplete] = useState<boolean>(true);
+  const [showConfirmDeleteRoomModal, setShowConfirmDeleteRoomModal] =
+    useState<boolean>(false);
+  const [showEditRoomModal, setShowEditRoomModal] = useState<boolean>(false);
 
-  const [pm25, setPm25] = useState();
-  const [co2, setCo2] = useState();
+  // const [fetchComplete, setFetchComplete] = useState<boolean>(true);
+
+  // const [pm25, setPm25] = useState();
+  // const [co2, setCo2] = useState();
 
   const [clicked, setClicked] = useState<boolean>(false);
 
   const go_to_dashboard = () => {
-    // setRoomID(room_id);
-    // setRoomName(room_name);
     setRoom(this_card_room);
     setClicked(true);
     // ฟังก์ชันนี้แค่ set เฉยๆ จะไปจั๊มป์หน้าใน useEffect
@@ -72,67 +73,45 @@ const RoomCard: React.FC<RoomCardProps> = ({
     }
   }, [room, clicked]);
 
-  const delete_this_room = async () => {
-    await delete_room(main_url, this_card_room.room_id);
-    refreshRoomlist();
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const new_data = await getLatestRecord(main_url, this_card_room.room_id);
-
-      if (new_data != null) {
-        setFetchComplete(true);
-
-        setPm25(new_data.pm25);
-        setCo2(new_data.co2);
-      } else {
-        setFetchComplete(false);
-      }
-    };
-
-    fetchData(); // Call the async function once
-
-    // No cleanup needed as this runs only once
-  }, []);
-
   return (
     <div className={styles["room-card"]}>
-      <div className={styles["square"]}></div>
-      <div className={styles["text-container"]}>
-        <div className={styles["room-detail-container"]}>
-          <p className={styles["roomname"]}>{this_card_room.room_name}</p>
-          <p className={styles["roomid"]}>(ID: {this_card_room.room_id})</p>
-        </div>
-        <div className={styles["hr"]} />
-        <div className={styles["variable-container"]}>
-          <div className={styles["each-variable-container"]}>
-            <div className={styles["variable-and-unit-container"]}>
-              <p className={styles["variable-name"]}>PM2.5</p>
-              <p className={styles["unit"]}>(µg/m³)</p>
-            </div>
-            <p className={styles["value"]}>{pm25}</p>
-            {/* <p className={styles["value"]}>55</p> */}
-          </div>
-          <div className={styles["each-variable-container"]}>
-            <div className={styles["variable-and-unit-container"]}>
-              <p className={styles["variable-name"]}>CO2</p>
-              <p className={styles["unit"]}>(ppm)</p>
-            </div>
-            <p className={styles["value"]}>{co2}</p>
-            {/* <p className={styles["value"]}>400</p> */}
-          </div>
-        </div>
-        <div className={styles["delete-button"]} onClick={delete_this_room}>
-          ลบห้อง
+      <div className={styles["picture-part"]}>
+        <div className={styles["room-pic"]}></div>
+      </div>
+      <div className={styles["info-part"]}>
+        <p className={styles["room-name"]}>{this_card_room.room_name}</p>
+        <p className={styles["info-text"]}>ID: {this_card_room.room_id}</p>
+      </div>
+      <div className={styles["button-part"]}>
+        <div
+          className={styles["delete-button"]}
+          onClick={() => setShowConfirmDeleteRoomModal(true)}
+        >
+          <RiDeleteBin5Fill className={styles["bin-icon"]} />
         </div>
         <div
-          className={styles["go-dashboard-button"]}
-          onClick={go_to_dashboard}
+          className={styles["edit-button"]}
+          onClick={() => setShowEditRoomModal(true)}
         >
-          ไปยัง Dashboard
+          <BiEdit className={styles["edit-icon"]} />
+        </div>
+        <div className={styles["go-button"]} onClick={go_to_dashboard}>
+          <p className={styles["go-button-text"]}>ไปยัง Dashboard</p>
+          <MdNavigateNext className={styles["next-icon"]} />
         </div>
       </div>
+      <ConfirmDeleteRoomModal
+        show={showConfirmDeleteRoomModal}
+        handleClose={() => setShowConfirmDeleteRoomModal(false)}
+        this_card_room={this_card_room}
+        refreshRoomlist={refreshRoomlist}
+      />
+      <EditRoomModal
+        show={showEditRoomModal}
+        handleClose={() => setShowEditRoomModal(false)}
+        this_card_room={this_card_room}
+        refreshRoomlist={refreshRoomlist}
+      />
     </div>
   );
 };

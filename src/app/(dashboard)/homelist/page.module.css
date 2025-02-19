@@ -72,73 +72,6 @@
   }
 }
 
-/* .page-grid {
-  height: calc(100dvh - 50px);
-  max-height: calc(100dvh - 50px);
-  width: 100dvw;
-  max-width: 100dvw;
-  background-color: #71b78e;
-
-  display: grid;
-  grid-template-areas:
-    "greeting-part"
-    "content-part";
-  grid-template-rows: calc(15dvh + 12dvw) 1fr;
-  row-gap: 0;
-
-  scroll-snap-points-y: repeat(3rem);
-  scroll-snap-type: y proximity;
-  overflow-y: scroll;
-}
-.greeting-part {
-  grid-area: greeting-part;
-
-  width: max(75vw, calc(60vw + 8em));
-  margin-left: auto;
-  margin-right: auto;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: 700;
-  font-size: clamp(1.5em, calc(2vw + 0.5em), 2.8em);
-  color: white;
-
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-.content-part {
-  grid-area: content-part;
-
-  width: max(75vw, calc(60vw + 8em));
-  margin-left: auto;
-  margin-right: auto;
-  height: 2000px;
-
-  padding-top: calc(1vw);
-  padding-left: calc(5vw);
-  padding-right: calc(5vw);
-
-  background-color: rgba(255, 255, 255, 100);
-  border-radius: 30px;
-
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-@media (max-width: 1000px) {
-  .greeting-part {
-    width: 100dvw;
-  }
-  .content-part {
-    width: 100dvw;
-    padding-left: 2em;
-    padding-right: 2em;
-  }
-} */
-
 .topic {
   padding-top: calc(1vw + 1em);
   padding-bottom: 1em;
@@ -199,15 +132,21 @@
   padding-right: 1em;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   /* grid-template-rows: repeat(3, minmax(100px, auto)); */
   column-gap: 20px;
   row-gap: 1em;
 
-  max-height: clamp(calc(330px + 2em), calc(24vw + 2em + 30px), 450px);
-  overflow-y: auto;
-  scroll-snap-type: mandatory;
+  /* max-height: clamp(calc(330px + 2em), calc(24vw + 2em + 30px), 450px); */
+  /* max-height: calc(
+    100dvh - calc(15dvh + 12dvw) - calc(1vw + 1em) -
+      clamp(1.25em, calc(1vw + 0.3em), 1.56em) - 1em
+  ); */
+  max-height: calc(100dvh - 15dvh - 5dvw);
+  overflow-y: scroll;
+  /* scroll-snap-type: mandatory;
   scroll-snap-points-y: repeat(3rem);
   scroll-snap-type: y mandatory;
-  scroll-padding: 15px;
+  scroll-padding: 15px; */
 }

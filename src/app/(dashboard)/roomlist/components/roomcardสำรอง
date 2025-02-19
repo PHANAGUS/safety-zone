@@ -1,0 +1,53 @@
+useEffect(() => {
+  const fetchData = async () => {
+    const new_data = await getLatestRecord(main_url, this_card_room.room_id);
+
+    if (new_data != null) {
+      setFetchComplete(true);
+
+      setPm25(new_data.pm25);
+      setCo2(new_data.co2);
+    } else {
+      setFetchComplete(false);
+    }
+  };
+
+  fetchData(); // Call the async function once
+
+  // No cleanup needed as this runs only once
+}, []);
+
+<div className={styles["room-card"]}>
+  <div className={styles["square"]}></div>
+  <div className={styles["text-container"]}>
+    <div className={styles["room-detail-container"]}>
+      <p className={styles["roomname"]}>{this_card_room.room_name}</p>
+      <p className={styles["roomid"]}>(ID: {this_card_room.room_id})</p>
+    </div>
+    <div className={styles["hr"]} />
+    <div className={styles["variable-container"]}>
+      <div className={styles["each-variable-container"]}>
+        <div className={styles["variable-and-unit-container"]}>
+          <p className={styles["variable-name"]}>PM2.5</p>
+          <p className={styles["unit"]}>(µg/m³)</p>
+        </div>
+        <p className={styles["value"]}>{pm25}</p>
+        {/* <p className={styles["value"]}>55</p> */}
+      </div>
+      <div className={styles["each-variable-container"]}>
+        <div className={styles["variable-and-unit-container"]}>
+          <p className={styles["variable-name"]}>CO2</p>
+          <p className={styles["unit"]}>(ppm)</p>
+        </div>
+        <p className={styles["value"]}>{co2}</p>
+        {/* <p className={styles["value"]}>400</p> */}
+      </div>
+    </div>
+    <div className={styles["delete-button"]} onClick={delete_this_room}>
+      ลบห้อง
+    </div>
+    <div className={styles["go-dashboard-button"]} onClick={go_to_dashboard}>
+      ไปยัง Dashboard
+    </div>
+  </div>
+</div>;

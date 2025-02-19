@@ -1,0 +1,53 @@
+.title {
+  font-weight: 600;
+  font-size: clamp(1.25em, calc(1vw + 0.3em), 1.56em);
+  color: #424242;
+}
+
+.input-section {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  font-weight: 300;
+  font-size: 14px;
+  color: #424242;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.input-title {
+  font-weight: 400;
+  font-size: clamp(1em, calc(0.9em + 0.7vw), 1.15em);
+  color: #757575;
+}
+.input-box {
+  width: 100%;
+  height: 2.5em;
+  background-color: white;
+  border: solid #d3d3d3 1px;
+  border-radius: 6px;
+
+  padding-left: 10px;
+
+  font-family: Prompt;
+  font-weight: 400;
+  font-size: clamp(0.7em, calc(1em + 1vw), 0.9em);
+  color: #666666;
+
+  font-weight: 300;
+  font-size: 16px;
+  color: #424242;
+
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  outline: none;
+
+  &:focus {
+    border: solid #a0ada6 1px;
+  }
+}

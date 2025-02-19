@@ -54,6 +54,36 @@ export async function delete_room(delete_room_url, room_id) {
   }
 }
 
+export async function rename_room(rename_room_url, room_id, new_room_name) {
+  if (room_id === "" || new_room_name === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${rename_room_url}/put/rename_room`;
+
+  try {
+    const response = await fetch(full_url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_id: room_id,
+        room_name: new_room_name,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return { message: text };
+  } catch (error) {
+    return { message: String(error) };
+    console.error("Error:", error);
+  }
+}
+
 export async function get_roomlist(get_roomlist_url, homeid) {
   if (homeid === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
   const full_roomlist_url = `${get_roomlist_url}/get/roomList?homeID=${homeid}`;

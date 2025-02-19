@@ -13,7 +13,7 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 // import styles from "../layout.module.css";
 import styles from "./page.module.css";
 import HomeCard from "./components/HomeCard";
-import CreateHomeModal from "./components/CreateHomeModal";
+import CreateHomeModal from "./components/Modal_CreateHome";
 
 import { get_homelist } from "../../api/manage_home.js";
 
@@ -23,11 +23,6 @@ interface response_homelist {
   message: string;
   homes: homes[];
 }
-
-// interface homes {
-//   home_name: string;
-//   home_id: number;
-// }
 
 interface homes {
   home_id: number;
@@ -48,14 +43,6 @@ const Homelist: React.FC = () => {
     setFirstname,
     lastname,
     setLastname,
-    // homeName,
-    // setHomeName,
-    // homeID,
-    // setHomeID,
-    // roomName,
-    // setRoomName,
-    // roomID,
-    // setRoomID,
     home,
     setHome,
     currentPage,
@@ -118,7 +105,11 @@ const Homelist: React.FC = () => {
         </div>
         <div className={styles["homelist-container"]} key={homelistKey}>
           {homelist.map((item, index) => (
-            <HomeCard key={index} this_card_home={item} />
+            <HomeCard
+              key={index}
+              this_card_home={item}
+              refreshHomelist={refreshHomelist}
+            />
           ))}
         </div>
       </div>

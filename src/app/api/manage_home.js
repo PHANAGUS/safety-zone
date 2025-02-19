@@ -23,11 +23,11 @@ export async function create_new_home(
     const text = await response.text();
 
     if (!response.ok) {
-      console.log(text);
+      // console.log(text);
       return { message: text };
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    console.log(text);
+    return { message: text };
   } catch (error) {
     return { message: String(error) };
     console.error("Error:", error);
@@ -53,6 +53,36 @@ export async function delete_home(delete_home_url, home_id) {
     const data = await response.json();
     console.log("Deleted:", data);
   } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+export async function rename_home(rename_home_url, home_id, new_home_name) {
+  if (home_id === "" || new_home_name === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${rename_home_url}/put/rename_home`;
+
+  try {
+    const response = await fetch(full_url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        home_id: home_id,
+        home_name: new_home_name,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return { message: text };
+  } catch (error) {
+    return { message: String(error) };
     console.error("Error:", error);
   }
 }

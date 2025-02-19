@@ -261,7 +261,9 @@
 .display-mode-switch {
   width: 100%;
   padding-top: calc(1vw + 1em);
-  padding-bottom: calc(1vw + 1em);
+  padding-bottom: calc(0.8vw + 1.2em);
+
+  /* border-bottom: 1px solid rgb(0, 0, 0, 0.2); */
 
   display: flex;
   flex-direction: row;
@@ -275,17 +277,46 @@
   font-weight: 600;
   font-size: clamp(1.1em, calc(1vw + 0.3em), 1.3em);
   color: #525252;
+  /* color: rgb(116, 116, 116); */
+
+  position: relative;
 
   user-select: none;
   cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    scale: 1.05;
+  }
+}
+.mode-button-sl::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.25em;
+  width: 100%;
+  height: 0.25em;
+  border-radius: 0.2em;
+  background-image: linear-gradient(
+    to right,
+    rgb(63, 210, 255),
+    rgb(33, 166, 255)
+  );
 }
 .mode-button-nsl {
   font-weight: 600;
   font-size: clamp(1em, calc(1vw + 0.2em), 1.2em);
-  color: #a0a0a0;
+  color: #adadad;
 
   user-select: none;
   cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    scale: 1.05;
+  }
 }
 .back-button {
   height: clamp(30px, calc(1.2em + 1vw), 37px);
@@ -340,11 +371,12 @@
 }
 .plus-button {
   width: 12em;
+  /* width: 98%; */
   padding-top: 0.4em;
   padding-bottom: 0.4em;
   padding-left: 0.8em;
   padding-right: 0.8em;
-  border: 1px solid #66a580;
+  border: 1px solid #adadad;
   border-radius: 1.5em;
   /* background-color: #71b78e; */
   background-color: #ffffff;
@@ -353,7 +385,7 @@
   font-weight: 500;
   font-size: clamp(1em, calc(0.8vw + 0.4em), 1.1em);
   /* color: #ffffff; */
-  color: #66a580;
+  color: #999999;
 
   user-select: none;
   transition: 0.3s;
@@ -361,9 +393,8 @@
   cursor: pointer;
 
   &:hover {
-    scale: 1.1;
-    /* background-color: #66a580; */
-    background-color: #f5f7f5;
+    /* scale: 1.03; */
+    background-color: #f3f3f3;
   }
 }
 
@@ -378,13 +409,13 @@
   display: grid;
   justify-content: center;
   /* grid-template-columns: repeat(auto-fit, minmax(333px, calc(30vw - 0.5em))); */
-  grid-template-columns: repeat(auto-fit, minmax(333px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(333px, 1fr));
   /* grid-template-rows: repeat(3, minmax(100px, auto)); */
   column-gap: 20px;
   row-gap: 1em;
 
   /* max-height: clamp(calc(330px + 2em), calc(24vw + 2em + 30px), 450px); */
-  max-height: 75dvh;
+  max-height: calc(100dvh - 15dvh - 5dvw);
   overflow-y: scroll;
   /* scroll-snap-type: mandatory;
   scroll-snap-points-y: repeat(3rem);

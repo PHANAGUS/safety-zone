@@ -16,9 +16,9 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 import styles from "./page.module.css";
 import RoomCard from "./components/RoomCard";
 import DeviceCard from "./components/DeviceCard";
-import AddHomeMemberModal from "./components/AddHomeMemberModal";
-import ConfirmDeleteHomeModal from "./components/ConfirmDeleteHomeModal";
-import CreateRoomModal from "./components/CreateRoomModal";
+import AddHomeMemberModal from "./components/Modal_AddHomeMember";
+import ConfirmDeleteHomeModal from "./components/Modal_ConfirmDeleteHome";
+import CreateRoomModal from "./components/Modal_CreateRoom";
 
 import { IoHome } from "react-icons/io5";
 import { IoChevronBack } from "react-icons/io5";

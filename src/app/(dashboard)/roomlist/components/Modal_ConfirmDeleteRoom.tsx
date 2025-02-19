@@ -5,21 +5,31 @@ import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
 import { Modal, Button } from "react-bootstrap";
 
-import styles from "./ConfirmDeleteHomeModal.module.css";
+import styles from "./Modal_ConfirmDeleteRoom.module.css";
 
-import { delete_home } from "@/app/api/manage_home";
 import { delete_room } from "@/app/api/manage_room";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
-interface ConfirmDeleteHomeModalProps {
-  show: boolean;
-  handleClose: () => void;
+interface rooms {
+  room_name: string;
+  room_id: number;
 }
 
-const ConfirmDeleteHomeModal: React.FC<ConfirmDeleteHomeModalProps> = ({
+interface ConfirmDeleteRoomModalProps {
+  show: boolean;
+  handleClose: () => void;
+
+  this_card_room: rooms;
+  refreshRoomlist: () => void;
+}
+
+const ConfirmDeleteRoomModal: React.FC<ConfirmDeleteRoomModalProps> = ({
   show,
   handleClose,
+
+  this_card_room,
+  refreshRoomlist,
 }) => {
   const router = useRouter();
   const {
@@ -37,26 +47,28 @@ const ConfirmDeleteHomeModal: React.FC<ConfirmDeleteHomeModalProps> = ({
     setCurrentPage,
   } = useGlobalState();
 
-  const confirm_delete_this_home = async () => {
-    await delete_home(main_url, home.home_id);
+  const confirm_delete_this_room = async () => {
+    await delete_room(main_url, this_card_room.room_id);
     handleClose();
-    router.replace("/homelist");
+    refreshRoomlist();
   };
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title className={styles["title"]}>ยืนยันการลบบ้าน</Modal.Title>
+        <Modal.Title className={styles["title"]}>ยืนยันการลบห้อง</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className={styles["content-section"]}>
           <div className={styles["textline"]}>
             <p className={styles["content-text"]}>คุณยืนยันการลบ</p>
-            <p className={styles["homename-text"]}>{home.home_name}</p>
+            <p className={styles["roomname-text"]}>
+              {this_card_room.room_name}
+            </p>
             <p className={styles["content-text"]}>หรือไม่?</p>
           </div>
           <p className={styles["content-text"]}>
-            หากลบแล้ว ข้อมูลของบ้านหลังนี้และห้องทั้งหมดจะไม่สามารถกู้คืนได้
+            หากลบแล้ว ข้อมูลของห้องนี้จะไม่สามารถกู้คืนได้
             คุณต้องการยืนยันการลบหรือไม่?
           </p>
         </div>
@@ -65,7 +77,7 @@ const ConfirmDeleteHomeModal: React.FC<ConfirmDeleteHomeModalProps> = ({
         <Button variant="secondary" onClick={handleClose}>
           ยกเลิก
         </Button>
-        <Button variant="danger" onClick={confirm_delete_this_home}>
+        <Button variant="danger" onClick={confirm_delete_this_room}>
           ยืนยัน
         </Button>
       </Modal.Footer>
@@ -73,4 +85,4 @@ const ConfirmDeleteHomeModal: React.FC<ConfirmDeleteHomeModalProps> = ({
   );
 };
 
-export default ConfirmDeleteHomeModal;
+export default ConfirmDeleteRoomModal;
