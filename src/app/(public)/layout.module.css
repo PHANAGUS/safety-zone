@@ -1,5 +1,6 @@
 .page-layout {
-  background-image: linear-gradient(45deg, #71b78e, #7dd09f);
+  /* background-image: linear-gradient(45deg, #71b78e, #7dd09f); */
+  background-image: linear-gradient(rgb(75, 190, 224), rgb(95, 170, 231));
   height: 100dvh;
   width: 100dvw;
 

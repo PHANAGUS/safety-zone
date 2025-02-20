@@ -9,28 +9,13 @@ import styles from "./Header.module.css";
 
 const Header: React.FC = ({}) => {
   const router = useRouter();
-  const {
-    loading,
-    setLoading,
-    username,
-    setUsername,
-    userID,
-    setUserID,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
-  } = useGlobalState();
+  const { loading, setLoading, username, setUsername, userID, setUserID } =
+    useGlobalState();
 
   return (
     <div className={styles["header"]}>
-      {/* <p>Comfy Breath Room</p> */}
       <div className={styles["button-container"]}>
-        <button
+        {/* <button
           className={styles["button"]}
           onClick={() => router.replace("/homelist")}
         >
@@ -47,7 +32,7 @@ const Header: React.FC = ({}) => {
           onClick={() => router.replace("/dashboard")}
         >
           Dashboard
-        </button>
+        </button> */}
       </div>
       <button
         className={styles["button"]}

@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
-import "../css/AirQualityCard.css";
+import React, { useState } from "react";
+// import "../css/AirQualityCard.css";
+import styles from "./AirQualityCard.module.css";
 
 interface AirQualityCardProps {
   title: string;
@@ -17,14 +18,17 @@ const AirQualityCard: React.FC<AirQualityCardProps> = ({
   color,
 }) => {
   return (
-    <div className="aqcard">
-      <div className="aqcard-bg" style={{ backgroundColor: color }}></div>
-      <div className="aqcard-detailbox">
-        <div className="aqcard-detailbox-textbox">
-          <p className="aqcard-title">{title}</p>
-          <p className="aqcard-unit">({unit})</p>
+    <div className={styles["aqcard"]}>
+      <div
+        className={styles["aqcard-bg"]}
+        style={{ backgroundColor: color }}
+      ></div>
+      <div className={styles["aqcard-detailbox"]}>
+        <div className={styles["aqcard-detailbox-textbox"]}>
+          <p className={styles["aqcard-title"]}>{title}</p>
+          <p className={styles["aqcard-unit"]}>({unit})</p>
         </div>
-        <p className="aqcard-value">{value}</p>
+        <p className={styles["aqcard-value"]}>{value}</p>
       </div>
     </div>
   );

@@ -45,6 +45,7 @@
   transition: 0.1s;
 
   &:hover {
-    background-color: #5b8f7057;
+    /* background-color: #5b8f7057; */
+    background-color: #5b7a8f57;
   }
 }

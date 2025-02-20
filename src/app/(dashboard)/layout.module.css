@@ -3,8 +3,9 @@
   max-height: 100dvh;
   /* width: 100dvw;
   max-width: 100dvw; */
-  background-color: #a2d1a7;
+  /* background-color: #a2d1a7; */
   /* background-color: #a2d0e2; */
+  background-image: linear-gradient(rgb(75, 190, 224), rgb(95, 170, 231));
   /* background-color: rgb(247, 118, 68); */
   overflow-x: hidden;
   overflow-y: scroll;

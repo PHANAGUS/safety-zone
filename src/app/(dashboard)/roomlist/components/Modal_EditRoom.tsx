@@ -64,7 +64,6 @@ const EditRoomModal: React.FC<EditRoomModalProps> = ({
             onChange={(e) => setTypingRoomname(e.target.value)}
             className={styles["input-box"]}
           />
-          <p>{typingRoomname}</p>
         </div>
       </Modal.Body>
       <Modal.Footer>

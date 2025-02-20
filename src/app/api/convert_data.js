@@ -24,12 +24,13 @@ export function changeTimeFormat(datetime, daysEarlier) {
       : "0" + datetime.getMinutes().toString();
   const hour = datetime.getHours().toString();
 
-  if (daysEarlier <= 3) {
-    return `${hour}:${minute}`;
-  } else {
-    return `${month} ${date} ${year}`;
-    // return `${date} ${month}`;
-  }
+  // if (daysEarlier <= 3) {
+  //   return `${hour}:${minute}`;
+  // } else {
+  //   return `${month} ${date} ${year}`;
+  //   // return `${date} ${month}`;
+  // }
+  return `${month} ${date} ${year} ${hour}:${minute}`;
 }
 
 export function setPm25Color(value) {

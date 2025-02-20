@@ -12,6 +12,7 @@ import EditHomeModal from "./Modal_EditHome";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
+import { PiFlowerTulip } from "react-icons/pi";
 
 interface homes {
   home_id: number;
@@ -64,7 +65,9 @@ const HomeCard: React.FC<HomeCardProps> = ({
   return (
     <div className={styles["home-card"]}>
       <div className={styles["picture-part"]}>
-        <div className={styles["home-pic"]}></div>
+        <div className={styles["home-pic"]}>
+          <PiFlowerTulip className={styles["picture-icon"]} />
+        </div>
       </div>
       <div className={styles["info-part"]}>
         <p className={styles["home-name"]}>{this_card_home.home_name}</p>

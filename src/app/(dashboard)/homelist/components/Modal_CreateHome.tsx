@@ -56,7 +56,6 @@ const NewHomeModal: React.FC<NewHomeModalProps> = ({
             onChange={(e) => setTypingHomename(e.target.value)}
             className={styles["input-box"]}
           />
-          <p>{typingHomename}</p>
         </div>
       </Modal.Body>
       <Modal.Footer>

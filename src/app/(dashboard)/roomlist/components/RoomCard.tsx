@@ -15,6 +15,7 @@ import EditRoomModal from "./Modal_EditRoom";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
+import { FaLeaf } from "react-icons/fa";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -63,7 +64,6 @@ const RoomCard: React.FC<RoomCardProps> = ({
     setClicked(true);
     // ฟังก์ชันนี้แค่ set เฉยๆ จะไปจั๊มป์หน้าใน useEffect
   };
-
   useEffect(() => {
     if (room.room_id === this_card_room.room_id && clicked) {
       // console.log("Updated roomID:", roomID);
@@ -76,7 +76,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
   return (
     <div className={styles["room-card"]}>
       <div className={styles["picture-part"]}>
-        <div className={styles["room-pic"]}></div>
+        <div className={styles["room-pic"]}>
+          <FaLeaf className={styles["picture-icon"]} />
+        </div>
       </div>
       <div className={styles["info-part"]}>
         <p className={styles["room-name"]}>{this_card_room.room_name}</p>

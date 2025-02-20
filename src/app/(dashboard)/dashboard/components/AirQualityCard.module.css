@@ -1,0 +1,73 @@
+.aqcard {
+  width: clamp(240px, calc(240px + 3vw), 300px);
+  height: clamp(180px, calc(180px + 5vw), 250px);
+  border-radius: 25px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  /* display: grid;
+  grid-template-areas:
+    "bg-part"
+    "detail-part"; */
+  /* grid-template-rows: 1fr minmax(100px, 150px); */
+
+  font-family: Prompt;
+  font-size: 16px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
+  user-select: none;
+  transition: 0.3s;
+
+  &:hover {
+    scale: 1.01;
+  }
+}
+
+.aqcard-bg {
+  grid-area: bg-part;
+
+  width: 100%;
+  height: 65%;
+}
+.aqcard-detailbox {
+  grid-area: detail-part;
+  height: auto;
+
+  background-color: white;
+  width: 100%;
+  height: 35%;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 15px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aqcard-detailbox-textbox {
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.aqcard-title {
+  font-weight: 600;
+  font-size: clamp(1em, calc(1em + 1vw), 1.1em);
+  color: #424242;
+}
+.aqcard-value {
+  font-weight: 400;
+  font-size: 1.8em;
+  color: #424242;
+}
+.aqcard-unit {
+  font-weight: 200;
+  font-size: clamp(0.8em, calc(0.8em + 1vw), 0.9em);
+  color: #9f9f9f;
+}

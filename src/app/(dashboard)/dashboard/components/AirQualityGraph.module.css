@@ -1,0 +1,87 @@
+.aqgraph {
+  width: clamp(290px, calc(290px + 4vw), 600px);
+  height: clamp(280px, calc(280px + 5vw), 480px);
+  background-color: #ffffff;
+
+  border-radius: 25px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  user-select: none;
+
+  font-family: Prompt;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
+  transition: 0.3s;
+
+  &:hover {
+  }
+}
+.aqgraph-empty {
+  background-image: url("../../../image/aqchart_empty.png");
+  background-size: contain;
+  width: clamp(290px, calc(290px + 3vw), 600px);
+  height: clamp(280px, calc(280px + 5vw), 320px);
+  padding-top: 35px;
+  background-color: #ffffff;
+
+  border-radius: 25px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+
+  user-select: none;
+
+  font-family: Prompt;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
+  transition: 0.3s;
+
+  &:hover {
+    scale: 1.01;
+  }
+}
+
+.aqgraph-textarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.aqgraph-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #424242;
+}
+.aqgraph-unit {
+  font-weight: 200;
+  font-size: 14px;
+  color: #9f9f9f;
+}
+.aqgraph-chartarea {
+  /* width: 520px;
+      height: 350px; */
+  width: 85%;
+  height: 72%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 300;
+  font-size: 15px;
+  color: #9f9f9f;
+
+  /* background-color: #71b78e; */
+}

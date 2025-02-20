@@ -56,9 +56,9 @@ const AddHomeMemberModal: React.FC<AddHomeMemberModalProps> = ({
             onChange={(e) => setTypingInvitedID(e.target.value)}
             className={styles["input-box"]}
           />
-          <p>
+          {/* <p>
             {typingInvitedID} {typeof typingInvitedID}
-          </p>
+          </p> */}
         </div>
       </Modal.Body>
       <Modal.Footer>

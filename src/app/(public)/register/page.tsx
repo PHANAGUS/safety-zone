@@ -43,14 +43,6 @@ const Register: React.FC = () => {
     setFirstname,
     lastname,
     setLastname,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
     currentPage,
     setCurrentPage,
   } = useGlobalState();
@@ -139,7 +131,9 @@ const Register: React.FC = () => {
 
   return (
     <div className={styles["window"]}>
-      <div className={styles["window-left"]}></div>
+      <div className={styles["window-left"]}>
+        <p className={styles[""]}>Welcome!</p>
+      </div>
       <div className={styles["window-right"]}>
         <div
           className={styles["back-button"]}

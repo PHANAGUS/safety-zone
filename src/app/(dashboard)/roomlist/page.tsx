@@ -19,14 +19,21 @@ import DeviceCard from "./components/DeviceCard";
 import AddHomeMemberModal from "./components/Modal_AddHomeMember";
 import ConfirmDeleteHomeModal from "./components/Modal_ConfirmDeleteHome";
 import CreateRoomModal from "./components/Modal_CreateRoom";
+import CreateDeviceModal from "./components/Modal_CreateDevice";
 
 import { IoHome } from "react-icons/io5";
 import { IoChevronBack } from "react-icons/io5";
 import { TiUserAdd } from "react-icons/ti";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { RiHome6Line } from "react-icons/ri";
+import { TbLayoutGridAdd } from "react-icons/tb";
+import { PiFlowerTulip } from "react-icons/pi";
 
-import { get_roomlist } from "@/app/api/manage_room.js";
-import { get_room_devices } from "@/app/api/get_devicelist.js";
+import { get_roomlist } from "@/app/api/manage_room";
+import {
+  get_room_devices,
+  get_unassigned_devices,
+} from "@/app/api/manage_device";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -45,12 +52,19 @@ interface response_devicelist {
   data: devices[];
 }
 
+interface response_unassigned_devicelist {
+  message: string;
+  devices: devices[];
+}
+
 interface devices {
   deviceID: number;
   deviceName: string;
   deviceStatus: string;
   deviceInRoom: number;
   deviceInHomes: number;
+  room_name: string;
+  home_name: string;
 }
 
 const Roomlist: React.FC = () => {
@@ -73,6 +87,9 @@ const Roomlist: React.FC = () => {
   const [roomlist, setRoomlist] = useState<rooms[]>([]);
   const [roomlistKey, setRoomlistKey] = useState<number>(0);
 
+  const [devicelist, setDeviceList] = useState<devices[]>([]);
+  const [devicelistKey, setDevicelistKey] = useState<number>(0);
+
   const [displayMode, setDisplayMode] = useState<boolean>(true);
   const toggleDisplayMode = () => {
     if (displayMode) {
@@ -86,13 +103,17 @@ const Roomlist: React.FC = () => {
     useState<boolean>(false);
   const [showConfirmDeleteHomeModal, setShowConfirmDeleteHomeModal] =
     useState<boolean>(false);
+
   const [showCreateRoomModal, setShowCreateRoomModal] =
     useState<boolean>(false);
-
-  const [devicelist, setDeviceList] = useState<devices[]>([]);
+  const [showCreateDeviceModal, setShowCreateDeviceModal] =
+    useState<boolean>(false);
 
   const refreshRoomlist = () => {
     setRoomlistKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
+  const refreshDevicelist = () => {
+    setDevicelistKey((prevKey) => (prevKey === 0 ? 1 : 0));
   };
 
   useEffect(() => {
@@ -105,10 +126,7 @@ const Roomlist: React.FC = () => {
           main_url,
           home.home_id
         );
-        // console.log(response);
-        // console.log(homeID);
         setRoomlist(response.rooms);
-        // console.log(roomlist);
 
         let this_home_devices: devices[] = [];
 
@@ -120,19 +138,27 @@ const Roomlist: React.FC = () => {
           const this_room_devices: devices[] = devices_response.data;
           // console.log(this_room_devices);
           this_room_devices.forEach((x) => {
-            // console.log(x);
             this_home_devices.push(x);
           });
         }
-        // this_home_devices.forEach((x) => {
-        //   console.log(x);
-        // });
+
+        const unassigned_devices_response: response_unassigned_devicelist =
+          await get_unassigned_devices(main_url, userID);
+
+        if (
+          unassigned_devices_response.message !==
+          "No unassigned devices found for this user."
+        ) {
+          const user_unassigned_devices: devices[] =
+            unassigned_devices_response.devices;
+          this_home_devices.push(...user_unassigned_devices);
+        }
 
         setDeviceList(this_home_devices);
       };
       fetchData();
     }
-  }, [username, userID, loading, roomlistKey]);
+  }, [username, userID, loading, roomlistKey, devicelistKey]);
 
   useEffect(() => {
     setDeviceList([]);
@@ -174,7 +200,9 @@ const Roomlist: React.FC = () => {
           </div>
         </div>
         <div className={styles["picture-part"]}>
-          <div className={styles["home-pic"]}></div>
+          <div className={styles["home-pic"]}>
+            <PiFlowerTulip className={styles["picture-icon"]} />
+          </div>
         </div>
 
         <AddHomeMemberModal
@@ -212,17 +240,24 @@ const Roomlist: React.FC = () => {
 
         {displayMode ? (
           <div
-            className={styles["plus-button"]}
+            className={styles["create-room-button"]}
             onClick={() => setShowCreateRoomModal(true)}
           >
-            + เพิ่มห้อง
+            <RiHome6Line />
+            <p className={styles[""]}>เพิ่มห้อง</p>
           </div>
         ) : (
-          <div className={styles["plus-button"]}>+ เพิ่มอุปกรณ์</div>
+          <div
+            className={styles["create-room-button"]}
+            onClick={() => setShowCreateDeviceModal(true)}
+          >
+            <TbLayoutGridAdd />
+            <p className={styles[""]}>เพิ่มอุปกรณ์</p>
+          </div>
         )}
 
         {displayMode ? (
-          <div className={styles["roomlist-container"]}>
+          <div className={styles["roomlist-container"]} key={roomlistKey}>
             {roomlist.map((item, index) => (
               <RoomCard
                 key={index}
@@ -232,14 +267,13 @@ const Roomlist: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className={styles["roomlist-container"]}>
+          <div className={styles["roomlist-container"]} key={devicelistKey}>
             {devicelist.map((item, index) => (
               <DeviceCard
                 key={index}
-                deviceID={item["deviceID"]}
-                deviceName={item["deviceName"]}
-                deviceStatus={item["deviceStatus"]}
-                deviceInRoom={item["deviceInHomes"]}
+                this_card_device={item}
+                roomlist={roomlist}
+                refreshDevicelist={refreshDevicelist}
               />
             ))}
           </div>
@@ -249,6 +283,12 @@ const Roomlist: React.FC = () => {
           show={showCreateRoomModal}
           handleClose={() => setShowCreateRoomModal(false)}
           refreshRoomlist={refreshRoomlist}
+        />
+        <CreateDeviceModal
+          show={showCreateDeviceModal}
+          handleClose={() => setShowCreateDeviceModal(false)}
+          refreshDevicelist={refreshDevicelist}
+          roomlist={roomlist}
         />
       </div>
     </div>

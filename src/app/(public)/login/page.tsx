@@ -35,14 +35,6 @@ const Login: React.FC = () => {
     setFirstname,
     lastname,
     setLastname,
-    homeName,
-    setHomeName,
-    homeID,
-    setHomeID,
-    roomName,
-    setRoomName,
-    roomID,
-    setRoomID,
     currentPage,
     setCurrentPage,
   } = useGlobalState();
@@ -85,7 +77,9 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles["window"]}>
-      <div className={styles["window-left"]}></div>
+      <div className={styles["window-left"]}>
+        <p className={styles[""]}>Welcome!</p>
+      </div>
       <div className={styles["window-right"]}>
         <div className={styles["login-title"]}>Log in</div>
         <div className={styles["input-grid"]}>
@@ -126,8 +120,8 @@ const Login: React.FC = () => {
         >
           Log in
         </div>
-        <p className={styles["goto-register-text"]}>john_doe</p>
-        <p className={styles["goto-register-text"]}>securepassword123</p>
+        {/* <p className={styles["goto-register-text"]}>john_doe</p>
+        <p className={styles["goto-register-text"]}>securepassword123</p> */}
         <div className={styles["goto-register-line"]}>
           <p className={styles["goto-register-text"]}>Don't have an account?</p>
           <p
