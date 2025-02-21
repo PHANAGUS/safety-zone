@@ -15,6 +15,7 @@ import styles from "./page.module.css";
 import AirQualityCard from "./components/AirQualityCard";
 import AirQualityGraph from "./components/AirQualityGraph";
 import DeviceCard from "./components/DeviceCard";
+import RoomSettingModal from "./components/Modal_RoomSetting";
 
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { GoHomeFill } from "react-icons/go";
@@ -22,6 +23,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { TbLayoutGridAdd } from "react-icons/tb";
 import { GoGraph } from "react-icons/go";
 import { FaLeaf } from "react-icons/fa";
+import { TbSettings2 } from "react-icons/tb";
 
 import { get_room_devices } from "@/app/api/manage_device";
 import { getDateRangeRecords } from "@/app/api/get_sensor";
@@ -81,6 +83,14 @@ const Dashboard: React.FC = () => {
     }
   };
   const [airQualityView, setAirQualityView] = useState<string>("card");
+  const [isAutoOn, setIsAutoOn] = useState<string>("off");
+  const toggleAuto = () => {
+    if (isAutoOn === "on") {
+      setIsAutoOn("off");
+    } else {
+      setIsAutoOn("on");
+    }
+  };
 
   const [pm25, setPm25] = useState([10]);
   const [co2, setCo2] = useState([400]);
@@ -99,16 +109,23 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const [aqContainerKey, setAqContainerKey] = useState<number>(0);
+  const refreshAqContainer = () => {
+    setAqContainerKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
+
   const [devicelist, setDeviceList] = useState<devices[]>([]);
   const [devicelistKey, setDevicelistKey] = useState<number>(0);
-
-  const [fetchComplete, setFetchComplete] = useState<boolean>(true);
-
-  const [showCreateDeviceModal, setShowCreateDeviceModal] =
-    useState<boolean>(false);
   const refreshDevicelist = () => {
     setDevicelistKey((prevKey) => (prevKey === 0 ? 1 : 0));
   };
+
+  const [fetchComplete, setFetchComplete] = useState<boolean>(true);
+
+  const [showRoomSettingModal, setShowRoomSettingModal] =
+    useState<boolean>(false);
+  const [showCreateDeviceModal, setShowCreateDeviceModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (loading) return;
@@ -171,6 +188,18 @@ const Dashboard: React.FC = () => {
             <p className={styles["room-detail-text"]}>{home.home_name}</p>
           </div>
           <div className={styles["button-container"]}>
+            <div
+              className={styles["room-setting-button"]}
+              onClick={() => {
+                setShowRoomSettingModal(true);
+              }}
+            >
+              <TbSettings2
+                className={styles["room-setting-icon"]}
+                onClick={() => {}}
+              />
+              <p className={styles[""]}>ตั้งค่าระบบ</p>
+            </div>
             {/* <div
               className={styles["delete-room-button"]}
               // onClick={() => setShowConfirmDeleteHomeModal(true)}
@@ -181,9 +210,14 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className={styles["picture-part"]}>
-          <div className={styles["room-pic"]}>
+          <div
+            className={styles["room-pic"]}
+            style={{ filter: isAutoOn === "on" ? "" : "grayscale(100%)" }}
+            onClick={toggleAuto}
+          >
             <FaLeaf className={styles["picture-icon"]} />
           </div>
+          <div className={styles["status-text"]}>Auto: {isAutoOn}</div>
         </div>
       </div>
       <div className={styles["content-part"]}>
@@ -212,39 +246,43 @@ const Dashboard: React.FC = () => {
 
         {displayMode ? (
           <div className={styles["aq-view-bar"]}>
-            <div className={styles["aq-view-selector"]}>
-              <p className={styles[""]}>การแสดงผล:</p>
-              <div
-                className={
-                  airQualityView === "card"
-                    ? styles["card-button-selected"]
-                    : styles["card-button-default"]
-                }
-                onClick={() => {
-                  setAirQualityView("card");
-                }}
-              ></div>
-              <div
-                className={
-                  airQualityView === "graph"
-                    ? styles["graph-button-selected"]
-                    : styles["graph-button-default"]
-                }
-                onClick={() => {
-                  setAirQualityView("graph");
-                }}
-              ></div>
+            <div className={styles["aq-view-bar-left"]}>
+              <div className={styles["aq-view-selector"]}>
+                <p className={styles[""]}>การแสดงผล:</p>
+                <div
+                  className={
+                    airQualityView === "card"
+                      ? styles["card-button-selected"]
+                      : styles["card-button-default"]
+                  }
+                  onClick={() => {
+                    setAirQualityView("card");
+                  }}
+                ></div>
+                <div
+                  className={
+                    airQualityView === "graph"
+                      ? styles["graph-button-selected"]
+                      : styles["graph-button-default"]
+                  }
+                  onClick={() => {
+                    setAirQualityView("graph");
+                  }}
+                ></div>
+              </div>
             </div>
-            <div className={styles["set-duration-line"]}>
-              <p className={styles[""]}>ย้อนหลัง:</p>
-              <input
-                type="number"
-                value={daysEarlier}
-                onChange={handleChangeDaysEarlier}
-                min={0}
-                max={30}
-                className={styles["duration-input-box"]}
-              />
+            <div className={styles["aq-view-bar-right"]}>
+              <div className={styles["set-duration-line"]}>
+                <p className={styles[""]}>ย้อนหลัง:</p>
+                <input
+                  type="number"
+                  value={daysEarlier}
+                  onChange={handleChangeDaysEarlier}
+                  min={0}
+                  max={30}
+                  className={styles["duration-input-box"]}
+                />
+              </div>
             </div>
           </div>
         ) : (
@@ -260,7 +298,7 @@ const Dashboard: React.FC = () => {
 
         {displayMode ? (
           airQualityView === "card" ? (
-            <div className={styles["aqcard-container"]}>
+            <div className={styles["aqcard-container"]} key={aqContainerKey}>
               <AirQualityCard
                 title="PM2.5"
                 value={pm25[lastIndex]}
@@ -293,7 +331,7 @@ const Dashboard: React.FC = () => {
               />
             </div>
           ) : (
-            <div className={styles["aqcard-container"]}>
+            <div className={styles["aqcard-container"]} key={aqContainerKey}>
               <AirQualityGraph
                 title={"PM2.5"}
                 unit={"µg/m³"}
@@ -348,6 +386,11 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+      <RoomSettingModal
+        show={showRoomSettingModal}
+        handleClose={() => setShowRoomSettingModal(false)}
+        refreshAqContainer={refreshAqContainer}
+      />
     </div>
   );
 };
