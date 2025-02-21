@@ -81,12 +81,15 @@ const Register: React.FC = () => {
     }
   }, [typingPassword, typingConfirmPassword]);
 
-  const login = async () => {
+  const login = async (
+    registed_username: string,
+    registed_password: string
+  ) => {
     // console.log(login_url);
     const response: LoginResponse = await fetchLoginData(
       main_url,
-      typingUsername,
-      typingPassword
+      registed_username,
+      registed_password
     );
     if (response.message === "Login successful") {
       setLoginMessage(response.message);
@@ -113,17 +116,18 @@ const Register: React.FC = () => {
       if (response.message === "Data inserted successfully") {
         setRegisterMessage(response.message);
         setIsFinishRegister(true);
+        login(typingUsername, typingPassword);
       } else {
         setRegisterMessage(response.message);
       }
     }
   };
 
-  useEffect(() => {
-    if (isFinishRegister) {
-      login();
-    }
-  }, [isFinishRegister]);
+  // useEffect(() => {
+  //   if (isFinishRegister) {
+  //     login();
+  //   }
+  // }, [isFinishRegister]);
 
   useEffect(() => {
     setCurrentPage("login");

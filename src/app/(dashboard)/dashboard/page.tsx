@@ -25,6 +25,7 @@ import { GoGraph } from "react-icons/go";
 import { FaLeaf } from "react-icons/fa";
 import { TbSettings2 } from "react-icons/tb";
 
+import { update_room_setting } from "@/app/api/manage_room";
 import { get_room_devices } from "@/app/api/manage_device";
 import { getDateRangeRecords } from "@/app/api/get_sensor";
 import {

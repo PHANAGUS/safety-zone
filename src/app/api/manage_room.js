@@ -97,3 +97,49 @@ export async function get_roomlist(get_roomlist_url, homeid) {
     });
   return response;
 }
+
+export async function update_room_setting(
+  update_room_setting_url,
+  room_id,
+  update_by,
+  diffPressure_threshold,
+  temperature_threshold,
+  humidity_threshold,
+  pm25_threshold,
+  co2_threshold,
+  auto_control_enabled
+) {
+  if (room_id === "" || update_by === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${update_room_setting_url}/put/update_room_setting`;
+
+  try {
+    const response = await fetch(full_url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_id: room_id,
+        update_by: update_by,
+        diffPressure_threshold: diffPressure_threshold,
+        temperature_threshold: temperature_threshold,
+        humidity_threshold: humidity_threshold,
+        pm25_threshold: pm25_threshold,
+        co2_threshold: co2_threshold,
+        auto_control_enabled: auto_control_enabled,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return { message: text };
+  } catch (error) {
+    return { message: String(error) };
+    console.error("Error:", error);
+  }
+}
