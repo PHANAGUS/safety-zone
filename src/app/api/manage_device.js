@@ -106,6 +106,7 @@ export async function place_unassigned_device(
   device_id,
   room_id
 ) {
+  // console.log(`device_id= ${device_id} , room_id= ${room_id}`);
   if (device_id === "" || room_id === "")
     return { message: "กรุณาลองใหม่อีกครั้ง" };
   const full_url = `${place_unassigned_device_url}/put/update_unassigned_device`;

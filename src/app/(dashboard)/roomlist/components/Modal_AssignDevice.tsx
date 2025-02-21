@@ -7,7 +7,7 @@ import { Modal, Button } from "react-bootstrap";
 
 import styles from "./Modal_AssignDevice.module.css";
 
-import { add_new_device } from "@/app/api/manage_device";
+import { place_unassigned_device } from "@/app/api/manage_device";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -16,12 +16,23 @@ interface rooms {
   room_id: number;
 }
 
+interface devices {
+  deviceID: number;
+  deviceName: string;
+  deviceStatus: string;
+  deviceInRoom: number;
+  deviceInHomes: number;
+  room_name: string;
+  home_name: string;
+}
+
 interface NewDeviceModalProps {
   show: boolean;
   handleClose: () => void;
 
   refreshDevicelist: () => void;
   roomlist: rooms[];
+  this_card_device: devices;
 }
 
 const NewDeviceModal: React.FC<NewDeviceModalProps> = ({
@@ -29,6 +40,7 @@ const NewDeviceModal: React.FC<NewDeviceModalProps> = ({
   handleClose,
   refreshDevicelist,
   roomlist,
+  this_card_device,
 }) => {
   const {
     loading,
@@ -45,24 +57,17 @@ const NewDeviceModal: React.FC<NewDeviceModalProps> = ({
     setCurrentPage,
   } = useGlobalState();
 
-  const [typingDeviceName, setTypingDeviceName] = useState<string>("");
-  const [isThisDeviceSensor, setIsThisDeviceSensor] = useState<number>(0);
   const [selectedRoomID, setSelectedRoomID] = useState<number>(-1);
 
   const confirm_clicked = async () => {
-    if (
-      selectedRoomID === -1 ||
-      typingDeviceName === "" ||
-      isThisDeviceSensor === null
-    ) {
-      console.log("เพิ่มอุปกรณ์ไม่สำเร็จ");
+    if (selectedRoomID === -1) {
+      console.log("จัดการอุปกรณ์ไม่สำเร็จ");
       return;
     }
-    await add_new_device(
+    await place_unassigned_device(
       main_url,
-      selectedRoomID,
-      typingDeviceName,
-      isThisDeviceSensor
+      this_card_device.deviceID,
+      selectedRoomID
     );
     refreshDevicelist();
     handleClose();

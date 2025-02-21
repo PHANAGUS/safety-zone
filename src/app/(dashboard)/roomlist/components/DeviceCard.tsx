@@ -175,6 +175,7 @@ const RoomCard: React.FC<DeviceCardProps> = ({
       <AssignDeviceModal
         show={showAssignDeviceModal}
         handleClose={() => setShowAssignDeviceModal(false)}
+        this_card_device={this_card_device}
         roomlist={roomlist}
         refreshDevicelist={refreshDevicelist}
       />

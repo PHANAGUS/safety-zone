@@ -54,7 +54,7 @@ interface response_devicelist {
 
 interface response_unassigned_devicelist {
   message: string;
-  devices: devices[];
+  devices: unassigned_device[];
 }
 
 interface devices {
@@ -65,6 +65,14 @@ interface devices {
   deviceInHomes: number;
   room_name: string;
   home_name: string;
+}
+
+interface unassigned_device {
+  deviceInHomes: number;
+  deviceInRoom: number;
+  deviceName: string;
+  deviceStatus: string;
+  device_id: number;
 }
 
 const Roomlist: React.FC = () => {
@@ -149,10 +157,25 @@ const Roomlist: React.FC = () => {
           unassigned_devices_response.message !==
           "No unassigned devices found for this user."
         ) {
-          const user_unassigned_devices: devices[] =
+          const user_unassigned_devices: unassigned_device[] =
             unassigned_devices_response.devices;
-          this_home_devices.push(...user_unassigned_devices);
+
+          const to_normal_devices_type: devices[] = [];
+          for (let x of user_unassigned_devices) {
+            to_normal_devices_type.push({
+              deviceID: x.device_id,
+              deviceName: x.deviceName,
+              deviceStatus: x.deviceStatus,
+              deviceInRoom: x.deviceInRoom,
+              deviceInHomes: x.deviceInHomes,
+              room_name: "",
+              home_name: "",
+            });
+          }
+          this_home_devices.push(...to_normal_devices_type);
         }
+
+        // console.log(this_home_devices);
 
         setDeviceList(this_home_devices);
       };

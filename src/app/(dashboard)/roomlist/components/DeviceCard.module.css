@@ -1,6 +1,6 @@
 .device-card {
   width: 100%;
-  min-height: 180px;
+  min-height: 195px;
 
   display: grid;
   grid-template-areas:
