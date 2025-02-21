@@ -16,6 +16,7 @@ import AirQualityCard from "./components/AirQualityCard";
 import AirQualityGraph from "./components/AirQualityGraph";
 import DeviceCard from "./components/DeviceCard";
 import RoomSettingModal from "./components/Modal_RoomSetting";
+import CreateDeviceModal from "./components/Modal_CreateDevice";
 
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { GoHomeFill } from "react-icons/go";
@@ -287,14 +288,14 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         ) : (
-          <></>
-          // <div
-          //   className={styles["create-device-button"]}
-          //   onClick={() => setShowCreateDeviceModal(true)}
-          // >
-          //   <TbLayoutGridAdd />
-          //   <p className={styles[""]}>เพิ่มอุปกรณ์</p>
-          // </div>
+          // <></>
+          <div
+            className={styles["create-device-button"]}
+            onClick={() => setShowCreateDeviceModal(true)}
+          >
+            <TbLayoutGridAdd />
+            <p className={styles[""]}>เพิ่มอุปกรณ์</p>
+          </div>
         )}
 
         {displayMode ? (
@@ -387,6 +388,11 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+      <CreateDeviceModal
+        show={showCreateDeviceModal}
+        handleClose={() => setShowCreateDeviceModal(false)}
+        refreshDevicelist={refreshDevicelist}
+      />
       <RoomSettingModal
         show={showRoomSettingModal}
         handleClose={() => setShowRoomSettingModal(false)}
