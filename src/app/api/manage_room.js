@@ -98,6 +98,56 @@ export async function get_roomlist(get_roomlist_url, homeid) {
   return response;
 }
 
+export async function create_room_setting(
+  create_room_setting_url,
+  room_id,
+  create_by,
+  diffPressure_threshold,
+  temperature_threshold,
+  humidity_threshold,
+  pm25_threshold,
+  co2_threshold
+) {
+  if (room_id === "" || create_by === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${create_room_setting_url}/post/create_room_setting`;
+  // console.log(full_url);
+
+  try {
+    const response = await fetch(full_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_id: room_id,
+        create_by: create_by,
+        diffPressure_threshold: diffPressure_threshold,
+        temperature_threshold: temperature_threshold,
+        humidity_threshold: humidity_threshold,
+        pm25_threshold: pm25_threshold,
+        co2_threshold: co2_threshold,
+        auto_control_enabled: 0,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return { message: text };
+    console.log(text);
+
+    // const data = await response.json();
+    // console.log(data);
+  } catch (error) {
+    return { message: String(error) };
+    console.error("Error:", error);
+  }
+}
+
 export async function update_room_setting(
   update_room_setting_url,
   room_id,
@@ -111,35 +161,77 @@ export async function update_room_setting(
 ) {
   if (room_id === "" || update_by === "")
     return { message: "กรุณาลองใหม่อีกครั้ง" };
-  const full_url = `${update_room_setting_url}/put/update_room_setting`;
+  const full_update_room_setting_url = `${update_room_setting_url}/put/update_room_setting`;
 
+  // เช็คก่อนว่าเคยสร้างรึยัง
   try {
-    const response = await fetch(full_url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        room_id: room_id,
-        update_by: update_by,
-        diffPressure_threshold: diffPressure_threshold,
-        temperature_threshold: temperature_threshold,
-        humidity_threshold: humidity_threshold,
-        pm25_threshold: pm25_threshold,
-        co2_threshold: co2_threshold,
-        auto_control_enabled: auto_control_enabled,
-      }),
-    });
+    const get_response = await get_room_setting(
+      update_room_setting_url,
+      room_id
+    );
 
-    const text = await response.text();
+    if (get_response.message == "No room setting found for this user.") {
+      try {
+        const post_response = await create_room_setting(
+          update_room_setting_url,
+          room_id,
+          update_by,
+          diffPressure_threshold,
+          temperature_threshold,
+          humidity_threshold,
+          pm25_threshold,
+          co2_threshold,
+          auto_control_enabled
+        );
+        return post_response;
+      } catch (error) {
+        return { message: String(error) };
+        console.error("Error:", error);
+      }
+    } else {
+      try {
+        const put_response = await fetch(full_update_room_setting_url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            room_id: room_id,
+            update_by: update_by,
+            diffPressure_threshold: diffPressure_threshold,
+            temperature_threshold: temperature_threshold,
+            humidity_threshold: humidity_threshold,
+            pm25_threshold: pm25_threshold,
+            co2_threshold: co2_threshold,
+            auto_control_enabled: auto_control_enabled,
+          }),
+        });
 
-    if (!response.ok) {
-      return { message: text };
-      throw new Error(`HTTP error! Status: ${response.status}`);
+        const text = await put_response.text();
+
+        if (!put_response.ok) {
+          return { message: text };
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return { message: text };
+      } catch (error) {
+        return { message: String(error) };
+        console.error("Error:", error);
+      }
     }
-    return { message: text };
   } catch (error) {
     return { message: String(error) };
-    console.error("Error:", error);
   }
+}
+
+export async function get_room_setting(get_room_setting_url, roomid) {
+  if (roomid === "") return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${get_room_setting_url}/get/room_setting?room_id=${roomid}`;
+
+  const response = fetch(full_url)
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log("Error fetching data: ", error);
+    });
+  return response;
 }

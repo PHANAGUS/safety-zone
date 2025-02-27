@@ -65,6 +65,7 @@ interface devices {
   deviceInHomes: number;
   room_name: string;
   home_name: string;
+  isSensorDevice: number;
 }
 
 interface unassigned_device {
@@ -170,6 +171,7 @@ const Roomlist: React.FC = () => {
               deviceInHomes: x.deviceInHomes,
               room_name: "",
               home_name: "",
+              isSensorDevice: 0,
             });
           }
           this_home_devices.push(...to_normal_devices_type);

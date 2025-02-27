@@ -10,11 +10,9 @@
   grid-template-areas:
     "homeinfo-part"
     "content-part";
-  /* grid-template-rows: minmax(180px, calc(15dvh + 12dvw)) 1fr; */
   grid-template-rows: minmax(180px, calc(15dvh + 12dvw)) calc(
       100dvh - 60px - 2em
     );
-  /* row-gap: 1.5em; */
 
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -378,11 +376,6 @@
   gap: 1em;
 }
 
-@media (max-width: 1000px) {
-  .back-button2 {
-    left: -1.7em;
-  }
-}
 .create-room-button {
   width: 12em;
   /* width: 98%; */
@@ -421,16 +414,17 @@
   width: 100%;
   margin-top: calc(1vw + 1em);
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 1em;
   padding-right: 1em;
 
+  flex-shrink: 1;
+
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  /* grid-template-rows: repeat(auto-fit, minmax(180px, auto)); */
   column-gap: 20px;
   row-gap: 1em;
 
-  max-height: calc(100dvh - 15dvh - 5dvw);
   overflow-y: scroll;
 }
 @media (max-width: 500px) {

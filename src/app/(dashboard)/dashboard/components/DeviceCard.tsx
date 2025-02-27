@@ -21,6 +21,10 @@ import { TbLayoutGrid } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import { RiShutDownLine } from "react-icons/ri";
 import { RiKeyboardFill } from "react-icons/ri";
+import { BiEditAlt } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
+import { GiElectric } from "react-icons/gi";
+import { MdOutlineDeveloperBoard } from "react-icons/md";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -32,6 +36,7 @@ interface devices {
   deviceInHomes: number;
   room_name: string;
   home_name: string;
+  isSensorDevice: number;
 }
 
 interface DeviceCardProps {
@@ -75,32 +80,73 @@ const DeviceCard: React.FC<DeviceCardProps> = ({
 
   return (
     <div className={styles["device-card"]}>
+      <div className={styles["x-button"]}>
+        <RxCross2 className={styles["x-icon"]} />
+      </div>
       <div className={styles["picture-part"]}>
         <div className={styles["device-pic"]}>
           <RiKeyboardFill className={styles["picture-icon"]} />
         </div>
       </div>
+
       <div className={styles["info-part"]}>
-        <div className={styles["device-name"]}>
-          {this_card_device.deviceName}
+        <div className={styles["device-name-line"]}>
+          <div className={styles["device-name"]}>
+            {this_card_device.deviceName}
+          </div>
+          <div
+            className={styles["rename-button"]}
+            onClick={() => setShowEditDeviceModal(true)}
+          >
+            <BiEditAlt className={styles["rename-icon"]} />
+          </div>
         </div>
         <div className={styles["info-text"]}>
           ID: {this_card_device.deviceID}
         </div>
+        {this_card_device.isSensorDevice === 0 ? (
+          <div
+            className={styles["info-text"]}
+            style={{
+              width: "fit-content",
+              // backgroundColor: "rgb(255, 252, 235)",
+              // color: "rgb(175, 160, 118)",
+              color: "rgb(196, 170, 98)",
+              fontWeight: 400,
+            }}
+          >
+            <GiElectric style={{ color: "rgb(247, 206, 24)" }} />
+            กินไฟประมาณ xxx บาท/วัน
+          </div>
+        ) : (
+          <div
+            className={styles["info-text"]}
+            style={{
+              width: "fit-content",
+              // backgroundColor: "rgb(255, 243, 255)",
+              color: "rgb(201, 123, 197)",
+              fontWeight: 400,
+            }}
+          >
+            <MdOutlineDeveloperBoard style={{ color: "rgb(201, 123, 197)" }} />
+            เซ็นเซอร์
+          </div>
+        )}
       </div>
+
       <div className={styles["button-part"]}>
-        <div
+        {/* <div
           className={styles["delete-button"]}
           onClick={() => setShowConfirmDeleteDeviceModal(true)}
         >
           <RiDeleteBin5Fill className={styles["bin-icon"]} />
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className={styles["edit-button"]}
           onClick={() => setShowEditDeviceModal(true)}
         >
           <BiEdit className={styles["edit-icon"]} />
-        </div>
+        </div> */}
 
         {this_card_device.deviceStatus === "on" ? (
           <div className={styles["off-button"]} onClick={switch_device}>

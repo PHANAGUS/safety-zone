@@ -19,6 +19,10 @@ import { TbLayoutGrid } from "react-icons/tb";
 import { FaLocationDot } from "react-icons/fa6";
 import { RiShutDownLine } from "react-icons/ri";
 import { RiKeyboardFill } from "react-icons/ri";
+import { BiEditAlt } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
+import { GiElectric } from "react-icons/gi";
+import { MdOutlineDeveloperBoard } from "react-icons/md";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -35,6 +39,7 @@ interface devices {
   deviceInHomes: number;
   room_name: string;
   home_name: string;
+  isSensorDevice: number;
 }
 
 interface DeviceCardProps {
@@ -89,28 +94,39 @@ const RoomCard: React.FC<DeviceCardProps> = ({
 
   return (
     <div className={styles["device-card"]}>
+      <div className={styles["x-button"]}>
+        <RxCross2 className={styles["x-icon"]} />
+      </div>
       <div className={styles["picture-part"]}>
         <div className={styles["device-pic"]}>
           <RiKeyboardFill className={styles["picture-icon"]} />
         </div>
       </div>
       <div className={styles["info-part"]}>
-        <div className={styles["each-seperate-info"]}>
-          <div className={styles["device-name"]}>
-            {this_card_device.deviceName}
+        <div className={styles["seperate-info-device-name"]}>
+          <div className={styles["device-name-line"]}>
+            <div className={styles["device-name"]}>
+              {this_card_device.deviceName}
+            </div>
+            <div
+              className={styles["rename-button"]}
+              onClick={() => setShowEditDeviceModal(true)}
+            >
+              <BiEditAlt className={styles["rename-icon"]} />
+            </div>
           </div>
           <div className={styles["info-text"]}>
             ID: {this_card_device.deviceID}
           </div>
         </div>
-        <div className={styles["hr"]}></div>
-        <div className={styles["each-seperate-info"]}>
-          <div className={styles["info-text"]}>
+        {/* <div className={styles["hr"]}></div> */}
+        <div className={styles["seperate-info-device-detail"]}>
+          {/* <div className={styles["info-text"]}>
             <FaLocationDot style={{ color: "rgb(228, 81, 81)" }} />
             {this_card_device.deviceInRoom === null
               ? "ยังไม่ได้กำหนดห้อง"
               : `${this_card_device.room_name} (${this_card_device.deviceInRoom})`}
-          </div>
+          </div> */}
           <div
             className={styles["info-text"]}
             style={{
@@ -129,21 +145,51 @@ const RoomCard: React.FC<DeviceCardProps> = ({
               ? "กำลังทำงานอยู่"
               : "ปิดการใช้งาน"}
           </div>
+          {this_card_device.isSensorDevice === 0 ? (
+            <div
+              className={styles["info-text"]}
+              style={{
+                width: "fit-content",
+                // backgroundColor: "rgb(255, 252, 235)",
+                // color: "rgb(175, 160, 118)",
+                color: "rgb(196, 170, 98)",
+                fontWeight: 400,
+              }}
+            >
+              <GiElectric style={{ color: "rgb(247, 206, 24)" }} />
+              กินไฟประมาณ xxx บาท/วัน
+            </div>
+          ) : (
+            <div
+              className={styles["info-text"]}
+              style={{
+                width: "fit-content",
+                // backgroundColor: "rgb(255, 243, 255)",
+                color: "rgb(201, 123, 197)",
+                fontWeight: 400,
+              }}
+            >
+              <MdOutlineDeveloperBoard
+                style={{ color: "rgb(201, 123, 197)" }}
+              />
+              เซ็นเซอร์
+            </div>
+          )}
         </div>
       </div>
       <div className={styles["button-part"]}>
-        <div
+        {/* <div
           className={styles["delete-button"]}
           onClick={() => setShowConfirmDeleteDeviceModal(true)}
         >
           <RiDeleteBin5Fill className={styles["bin-icon"]} />
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className={styles["edit-button"]}
           onClick={() => setShowEditDeviceModal(true)}
         >
           <BiEdit className={styles["edit-icon"]} />
-        </div>
+        </div> */}
 
         {this_card_device.deviceInRoom === null ? (
           <div
@@ -154,8 +200,17 @@ const RoomCard: React.FC<DeviceCardProps> = ({
             <TbLayoutGrid className={styles["next-icon"]} />
           </div>
         ) : (
+          // <div className={styles["go-button"]} onClick={go_to_dashboard}>
+          //   <p className={styles["go-button-text"]}>ไปยัง Dashboard</p>
+          //   <MdNavigateNext className={styles["next-icon"]} />
+          // </div>
+
           <div className={styles["go-button"]} onClick={go_to_dashboard}>
-            <p className={styles["go-button-text"]}>ไปยัง Dashboard</p>
+            <FaLocationDot style={{ color: "rgb(228, 81, 81)" }} />
+            <p className={styles["go-button-text"]}>
+              ไปยัง {this_card_device.room_name} (
+              {this_card_device.deviceInRoom})
+            </p>
             <MdNavigateNext className={styles["next-icon"]} />
           </div>
         )}

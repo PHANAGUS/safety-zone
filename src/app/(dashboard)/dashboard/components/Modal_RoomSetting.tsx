@@ -8,8 +8,28 @@ import { Modal, Button } from "react-bootstrap";
 import styles from "./Modal_RoomSetting.module.css";
 
 // import { add_new_device } from "@/app/api/manage_device";
+import {
+  create_room_setting,
+  update_room_setting,
+  get_room_setting,
+} from "@/app/api/manage_room";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
+
+interface devices {
+  room_id: number;
+  diffPressure_threshold: number;
+  temperature_threshold: number;
+  humidity_threshold: number;
+  pm25_threshold: number;
+  co2_threshold: number;
+  auto_control_enabled: number;
+}
+
+interface setting_response {
+  message: string;
+  devices: devices[];
+}
 
 interface RoomSettingModalProps {
   show: boolean;
@@ -73,25 +93,58 @@ const RoomSettingModal: React.FC<RoomSettingModalProps> = ({
       setTypingHumid(newValue);
     }
   };
+  const [latestIsAutoControl, setLatestIsAutoControl] = useState<number>(0);
 
   const confirm_clicked = async () => {
-    //   if (
-    //     selectedRoomID === -1 ||
-    //     typingDeviceName === "" ||
-    //     isThisDeviceSensor === null
-    //   ) {
-    //     console.log("เพิ่มอุปกรณ์ไม่สำเร็จ");
-    //     return;
-    //   }
-    //   // await add_new_device(
-    //   //   main_url,
-    //   //   selectedRoomID,
-    //   //   typingDeviceName,
-    //   //   isThisDeviceSensor
-    //   // );
+    await update_room_setting(
+      main_url,
+      room.room_id,
+      userID,
+      typingDiffPres,
+      typingTemp,
+      typingHumid,
+      typingPm25,
+      typingCo2,
+      latestIsAutoControl
+    );
+
     refreshAqContainer();
     handleClose();
   };
+
+  useEffect(() => {
+    const fetch_latest_threshold = async () => {
+      const setting_response: setting_response = await get_room_setting(
+        main_url,
+        room.room_id
+      );
+
+      if (setting_response.message === "Room Setting retrieved successfully.") {
+        const latest_threshold = setting_response.devices[0];
+
+        setTypingPm25(latest_threshold.pm25_threshold);
+        setTypingCo2(latest_threshold.co2_threshold);
+        setTypingDiffPres(latest_threshold.diffPressure_threshold);
+        setTypingTemp(latest_threshold.temperature_threshold);
+        setTypingHumid(latest_threshold.humidity_threshold);
+
+        setLatestIsAutoControl(latest_threshold.auto_control_enabled);
+      } else {
+        await create_room_setting(
+          main_url,
+          room.room_id,
+          userID,
+          typingDiffPres,
+          typingTemp,
+          typingHumid,
+          typingPm25,
+          typingCo2
+        );
+      }
+    };
+
+    fetch_latest_threshold();
+  }, []);
 
   return (
     <Modal show={show} onHide={handleClose} centered>

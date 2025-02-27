@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useGlobalState } from "@/context/GlobalStateContext";
+import { createPortal } from "react-dom";
 
 import styles from "./HomeCard.module.css";
 
@@ -13,6 +14,8 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
 import { PiFlowerTulip } from "react-icons/pi";
+import { BiEditAlt } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
 
 interface homes {
   home_id: number;
@@ -64,28 +67,42 @@ const HomeCard: React.FC<HomeCardProps> = ({
 
   return (
     <div className={styles["home-card"]}>
+      <div
+        className={styles["x-button"]}
+        onClick={() => setShowConfirmDeleteHomeModal(true)}
+      >
+        <RxCross2 className={styles["x-icon"]} />
+      </div>
       <div className={styles["picture-part"]}>
         <div className={styles["home-pic"]}>
           <PiFlowerTulip className={styles["picture-icon"]} />
         </div>
       </div>
       <div className={styles["info-part"]}>
-        <p className={styles["home-name"]}>{this_card_home.home_name}</p>
+        <div className={styles["home-name-line"]}>
+          <p className={styles["home-name"]}>{this_card_home.home_name}</p>
+          <div
+            className={styles["rename-button"]}
+            onClick={() => setShowEditHomeModal(true)}
+          >
+            <BiEditAlt className={styles["rename-icon"]} />
+          </div>
+        </div>
         <p className={styles["info-text"]}>ID: {this_card_home.home_id}</p>
       </div>
       <div className={styles["button-part"]}>
-        <div
+        {/* <div
           className={styles["delete-button"]}
           onClick={() => setShowConfirmDeleteHomeModal(true)}
         >
           <RiDeleteBin5Fill className={styles["bin-icon"]} />
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className={styles["edit-button"]}
           onClick={() => setShowEditHomeModal(true)}
         >
           <BiEdit className={styles["edit-icon"]} />
-        </div>
+        </div> */}
         <div className={styles["go-button"]} onClick={go_to_roomlist}>
           <p className={styles["go-button-text"]}>ดูบ้าน</p>
           <MdNavigateNext className={styles["next-icon"]} />

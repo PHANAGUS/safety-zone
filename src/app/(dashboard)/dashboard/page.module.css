@@ -509,8 +509,11 @@
   width: 100%;
   margin-top: calc(1vw + 1em);
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 1em;
   padding-right: 1em;
+
+  flex-shrink: 1;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -518,7 +521,6 @@
   column-gap: 20px;
   row-gap: 1em;
 
-  max-height: calc(100dvh - 15dvh - 5dvw);
   overflow-y: scroll;
 }
 @media (max-width: 500px) {

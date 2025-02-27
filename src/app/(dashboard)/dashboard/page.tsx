@@ -26,7 +26,11 @@ import { GoGraph } from "react-icons/go";
 import { FaLeaf } from "react-icons/fa";
 import { TbSettings2 } from "react-icons/tb";
 
-import { update_room_setting } from "@/app/api/manage_room";
+import {
+  create_room_setting,
+  update_room_setting,
+  get_room_setting,
+} from "@/app/api/manage_room";
 import { get_room_devices } from "@/app/api/manage_device";
 import { getDateRangeRecords } from "@/app/api/get_sensor";
 import {
@@ -52,6 +56,22 @@ interface devices {
   deviceInHomes: number;
   room_name: string;
   home_name: string;
+  isSensorDevice: number;
+}
+
+interface settings {
+  room_id: number;
+  diffPressure_threshold: number;
+  temperature_threshold: number;
+  humidity_threshold: number;
+  pm25_threshold: number;
+  co2_threshold: number;
+  auto_control_enabled: number;
+}
+
+interface setting_response {
+  message: string;
+  devices: settings[];
 }
 
 interface response_devicelist {
@@ -76,6 +96,75 @@ const Dashboard: React.FC = () => {
     setCurrentPage,
   } = useGlobalState();
 
+  const [latestPm25Threshold, setLatestPm25Threshold] = useState<number>(10);
+  const [latestCo2Threshold, setLatestCo2Threshold] = useState<number>(400);
+  const [latestDiffPresThreshold, setLatestDiffPresThreshold] =
+    useState<number>(5);
+  const [latestTempThreshold, setLatestTempThreshold] = useState<number>(25);
+  const [latestHumidThreshold, setLatestHumidThreshold] = useState<number>(60);
+
+  const [isAutoOn, setIsAutoOn] = useState<number>(0);
+  const [latestIsAutoControl, setLatestIsAutoControl] = useState<number>(0);
+  const toggleAuto = () => {
+    if (isAutoOn === 1) {
+      setIsAutoOn(0);
+      switchAutoControl(0);
+    } else {
+      setIsAutoOn(1);
+      switchAutoControl(1);
+    }
+  };
+
+  const switchAutoControl = async (x: number) => {
+    await update_room_setting(
+      main_url,
+      room.room_id,
+      userID,
+      latestDiffPresThreshold,
+      latestTempThreshold,
+      latestHumidThreshold,
+      latestPm25Threshold,
+      latestCo2Threshold,
+      x
+    );
+  };
+
+  useEffect(() => {
+    const fetch_latest_setting = async () => {
+      const setting_response: setting_response = await get_room_setting(
+        main_url,
+        room.room_id
+      );
+
+      if (setting_response.message === "Room Setting retrieved successfully.") {
+        const latest_threshold = setting_response.devices[0];
+
+        setLatestPm25Threshold(latest_threshold.pm25_threshold);
+        setLatestCo2Threshold(latest_threshold.co2_threshold);
+        setLatestDiffPresThreshold(latest_threshold.diffPressure_threshold);
+        setLatestTempThreshold(latest_threshold.temperature_threshold);
+        setLatestHumidThreshold(latest_threshold.humidity_threshold);
+
+        // setLatestIsAutoControl(latest_threshold.auto_control_enabled);
+        setIsAutoOn(latest_threshold.auto_control_enabled);
+      } else {
+        await create_room_setting(
+          main_url,
+          room.room_id,
+          userID,
+          latestDiffPresThreshold,
+          latestTempThreshold,
+          latestHumidThreshold,
+          latestPm25Threshold,
+          latestCo2Threshold
+        );
+        setIsAutoOn(0);
+      }
+    };
+
+    fetch_latest_setting();
+  }, []);
+
   const [displayMode, setDisplayMode] = useState<boolean>(true);
   const toggleDisplayMode = () => {
     if (displayMode) {
@@ -85,14 +174,6 @@ const Dashboard: React.FC = () => {
     }
   };
   const [airQualityView, setAirQualityView] = useState<string>("card");
-  const [isAutoOn, setIsAutoOn] = useState<string>("off");
-  const toggleAuto = () => {
-    if (isAutoOn === "on") {
-      setIsAutoOn("off");
-    } else {
-      setIsAutoOn("on");
-    }
-  };
 
   const [pm25, setPm25] = useState([10]);
   const [co2, setCo2] = useState([400]);
@@ -126,6 +207,11 @@ const Dashboard: React.FC = () => {
 
   const [showRoomSettingModal, setShowRoomSettingModal] =
     useState<boolean>(false);
+  const [roomSettingModalKey, setRoomSettingModalKey] = useState<number>(0);
+  const refreshRoomSettingModal = () => {
+    setRoomSettingModalKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
+
   const [showCreateDeviceModal, setShowCreateDeviceModal] =
     useState<boolean>(false);
 
@@ -193,6 +279,7 @@ const Dashboard: React.FC = () => {
             <div
               className={styles["room-setting-button"]}
               onClick={() => {
+                refreshRoomSettingModal();
                 setShowRoomSettingModal(true);
               }}
             >
@@ -214,12 +301,16 @@ const Dashboard: React.FC = () => {
         <div className={styles["picture-part"]}>
           <div
             className={styles["room-pic"]}
-            style={{ filter: isAutoOn === "on" ? "" : "grayscale(100%)" }}
+            style={{
+              filter: isAutoOn === 1 ? "" : "grayscale(100%)",
+            }}
             onClick={toggleAuto}
           >
             <FaLeaf className={styles["picture-icon"]} />
           </div>
-          <div className={styles["status-text"]}>Auto: {isAutoOn}</div>
+          <div className={styles["status-text"]}>
+            Auto: {isAutoOn === 1 ? "On" : "Off"}
+          </div>
         </div>
       </div>
       <div className={styles["content-part"]}>
@@ -394,9 +485,14 @@ const Dashboard: React.FC = () => {
         refreshDevicelist={refreshDevicelist}
       />
       <RoomSettingModal
+        key={roomSettingModalKey}
         show={showRoomSettingModal}
-        handleClose={() => setShowRoomSettingModal(false)}
+        handleClose={() => {
+          setShowRoomSettingModal(false);
+          refreshRoomSettingModal();
+        }}
         refreshAqContainer={refreshAqContainer}
+        // refreshRoomSettingModal={refreshRoomSettingModal}
       />
     </div>
   );

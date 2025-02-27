@@ -16,6 +16,8 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
 import { FaLeaf } from "react-icons/fa";
+import { BiEditAlt } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -75,28 +77,42 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
   return (
     <div className={styles["room-card"]}>
+      <div
+        className={styles["x-button"]}
+        onClick={() => setShowConfirmDeleteRoomModal(true)}
+      >
+        <RxCross2 className={styles["x-icon"]} />
+      </div>
       <div className={styles["picture-part"]}>
         <div className={styles["room-pic"]}>
           <FaLeaf className={styles["picture-icon"]} />
         </div>
       </div>
       <div className={styles["info-part"]}>
-        <p className={styles["room-name"]}>{this_card_room.room_name}</p>
+        <div className={styles["room-name-line"]}>
+          <p className={styles["room-name"]}>{this_card_room.room_name}</p>
+          <div
+            className={styles["rename-button"]}
+            onClick={() => setShowEditRoomModal(true)}
+          >
+            <BiEditAlt className={styles["rename-icon"]} />
+          </div>
+        </div>
         <p className={styles["info-text"]}>ID: {this_card_room.room_id}</p>
       </div>
       <div className={styles["button-part"]}>
-        <div
+        {/* <div
           className={styles["delete-button"]}
           onClick={() => setShowConfirmDeleteRoomModal(true)}
         >
           <RiDeleteBin5Fill className={styles["bin-icon"]} />
-        </div>
-        <div
+        </div> */}
+        {/* <div
           className={styles["edit-button"]}
           onClick={() => setShowEditRoomModal(true)}
         >
           <BiEdit className={styles["edit-icon"]} />
-        </div>
+        </div> */}
         <div className={styles["go-button"]} onClick={go_to_dashboard}>
           <p className={styles["go-button-text"]}>ไปยัง Dashboard</p>
           <MdNavigateNext className={styles["next-icon"]} />

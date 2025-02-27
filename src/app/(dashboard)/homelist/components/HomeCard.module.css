@@ -21,6 +21,7 @@
 
   user-select: none;
   transition: 0.3s;
+  position: relative;
 
   &:hover {
     /* scale: 1.003; */
@@ -66,11 +67,42 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.home-name-line {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
 .home-name {
   font-weight: 600;
   font-size: clamp(1.2em, calc(1vw + 0.5em), 18px);
   color: #424242;
 }
+.rename-button {
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 20%;
+  /* color: rgb(199, 199, 199); */
+  color: rgb(138, 218, 255);
+
+  position: relative;
+
+  transition: 0.2s;
+
+  &:hover {
+    /* background-color: rgb(240, 240, 240); */
+    background-color: rgb(227, 246, 255);
+  }
+}
+.rename-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+
+  font-size: clamp(1.4em, calc(1vw + 0.4em), 1.5em);
+}
+
 .info-text {
   font-weight: 300;
   font-size: clamp(0.9em, calc(0.9em + 0.2vw), 1.05em);
@@ -81,8 +113,10 @@
   grid-area: button-part;
 
   display: grid;
-  grid-template-areas: "delete-button edit-button go-button";
-  grid-template-columns: 1fr 1fr 2fr;
+  /* grid-template-areas: "delete-button edit-button go-button";
+  grid-template-columns: 1fr 1fr 2fr; */
+  grid-template-areas: "go-button";
+  grid-template-columns: 1fr;
   column-gap: 1px;
 
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -186,4 +220,32 @@
 }
 .next-icon {
   font-size: clamp(1.2em, calc(1vw + 0.4em), 1.5em);
+}
+
+.x-button {
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em;
+
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 35%;
+  color: rgb(214, 214, 214);
+  /* color: rgb(248, 168, 168); */
+
+  transition: 0.2s;
+
+  &:hover {
+    /* background-color: rgb(240, 240, 240); */
+    color: rgb(248, 185, 185);
+    background-color: rgb(255, 246, 246);
+  }
+}
+.x-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+
+  font-size: clamp(1.5em, calc(1vw + 1em), 1.6em);
 }
