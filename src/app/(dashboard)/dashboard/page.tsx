@@ -79,6 +79,33 @@ interface response_devicelist {
   data: devices[];
 }
 
+interface place_records {
+  recorded_at: object;
+  pm25: number;
+  co2: number;
+  pressure: number;
+  temperature: number;
+  humidity: number;
+  device_id: number;
+  isOutside: number;
+}
+
+interface cal_diff_records {
+  recorded_at: object;
+  pm25: number;
+  co2: number;
+  diffPressure: number;
+  temperature: number;
+  humidity: number;
+  device_id: number;
+}
+
+interface response_get_records {
+  outside_records: place_records[];
+  inroom_records: place_records[];
+  diff_records: cal_diff_records[];
+}
+
 const Dashboard: React.FC = () => {
   const router = useRouter();
   const {
@@ -96,6 +123,7 @@ const Dashboard: React.FC = () => {
     setCurrentPage,
   } = useGlobalState();
 
+  // จัดการ Threshold ==============================================================================================================================
   const [latestPm25Threshold, setLatestPm25Threshold] = useState<number>(10);
   const [latestCo2Threshold, setLatestCo2Threshold] = useState<number>(400);
   const [latestDiffPresThreshold, setLatestDiffPresThreshold] =
@@ -104,7 +132,6 @@ const Dashboard: React.FC = () => {
   const [latestHumidThreshold, setLatestHumidThreshold] = useState<number>(60);
 
   const [isAutoOn, setIsAutoOn] = useState<number>(0);
-  const [latestIsAutoControl, setLatestIsAutoControl] = useState<number>(0);
   const toggleAuto = () => {
     if (isAutoOn === 1) {
       setIsAutoOn(0);
@@ -136,18 +163,7 @@ const Dashboard: React.FC = () => {
         room.room_id
       );
 
-      if (setting_response.message === "Room Setting retrieved successfully.") {
-        const latest_threshold = setting_response.devices[0];
-
-        setLatestPm25Threshold(latest_threshold.pm25_threshold);
-        setLatestCo2Threshold(latest_threshold.co2_threshold);
-        setLatestDiffPresThreshold(latest_threshold.diffPressure_threshold);
-        setLatestTempThreshold(latest_threshold.temperature_threshold);
-        setLatestHumidThreshold(latest_threshold.humidity_threshold);
-
-        // setLatestIsAutoControl(latest_threshold.auto_control_enabled);
-        setIsAutoOn(latest_threshold.auto_control_enabled);
-      } else {
+      if (setting_response.message !== "Room Setting retrieved successfully.") {
         await create_room_setting(
           main_url,
           room.room_id,
@@ -159,12 +175,24 @@ const Dashboard: React.FC = () => {
           latestCo2Threshold
         );
         setIsAutoOn(0);
+      } else {
+        const latest_threshold = setting_response.devices[0];
+
+        setLatestPm25Threshold(latest_threshold.pm25_threshold);
+        setLatestCo2Threshold(latest_threshold.co2_threshold);
+        setLatestDiffPresThreshold(latest_threshold.diffPressure_threshold);
+        setLatestTempThreshold(latest_threshold.temperature_threshold);
+        setLatestHumidThreshold(latest_threshold.humidity_threshold);
+
+        // setLatestIsAutoControl(latest_threshold.auto_control_enabled);
+        setIsAutoOn(latest_threshold.auto_control_enabled);
       }
     };
 
     fetch_latest_setting();
   }, []);
 
+  // จัดการ Mode การดู ==============================================================================================================================
   const [displayMode, setDisplayMode] = useState<boolean>(true);
   const toggleDisplayMode = () => {
     if (displayMode) {
@@ -175,13 +203,26 @@ const Dashboard: React.FC = () => {
   };
   const [airQualityView, setAirQualityView] = useState<string>("card");
 
-  const [pm25, setPm25] = useState([10]);
-  const [co2, setCo2] = useState([400]);
-  const [pressure, setPressure] = useState([5]);
-  const [temperature, setTemperature] = useState([25]);
-  const [humidity, setHumidity] = useState([60]);
-  const [timestamp, setTimestamp] = useState([]);
-  const [lastIndex, setLastIndex] = useState<number>(0);
+  const [outside_pm25, setOutsidePm25] = useState<number[]>([10]);
+  const [outside_co2, setOutsideCo2] = useState<number[]>([400]);
+  const [outside_pressure, setOutsidePressure] = useState<number[]>([1012]);
+  const [outside_temperature, setOutsideTemperature] = useState<number[]>([25]);
+  const [outside_humidity, setOutsideHumidity] = useState<number[]>([60]);
+  const [outside_timestamp, setOutsideTimestamp] = useState<object[]>([]);
+
+  const [inroom_pm25, setInroomPm25] = useState<number[]>([10]);
+  const [inroom_co2, setInroomCo2] = useState<number[]>([400]);
+  const [inroom_pressure, setInroomPressure] = useState<number[]>([1017]);
+  const [inroom_temperature, setInroomTemperature] = useState<number[]>([25]);
+  const [inroom_humidity, setInroomHumidity] = useState<number[]>([60]);
+  const [inroom_timestamp, setInroomTimestamp] = useState<object[]>([]);
+
+  const [cal_pm25, setCalPm25] = useState<number[]>([10]);
+  const [cal_co2, setCalCo2] = useState<number[]>([400]);
+  const [cal_diffPressure, setCalDiffPressure] = useState<number[]>([5]);
+  const [cal_temperature, setCalTemperature] = useState<number[]>([25]);
+  const [cal_humidity, setCalHumidity] = useState<number[]>([60]);
+  const [cal_timestamp, setCalTimestamp] = useState<object[]>([]);
   // จำนวนวันสำหรับแสดงผลกราฟย้อนหลัง
   const [daysEarlier, setDaysEarlier] = useState<number>(30);
 
@@ -205,23 +246,13 @@ const Dashboard: React.FC = () => {
 
   const [fetchComplete, setFetchComplete] = useState<boolean>(true);
 
-  const [showRoomSettingModal, setShowRoomSettingModal] =
-    useState<boolean>(false);
-  const [roomSettingModalKey, setRoomSettingModalKey] = useState<number>(0);
-  const refreshRoomSettingModal = () => {
-    setRoomSettingModalKey((prevKey) => (prevKey === 0 ? 1 : 0));
-  };
-
-  const [showCreateDeviceModal, setShowCreateDeviceModal] =
-    useState<boolean>(false);
-
   useEffect(() => {
     if (loading) return;
     if (username === "" || userID === 0) {
       router.push("/login");
     } else {
       const fetchData = async () => {
-        const new_dataset = await getDateRangeRecords(
+        const new_dataset: response_get_records = await getDateRangeRecords(
           main_url,
           room.room_id,
           daysEarlier
@@ -231,15 +262,48 @@ const Dashboard: React.FC = () => {
         if (new_dataset != null) {
           setFetchComplete(true);
 
-          setTimestamp(new_dataset.map((x: any) => new Date(x.recorded_at)));
-          setLastIndex(new_dataset.length - 1);
+          setOutsidePm25(new_dataset.outside_records.map((x: any) => x.pm25));
+          setOutsideCo2(new_dataset.outside_records.map((x: any) => x.co2));
+          setOutsidePressure(
+            new_dataset.outside_records.map((x: any) => x.pressure)
+          );
+          setOutsideTemperature(
+            new_dataset.outside_records.map((x: any) => x.temperature)
+          );
+          setOutsideHumidity(
+            new_dataset.outside_records.map((x: any) => x.humidity)
+          );
+          setOutsideTimestamp(
+            new_dataset.outside_records.map((x: any) => x.recorded_at)
+          );
 
-          setPm25(new_dataset.map((x: any) => x.pm25));
-          setCo2(new_dataset.map((x: any) => x.co2));
-          // setPressure(new_dataset.map((x: any) => x.pressure - 1012));
-          setPressure(new_dataset.map((x: any) => x.pressure));
-          setTemperature(new_dataset.map((x: any) => x.temperature));
-          setHumidity(new_dataset.map((x: any) => x.humidity));
+          setInroomPm25(new_dataset.inroom_records.map((x: any) => x.pm25));
+          setInroomCo2(new_dataset.inroom_records.map((x: any) => x.co2));
+          setInroomPressure(
+            new_dataset.inroom_records.map((x: any) => x.pressure)
+          );
+          setInroomTemperature(
+            new_dataset.inroom_records.map((x: any) => x.temperature)
+          );
+          setInroomHumidity(
+            new_dataset.inroom_records.map((x: any) => x.humidity)
+          );
+          setInroomTimestamp(
+            new_dataset.inroom_records.map((x: any) => x.recorded_at)
+          );
+
+          setCalPm25(new_dataset.diff_records.map((x: any) => x.pm25));
+          setCalCo2(new_dataset.diff_records.map((x: any) => x.co2));
+          setCalDiffPressure(
+            new_dataset.diff_records.map((x: any) => x.diffPressure)
+          );
+          setCalTemperature(
+            new_dataset.diff_records.map((x: any) => x.temperature)
+          );
+          setCalHumidity(new_dataset.diff_records.map((x: any) => x.humidity));
+          setCalTimestamp(
+            new_dataset.diff_records.map((x: any) => x.recorded_at)
+          );
         } else {
           setFetchComplete(false);
         }
@@ -255,6 +319,17 @@ const Dashboard: React.FC = () => {
       fetchData();
     }
   }, [username, userID, loading, daysEarlier, devicelistKey]);
+
+  // จัดการ Modal ต่าง ๆ ==============================================================================================================================
+  const [showRoomSettingModal, setShowRoomSettingModal] =
+    useState<boolean>(false);
+  const [roomSettingModalKey, setRoomSettingModalKey] = useState<number>(0);
+  const refreshRoomSettingModal = () => {
+    setRoomSettingModalKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
+
+  const [showCreateDeviceModal, setShowCreateDeviceModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setCurrentPage("login");
@@ -394,76 +469,83 @@ const Dashboard: React.FC = () => {
             <div className={styles["aqcard-container"]} key={aqContainerKey}>
               <AirQualityCard
                 title="PM2.5"
-                value={pm25[lastIndex]}
+                cal_value={cal_pm25[cal_pm25.length - 1]}
+                outside_value={outside_pm25[outside_pm25.length - 1]}
+                inroom_value={inroom_pm25[inroom_pm25.length - 1]}
                 unit="µg/m³"
-                color={setPm25Color(pm25[lastIndex])}
               />
               <AirQualityCard
                 title="CO2"
-                value={co2[lastIndex]}
+                cal_value={cal_co2[cal_co2.length - 1]}
+                outside_value={outside_co2[outside_co2.length - 1]}
+                inroom_value={inroom_co2[inroom_co2.length - 1]}
                 unit="ppm"
-                color={setCo2Color(co2[lastIndex])}
               />
               <AirQualityCard
-                title="ความกดอากาศ"
-                value={pressure[lastIndex]}
+                title="ความต่างความกดอากาศ"
+                cal_value={cal_diffPressure[cal_diffPressure.length - 1]}
+                outside_value={outside_pressure[outside_pressure.length - 1]}
+                inroom_value={inroom_pressure[inroom_pressure.length - 1]}
                 unit="Pascal"
-                color={setPressureColor(pressure[lastIndex])}
               />
               <AirQualityCard
                 title="อุณหภูมิ"
-                value={temperature[lastIndex]}
+                cal_value={cal_temperature[cal_temperature.length - 1]}
+                outside_value={
+                  outside_temperature[outside_temperature.length - 1]
+                }
+                inroom_value={inroom_temperature[inroom_temperature.length - 1]}
                 unit="°C"
-                color={setTemperatureColor(temperature[lastIndex])}
               />
               <AirQualityCard
                 title="ความชื้นสัมพัทธ์"
-                value={humidity[lastIndex]}
+                cal_value={cal_humidity[cal_humidity.length - 1]}
+                outside_value={outside_humidity[outside_humidity.length - 1]}
+                inroom_value={inroom_humidity[inroom_humidity.length - 1]}
                 unit="%"
-                color={setHumidityColor(humidity[lastIndex])}
               />
             </div>
           ) : (
-            <div className={styles["aqcard-container"]} key={aqContainerKey}>
+            <div className={styles["aqchart-container"]} key={aqContainerKey}>
               <AirQualityGraph
                 title={"PM2.5"}
                 unit={"µg/m³"}
-                timestamp={timestamp}
-                value={pm25}
-                color={setPm25Color(pm25[pm25.length - 1])}
-                daysEarlier={daysEarlier}
+                outside_timestamp={outside_timestamp}
+                outside_value={outside_pm25}
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_pm25}
               />
               <AirQualityGraph
                 title={"CO2"}
                 unit={"ppm"}
-                timestamp={timestamp}
-                value={co2}
-                color={setCo2Color(co2[co2.length - 1])}
-                daysEarlier={daysEarlier}
+                outside_timestamp={outside_timestamp}
+                outside_value={outside_co2}
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_co2}
               />
               <AirQualityGraph
                 title={"ความกดอากาศ"}
                 unit={"Pascal"}
-                timestamp={timestamp}
-                value={pressure}
-                color={setPressureColor(pressure[pressure.length - 1])}
-                daysEarlier={daysEarlier}
+                outside_timestamp={outside_timestamp}
+                outside_value={outside_pressure}
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_pressure}
               />
               <AirQualityGraph
                 title={"อุณหภูมิ"}
                 unit={"°C"}
-                timestamp={timestamp}
-                value={temperature}
-                color={setTemperatureColor(temperature[temperature.length - 1])}
-                daysEarlier={daysEarlier}
+                outside_timestamp={outside_timestamp}
+                outside_value={outside_temperature}
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_temperature}
               />
               <AirQualityGraph
                 title={"ความชื้นสัมพัทธ์"}
                 unit={"%"}
-                timestamp={timestamp}
-                value={humidity}
-                color={setHumidityColor(humidity[humidity.length - 1])}
-                daysEarlier={daysEarlier}
+                outside_timestamp={outside_timestamp}
+                outside_value={outside_humidity}
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_humidity}
               />
             </div>
           )
@@ -479,6 +561,7 @@ const Dashboard: React.FC = () => {
           </div>
         )}
       </div>
+
       <CreateDeviceModal
         show={showCreateDeviceModal}
         handleClose={() => setShowCreateDeviceModal(false)}

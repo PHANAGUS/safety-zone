@@ -6,7 +6,27 @@ import styles from "./AirQualityGraph.module.css";
 
 import Chart from "chart.js/auto";
 import { CategoryScale, defaults } from "chart.js";
-Chart.register(CategoryScale);
+import {
+  Chart as ChartJS,
+  TimeScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "chartjs-adapter-date-fns";
+
+ChartJS.register(
+  TimeScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 import { Line } from "react-chartjs-2";
 
 import { changeTimeFormat } from "@/app/api/convert_data";
@@ -18,63 +38,97 @@ interface AirQualityGraphProps {
   title: string;
   unit: string;
 
-  timestamp: object[];
-  value: number[];
-  color: string;
-  daysEarlier: number;
+  outside_timestamp: object[];
+  outside_value: number[];
+
+  inroom_timestamp: object[];
+  inroom_value: number[];
 }
 
 const AirQualityGraph: React.FC<AirQualityGraphProps> = ({
   title,
   unit,
-  timestamp,
-  value,
-  color,
-  daysEarlier,
+  outside_timestamp,
+  outside_value,
+  inroom_timestamp,
+  inroom_value,
 }) => {
-  const [timetick, setTimetick] = useState<string[]>([]);
+  const outside_data = outside_timestamp.map((time, index) => ({
+    x: time,
+    y: outside_value[index],
+  }));
+  const inroom_data = inroom_timestamp.map((time, index) => ({
+    x: time,
+    y: inroom_value[index],
+  }));
 
-  useEffect(() => {
-    const new_timetick = timestamp.map((x) => changeTimeFormat(x, daysEarlier));
-    setTimetick(new_timetick);
-  }, [timestamp]);
   return (
     <div
-      className={value.length > 1 ? styles["aqgraph"] : styles["aqgraph-empty"]}
+      className={
+        inroom_value.length > 1 || outside_value.length > 1
+          ? styles["aqgraph"]
+          : styles["aqgraph-empty"]
+      }
     >
       <div className={styles["aqgraph-textarea"]}>
         <p className={styles["aqgraph-title"]}>{title}</p>
         <p className={styles["aqgraph-unit"]}>{unit}</p>
       </div>
       <div className={styles["aqgraph-chartarea"]}>
-        {value.length > 1 ? (
+        {inroom_value.length > 1 ? (
           <Line
             data={{
-              labels: timetick,
               datasets: [
                 {
-                  label: title,
-                  data: value,
-                  backgroundColor: color,
-                  borderColor: color,
-                  pointRadius: 1, // ขนาดจุด (ค่าเริ่มต้น 3-5)
+                  label: "ในห้อง",
+                  data: inroom_data,
+                  backgroundColor: "rgba(22, 189, 255, 1)",
+                  pointRadius: 0, // ขนาดจุด (ค่าเริ่มต้น 3-5)
                   pointHoverRadius: 5, // ขนาดจุดเมื่อ hover
+                  borderColor: "rgba(22, 189, 255, 0.5)",
+                  borderWidth: 2,
+                },
+                {
+                  label: "นอกห้อง",
+                  data: outside_data,
+                  backgroundColor: "rgb(213, 169, 255)",
+                  pointRadius: 0, // ขนาดจุด (ค่าเริ่มต้น 3-5)
+                  pointHoverRadius: 5, // ขนาดจุดเมื่อ hover
+                  borderColor: "rgba(213, 169, 255, 0.5)",
+                  borderWidth: 2,
                 },
               ],
             }}
             options={{
+              responsive: true,
               elements: { line: { tension: 0.3 } },
               plugins: {
                 legend: {
-                  display: false, // ปิดการแสดง Legend
+                  display: true, // ปิดการแสดง Legend
+                  position: "bottom" as const,
                 },
               },
               scales: {
                 x: {
-                  ticks: {
-                    display: false,
-                    maxTicksLimit: 5, // จำกัดให้แสดงแค่ 10 labels ในแกน X
+                  type: "time", // ใช้แกนเวลา
+                  time: {
+                    unit: "day", // สามารถเปลี่ยนเป็น 'hour' หรือ 'minute' ได้
+                    displayFormats: {
+                      day: "MMM dd", // แสดงวันที่แบบ "Feb 01"
+                      hour: "HH:mm", // แสดงเวลาหากต้องการ
+                    },
                   },
+                  title: {
+                    display: true,
+                    text: "เวลา",
+                  },
+                },
+                y: {
+                  beginAtZero: false,
+                  // title: {
+                  //   display: true,
+                  //   text: title,
+                  // },
                 },
               },
             }}

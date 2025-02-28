@@ -150,7 +150,7 @@ const RoomCard: React.FC<DeviceCardProps> = ({
               className={styles["info-text"]}
               style={{
                 width: "fit-content",
-                // backgroundColor: "rgb(255, 252, 235)",
+                backgroundColor: "rgb(255, 252, 235)",
                 // color: "rgb(175, 160, 118)",
                 color: "rgb(196, 170, 98)",
                 fontWeight: 400,
@@ -164,7 +164,7 @@ const RoomCard: React.FC<DeviceCardProps> = ({
               className={styles["info-text"]}
               style={{
                 width: "fit-content",
-                // backgroundColor: "rgb(255, 243, 255)",
+                backgroundColor: "rgb(255, 243, 255)",
                 color: "rgb(201, 123, 197)",
                 fontWeight: 400,
               }}

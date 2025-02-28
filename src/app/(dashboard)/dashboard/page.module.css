@@ -453,6 +453,35 @@
   padding-right: 1em;
   padding-bottom: 5px;
 
+  position: relative;
+
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-gap: 20px;
+  row-gap: 1em;
+
+  max-height: calc(100dvh - 15dvh - 5dvw);
+  overflow-y: scroll;
+}
+@media (max-width: 500px) {
+  .aqcard-container {
+    padding-left: 0em;
+    padding-right: 0em;
+  }
+}
+
+.aqchart-container {
+  width: 100%;
+  margin-top: calc(1vw + 1em);
+  padding-top: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 5px;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -466,7 +495,7 @@
   overflow-y: scroll;
 }
 @media (max-width: 500px) {
-  .aqcard-container {
+  .aqchart-container {
     padding-left: 0em;
     padding-right: 0em;
   }

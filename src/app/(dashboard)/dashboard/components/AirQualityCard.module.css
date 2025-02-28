@@ -1,73 +1,130 @@
-.aqcard {
-  width: clamp(240px, calc(240px + 3vw), 300px);
-  height: clamp(180px, calc(180px + 5vw), 250px);
-  border-radius: 25px;
-  overflow: hidden;
+.border {
+  width: 100%;
+  min-height: 190px;
+  background-image: var(--border-gradient);
+  border-radius: 21px;
 
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  /* display: grid;
-  grid-template-areas:
-    "bg-part"
-    "detail-part"; */
-  /* grid-template-rows: 1fr minmax(100px, 150px); */
-
-  font-family: Prompt;
-  font-size: 16px;
-  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
-    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
-
-  user-select: none;
   transition: 0.3s;
 
+  /* &:hover {
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+      rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  } */
   &:hover {
-    scale: 1.01;
+    box-shadow: var(--shadow);
   }
 }
 
-.aqcard-bg {
-  grid-area: bg-part;
+.aqcard {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  position: relative;
 
-  width: 100%;
-  height: 65%;
+  display: grid;
+  grid-template-areas:
+    "title-part title-part"
+    "cal-part sub-value-part";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  /* row-gap: 1em; */
+
+  border-radius: 20px;
+  /* border: solid rgba(0, 0, 0, 0.2) 1px; */
+  /* border: 1px solid transparent;
+  border-image: var(--border-gradient);
+  border-image-slice: 1; */
+
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+  /* padding: 1em; */
+
+  font-family: Prompt;
+  font-size: 16px;
+
+  user-select: none;
+  transition: 0.3s;
 }
-.aqcard-detailbox {
-  grid-area: detail-part;
-  height: auto;
 
-  background-color: white;
-  width: 100%;
-  height: 35%;
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 15px;
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.aqcard-detailbox-textbox {
-  height: auto;
+.title-part {
+  grid-area: title-part;
+  height: fit-content;
+  padding: 1em;
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+
+  border-bottom: 1px solid rgba(32, 32, 32, 0.144);
 }
-.aqcard-title {
+.title {
   font-weight: 600;
   font-size: clamp(1em, calc(1em + 1vw), 1.1em);
   color: #424242;
 }
-.aqcard-value {
-  font-weight: 400;
-  font-size: 1.8em;
-  color: #424242;
-}
-.aqcard-unit {
+.unit {
   font-weight: 200;
   font-size: clamp(0.8em, calc(0.8em + 1vw), 0.9em);
   color: #9f9f9f;
+}
+
+.cal-part {
+  grid-area: cal-part;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cal-value {
+  font-weight: 400;
+  font-size: 1.6em;
+  color: #424242;
+
+  z-index: 1;
+}
+.cal-value-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+
+  /* width: 100%;
+  height: 100%; */
+
+  width: 5em;
+  height: 5em;
+  border: 5px double;
+  border-radius: 50%;
+
+  opacity: 30%;
+}
+
+.sub-value-part {
+  grid-area: sub-value-part;
+  padding: 1em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
+}
+.each-sub-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.small-circle {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+}
+.info-text {
+  font-weight: 400;
+  font-size: clamp(0.8em, calc(0.8em + 1vw), 0.9em);
+  color: #6b6767;
 }
