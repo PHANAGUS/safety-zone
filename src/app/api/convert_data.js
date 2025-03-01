@@ -168,7 +168,7 @@ export function setPressureColor(value) {
   } else if (value > 1100) {
     color = "red";
   } else {
-    color = "purple";
+    color = "grey";
   }
   return color;
 }

@@ -66,6 +66,8 @@ interface devices {
   room_name: string;
   home_name: string;
   isSensorDevice: number;
+  isOutside: number;
+  deviceType: string;
 }
 
 interface unassigned_device {
@@ -95,9 +97,15 @@ const Roomlist: React.FC = () => {
 
   const [roomlist, setRoomlist] = useState<rooms[]>([]);
   const [roomlistKey, setRoomlistKey] = useState<number>(0);
+  const refreshRoomlist = () => {
+    setRoomlistKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
 
   const [devicelist, setDeviceList] = useState<devices[]>([]);
   const [devicelistKey, setDevicelistKey] = useState<number>(0);
+  const refreshDevicelist = () => {
+    setDevicelistKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
 
   const [displayMode, setDisplayMode] = useState<boolean>(true);
   const toggleDisplayMode = () => {
@@ -115,15 +123,12 @@ const Roomlist: React.FC = () => {
 
   const [showCreateRoomModal, setShowCreateRoomModal] =
     useState<boolean>(false);
+
   const [showCreateDeviceModal, setShowCreateDeviceModal] =
     useState<boolean>(false);
-
-  const refreshRoomlist = () => {
-    setRoomlistKey((prevKey) => (prevKey === 0 ? 1 : 0));
-  };
-  const refreshDevicelist = () => {
-    setDevicelistKey((prevKey) => (prevKey === 0 ? 1 : 0));
-  };
+  const [createDeviceModalKey, setCreateDeviceModalKey] = useState<number>(
+    Date.now()
+  );
 
   useEffect(() => {
     if (loading) return;
@@ -172,9 +177,22 @@ const Roomlist: React.FC = () => {
               room_name: "",
               home_name: "",
               isSensorDevice: 0,
+              isOutside: 0,
+              deviceType: "",
             });
           }
           this_home_devices.push(...to_normal_devices_type);
+          this_home_devices.sort((a, b) => {
+            const isInRoomA = a.deviceInRoom ?? Infinity;
+            const isInRoomB = b.deviceInRoom ?? Infinity;
+            if (isInRoomA !== isInRoomB) {
+              return isInRoomA - isInRoomB; // ให้ inRoom ที่เป็น null/undefined ไปอยู่ท้ายสุด
+            }
+            if (a.isSensorDevice !== b.isSensorDevice) {
+              return a.isSensorDevice - b.isSensorDevice; // เรียง isSensorDevice จากน้อยไปมาก
+            }
+            return a.deviceType.localeCompare(b.deviceType);
+          });
         }
 
         // console.log(this_home_devices);
@@ -310,8 +328,12 @@ const Roomlist: React.FC = () => {
           refreshRoomlist={refreshRoomlist}
         />
         <CreateDeviceModal
+          key={createDeviceModalKey}
           show={showCreateDeviceModal}
-          handleClose={() => setShowCreateDeviceModal(false)}
+          handleClose={() => {
+            setShowCreateDeviceModal(false);
+            setCreateDeviceModalKey(Date.now());
+          }}
           refreshDevicelist={refreshDevicelist}
           roomlist={roomlist}
         />

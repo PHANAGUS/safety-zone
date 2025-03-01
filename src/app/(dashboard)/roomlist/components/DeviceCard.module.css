@@ -38,15 +38,71 @@
   padding-top: 1em;
   padding-left: 1em;
 }
-.device-pic {
+.device-pic-sensor {
   aspect-ratio: 1 / 1;
   width: 100%;
   border-radius: 1.2em;
   /* background-color: rgb(216, 216, 216); */
   background-image: linear-gradient(
     -45deg,
-    rgb(252, 177, 212),
-    rgb(248, 162, 191)
+    rgb(222, 177, 252),
+    rgb(195, 145, 241)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.device-pic-purifier {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 1.2em;
+  /* background-color: rgb(216, 216, 216); */
+  background-image: linear-gradient(
+    -45deg,
+    rgb(177, 218, 252),
+    rgb(132, 188, 252)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.device-pic-fan {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 1.2em;
+  /* background-color: rgb(216, 216, 216); */
+  background-image: linear-gradient(
+    -45deg,
+    rgb(253, 185, 225),
+    rgb(248, 162, 209)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.device-pic-unknown {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 1.2em;
+  /* background-color: rgb(216, 216, 216); */
+  background-image: linear-gradient(
+    -45deg,
+    rgb(210, 221, 241),
+    rgb(184, 202, 241)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.device-pic-unassigned {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 1.2em;
+  /* background-color: rgb(216, 216, 216); */
+  background-image: linear-gradient(
+    -45deg,
+    rgb(236, 240, 248),
+    rgb(234, 236, 241)
   );
   display: flex;
   justify-content: center;
@@ -78,6 +134,11 @@
   font-weight: 600;
   font-size: clamp(1.2em, calc(1vw + 0.5em), 18px);
   color: #424242;
+
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .rename-button {
   width: 1.8em;

@@ -90,7 +90,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
       </div>
       <div className={styles["info-part"]}>
         <div className={styles["room-name-line"]}>
-          <p className={styles["room-name"]}>{this_card_room.room_name}</p>
+          <div className={styles["room-name"]}>{this_card_room.room_name}</div>
           <div
             className={styles["rename-button"]}
             onClick={() => setShowEditRoomModal(true)}

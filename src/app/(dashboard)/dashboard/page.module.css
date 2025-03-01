@@ -36,7 +36,7 @@
   display: grid;
   /* grid-template-areas: "home-part member-part"; */
   grid-template-areas: "info-part picture-part";
-  grid-template-columns: 1fr clamp(125px, 19vw, 220px);
+  grid-template-columns: 1fr clamp(125px, 12vw, 220px);
   column-gap: 1em;
 
   font-size: 16px;

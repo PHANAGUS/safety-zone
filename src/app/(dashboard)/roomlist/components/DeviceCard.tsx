@@ -23,6 +23,10 @@ import { BiEditAlt } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { GiElectric } from "react-icons/gi";
 import { MdOutlineDeveloperBoard } from "react-icons/md";
+import { LuAirVent } from "react-icons/lu";
+import { PiFanDuotone } from "react-icons/pi";
+import { TbCarFan } from "react-icons/tb";
+import { MdQuestionMark } from "react-icons/md";
 
 const main_url = process.env.NEXT_PUBLIC_URL;
 
@@ -40,6 +44,8 @@ interface devices {
   room_name: string;
   home_name: string;
   isSensorDevice: number;
+  isOutside: number;
+  deviceType: string;
 }
 
 interface DeviceCardProps {
@@ -72,6 +78,9 @@ const RoomCard: React.FC<DeviceCardProps> = ({
     useState<boolean>(false);
   const [showEditDeviceModal, setShowEditDeviceModal] =
     useState<boolean>(false);
+  const [editDeviceModalKey, setEditDeviceModalKey] = useState<number>(
+    Date.now()
+  );
   const [showAssignDeviceModal, setShowAssignDeviceModal] =
     useState<boolean>(false);
 
@@ -98,9 +107,27 @@ const RoomCard: React.FC<DeviceCardProps> = ({
         <RxCross2 className={styles["x-icon"]} />
       </div>
       <div className={styles["picture-part"]}>
-        <div className={styles["device-pic"]}>
-          <RiKeyboardFill className={styles["picture-icon"]} />
-        </div>
+        {this_card_device.isSensorDevice === 1 ? (
+          <div className={styles["device-pic-sensor"]}>
+            <RiKeyboardFill className={styles["picture-icon"]} />
+          </div>
+        ) : this_card_device.deviceType === "Air Purifier" ? (
+          <div className={styles["device-pic-purifier"]}>
+            <LuAirVent className={styles["picture-icon"]} />
+          </div>
+        ) : this_card_device.deviceType === "Exhaust fan" ? (
+          <div className={styles["device-pic-fan"]}>
+            <PiFanDuotone className={styles["picture-icon"]} />
+          </div>
+        ) : this_card_device.deviceInRoom === null ? (
+          <div className={styles["device-pic-unassigned"]}>
+            <TbLayoutGrid className={styles["picture-icon"]} />
+          </div>
+        ) : (
+          <div className={styles["device-pic-unknown"]}>
+            <MdQuestionMark className={styles["picture-icon"]} />
+          </div>
+        )}
       </div>
       <div className={styles["info-part"]}>
         <div className={styles["seperate-info-device-name"]}>
@@ -172,7 +199,8 @@ const RoomCard: React.FC<DeviceCardProps> = ({
               <MdOutlineDeveloperBoard
                 style={{ color: "rgb(201, 123, 197)" }}
               />
-              เซ็นเซอร์
+              เซ็นเซอร์ (
+              {this_card_device.isOutside === 1 ? "นอกห้อง" : "ในห้อง"})
             </div>
           )}
         </div>
@@ -222,8 +250,12 @@ const RoomCard: React.FC<DeviceCardProps> = ({
         refreshRoomlist={refreshRoomlist}
       /> */}
       <EditDeviceModal
+        key={editDeviceModalKey}
         show={showEditDeviceModal}
-        handleClose={() => setShowEditDeviceModal(false)}
+        handleClose={() => {
+          setShowEditDeviceModal(false);
+          setEditDeviceModalKey(Date.now());
+        }}
         this_card_device={this_card_device}
         refreshDevicelist={refreshDevicelist}
       />

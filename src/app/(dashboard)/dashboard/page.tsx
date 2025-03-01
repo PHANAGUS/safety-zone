@@ -57,6 +57,8 @@ interface devices {
   room_name: string;
   home_name: string;
   isSensorDevice: number;
+  isOutside: number;
+  deviceType: string;
 }
 
 interface settings {
@@ -313,6 +315,12 @@ const Dashboard: React.FC = () => {
           room.room_id
         );
         const this_room_devices: devices[] = devices_response.data;
+        this_room_devices.sort((a, b) => {
+          if (a.isSensorDevice !== b.isSensorDevice) {
+            return a.isSensorDevice - b.isSensorDevice; // เรียง isSensorDevice จากน้อยไปมาก
+          }
+          return a.deviceType.localeCompare(b.deviceType);
+        });
 
         setDeviceList(this_room_devices);
       };
@@ -330,6 +338,9 @@ const Dashboard: React.FC = () => {
 
   const [showCreateDeviceModal, setShowCreateDeviceModal] =
     useState<boolean>(false);
+  const [createDeviceModalKey, setCreateDeviceModalKey] = useState<number>(
+    Date.now()
+  );
 
   useEffect(() => {
     setCurrentPage("login");
@@ -454,7 +465,6 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         ) : (
-          // <></>
           <div
             className={styles["create-device-button"]}
             onClick={() => setShowCreateDeviceModal(true)}
@@ -563,8 +573,12 @@ const Dashboard: React.FC = () => {
       </div>
 
       <CreateDeviceModal
+        key={createDeviceModalKey}
         show={showCreateDeviceModal}
-        handleClose={() => setShowCreateDeviceModal(false)}
+        handleClose={() => {
+          setShowCreateDeviceModal(false);
+          setCreateDeviceModalKey(Date.now());
+        }}
         refreshDevicelist={refreshDevicelist}
       />
       <RoomSettingModal

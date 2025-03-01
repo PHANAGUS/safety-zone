@@ -29,7 +29,9 @@ export async function add_new_device(
   add_new_device_url,
   room_id,
   device_name,
-  is_sensor
+  is_sensor,
+  is_outside,
+  device_type
 ) {
   if (room_id === -1 || device_name === "" || is_sensor === null)
     return { message: "กรุณาลองใหม่อีกครั้ง" };
@@ -46,6 +48,96 @@ export async function add_new_device(
         roomID: room_id,
         deviceName: device_name,
         isSensor: is_sensor,
+        isOutside: is_outside,
+        deviceType: device_type,
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      console.log(text);
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log(text);
+    return { message: text };
+
+    // const data = await response.json();
+    // console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: String(error) };
+  }
+}
+
+export async function add_new_sensor_device(
+  add_new_device_url,
+  room_id,
+  device_name,
+  is_outside
+) {
+  if (room_id === -1 || device_name === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${add_new_device_url}/post/add_room_device`;
+  // console.log(full_url);
+
+  try {
+    const response = await fetch(full_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomID: room_id,
+        deviceName: device_name,
+        isSensor: 1,
+        isOutside: is_outside,
+        deviceType: "Sensor",
+      }),
+    });
+
+    const text = await response.text();
+
+    if (!response.ok) {
+      console.log(text);
+      return { message: text };
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log(text);
+    return { message: text };
+
+    // const data = await response.json();
+    // console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+    return { message: String(error) };
+  }
+}
+
+export async function add_new_elctrical_device(
+  add_new_device_url,
+  room_id,
+  device_name,
+  device_type
+) {
+  if (room_id === -1 || device_name === "")
+    return { message: "กรุณาลองใหม่อีกครั้ง" };
+  const full_url = `${add_new_device_url}/post/add_room_device`;
+  // console.log(full_url);
+
+  try {
+    const response = await fetch(full_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomID: room_id,
+        deviceName: device_name,
+        isSensor: 0,
+        isOutside: 0,
+        deviceType: device_type,
       }),
     });
 
