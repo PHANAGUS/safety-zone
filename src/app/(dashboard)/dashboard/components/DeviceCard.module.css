@@ -70,11 +70,15 @@
   aspect-ratio: 1 / 1;
   width: 100%;
   border-radius: 1.2em;
-  /* background-color: rgb(216, 216, 216); */
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     -45deg,
     rgb(253, 185, 225),
     rgb(248, 162, 209)
+  ); */
+  background-image: linear-gradient(
+    -45deg,
+    rgb(197, 206, 255),
+    rgb(162, 185, 248)
   );
   display: flex;
   justify-content: center;
