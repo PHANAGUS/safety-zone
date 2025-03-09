@@ -201,7 +201,7 @@ const Dashboard: React.FC = () => {
         setLatestHumidThreshold(latest_threshold.humidity_threshold);
 
         setIsAutoOn(latest_threshold.auto_control_enabled);
-        console.log("เซ็ตค่าใหม่");
+        // console.log("เซ็ตค่าใหม่");
       }
     };
 
@@ -372,8 +372,8 @@ const Dashboard: React.FC = () => {
               <TbSettings2 className={styles["room-setting-icon"]} />
               <p className={styles[""]}>ตั้งค่าระบบ</p>
             </div>
-            <div className={styles[""]}>{latestPm25Threshold}</div>
-            <div className={styles[""]}>{latestCo2Threshold}</div>
+            {/* <div className={styles[""]}>{latestPm25Threshold}</div>
+            <div className={styles[""]}>{latestCo2Threshold}</div> */}
             {/* <div
               className={styles["delete-room-button"]}
               // onClick={() => setShowConfirmDeleteHomeModal(true)}
