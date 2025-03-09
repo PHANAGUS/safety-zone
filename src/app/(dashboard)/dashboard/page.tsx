@@ -125,6 +125,20 @@ const Dashboard: React.FC = () => {
     setCurrentPage,
   } = useGlobalState();
 
+  // จัดการ Modal ต่าง ๆ ==============================================================================================================================
+  const [showRoomSettingModal, setShowRoomSettingModal] =
+    useState<boolean>(false);
+  const [roomSettingModalKey, setRoomSettingModalKey] = useState<number>(0);
+  const refreshRoomSettingModal = () => {
+    setRoomSettingModalKey((prevKey) => (prevKey === 0 ? 1 : 0));
+  };
+
+  const [showCreateDeviceModal, setShowCreateDeviceModal] =
+    useState<boolean>(false);
+  const [createDeviceModalKey, setCreateDeviceModalKey] = useState<number>(
+    Date.now()
+  );
+
   // จัดการ Threshold ==============================================================================================================================
   const [latestPm25Threshold, setLatestPm25Threshold] = useState<number>(10);
   const [latestCo2Threshold, setLatestCo2Threshold] = useState<number>(400);
@@ -186,13 +200,13 @@ const Dashboard: React.FC = () => {
         setLatestTempThreshold(latest_threshold.temperature_threshold);
         setLatestHumidThreshold(latest_threshold.humidity_threshold);
 
-        // setLatestIsAutoControl(latest_threshold.auto_control_enabled);
         setIsAutoOn(latest_threshold.auto_control_enabled);
+        console.log("เซ็ตค่าใหม่");
       }
     };
 
     fetch_latest_setting();
-  }, []);
+  }, [showRoomSettingModal]);
 
   // จัดการ Mode การดู ==============================================================================================================================
   const [displayMode, setDisplayMode] = useState<boolean>(true);
@@ -328,20 +342,6 @@ const Dashboard: React.FC = () => {
     }
   }, [username, userID, loading, daysEarlier, devicelistKey]);
 
-  // จัดการ Modal ต่าง ๆ ==============================================================================================================================
-  const [showRoomSettingModal, setShowRoomSettingModal] =
-    useState<boolean>(false);
-  const [roomSettingModalKey, setRoomSettingModalKey] = useState<number>(0);
-  const refreshRoomSettingModal = () => {
-    setRoomSettingModalKey((prevKey) => (prevKey === 0 ? 1 : 0));
-  };
-
-  const [showCreateDeviceModal, setShowCreateDeviceModal] =
-    useState<boolean>(false);
-  const [createDeviceModalKey, setCreateDeviceModalKey] = useState<number>(
-    Date.now()
-  );
-
   useEffect(() => {
     setCurrentPage("login");
     // console.log(currentPage);
@@ -369,12 +369,11 @@ const Dashboard: React.FC = () => {
                 setShowRoomSettingModal(true);
               }}
             >
-              <TbSettings2
-                className={styles["room-setting-icon"]}
-                onClick={() => {}}
-              />
+              <TbSettings2 className={styles["room-setting-icon"]} />
               <p className={styles[""]}>ตั้งค่าระบบ</p>
             </div>
+            <div className={styles[""]}>{latestPm25Threshold}</div>
+            <div className={styles[""]}>{latestCo2Threshold}</div>
             {/* <div
               className={styles["delete-room-button"]}
               // onClick={() => setShowConfirmDeleteHomeModal(true)}
