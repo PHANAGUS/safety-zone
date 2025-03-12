@@ -14,6 +14,7 @@ import styles from "./page.module.css";
 
 import AirQualityCard from "./components/AQCard_v2";
 import AirQualityGraph from "./components/AirQualityGraph";
+import ElectricGraph from "./components/ElectricGraph";
 import DeviceCard from "./components/DeviceCard";
 import RoomSettingModal from "./components/Modal_RoomSetting";
 import CreateDeviceModal from "./components/Modal_CreateDevice";
@@ -557,6 +558,10 @@ const Dashboard: React.FC = () => {
             </div>
           ) : (
             <div className={styles["aqchart-container"]} key={aqContainerKey}>
+              <ElectricGraph
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_pm25}
+              />
               <AirQualityGraph
                 title={"PM2.5"}
                 unit={"µg/m³"}

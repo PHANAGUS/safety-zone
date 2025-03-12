@@ -79,9 +79,9 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
     let recommended_values: [number, number] = [0, 0];
 
     if (title === "PM2.5") {
-      recommended_values = [10, 20];
+      recommended_values = [10, 25];
     } else if (title === "CO2") {
-      recommended_values = [400, 600];
+      recommended_values = [450, 1000];
     } else if (title === "DiffPres") {
       recommended_values = [5, 10];
     } else if (title === "Temp") {

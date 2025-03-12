@@ -73,7 +73,7 @@ const RoomSettingModal: React.FC<RoomSettingModalProps> = ({
       setTypingPm25_l(newValue);
     }
   };
-  const [typingPm25_h, setTypingPm25_h] = useState<number>(20);
+  const [typingPm25_h, setTypingPm25_h] = useState<number>(25);
   const handleChangePm25_h = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
     if (!isNaN(newValue)) {
@@ -81,14 +81,14 @@ const RoomSettingModal: React.FC<RoomSettingModalProps> = ({
     }
   };
 
-  const [typingCo2_l, setTypingCo2_l] = useState<number>(400);
+  const [typingCo2_l, setTypingCo2_l] = useState<number>(450);
   const handleChangeCo2_l = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
     if (!isNaN(newValue)) {
       setTypingCo2_l(newValue);
     }
   };
-  const [typingCo2_h, setTypingCo2_h] = useState<number>(600);
+  const [typingCo2_h, setTypingCo2_h] = useState<number>(1000);
   const handleChangeCo2_h = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
     if (!isNaN(newValue)) {
@@ -308,8 +308,8 @@ const RoomSettingModal: React.FC<RoomSettingModalProps> = ({
               </div>
               <RangeSlider
                 title="CO2"
-                min={350}
-                max={1000}
+                min={450}
+                max={1200}
                 last_min={typingCo2_l}
                 last_max={typingCo2_h}
                 defaultValue={[typingCo2_l, typingCo2_h]}

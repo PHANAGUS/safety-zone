@@ -88,15 +88,15 @@ const AirQualityGraph: React.FC<AirQualityGraphProps> = ({
                   borderColor: "rgba(22, 189, 255, 0.5)",
                   borderWidth: 2,
                 },
-                {
-                  label: "นอกห้อง",
-                  data: outside_data,
-                  backgroundColor: "rgb(213, 169, 255)",
-                  pointRadius: 0, // ขนาดจุด (ค่าเริ่มต้น 3-5)
-                  pointHoverRadius: 5, // ขนาดจุดเมื่อ hover
-                  borderColor: "rgba(213, 169, 255, 0.5)",
-                  borderWidth: 2,
-                },
+                // {
+                //   label: "นอกห้อง",
+                //   data: outside_data,
+                //   backgroundColor: "rgb(213, 169, 255)",
+                //   pointRadius: 0, // ขนาดจุด (ค่าเริ่มต้น 3-5)
+                //   pointHoverRadius: 5, // ขนาดจุดเมื่อ hover
+                //   borderColor: "rgba(213, 169, 255, 0.5)",
+                //   borderWidth: 2,
+                // },
               ],
             }}
             options={{
@@ -104,7 +104,7 @@ const AirQualityGraph: React.FC<AirQualityGraphProps> = ({
               elements: { line: { tension: 0.3 } },
               plugins: {
                 legend: {
-                  display: true, // ปิดการแสดง Legend
+                  display: false, // ปิดการแสดง Legend
                   position: "bottom" as const,
                 },
               },
