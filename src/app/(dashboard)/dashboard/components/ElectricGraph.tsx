@@ -28,37 +28,58 @@ ChartJS.register(
   CategoryScale
 );
 
+interface DataPoint {
+  x: object; // timestamp
+  y: number; // ค่าไฟ
+}
+
 interface ElectricGraphProps {
   inroom_timestamp: object[];
   inroom_value: number[];
+  graph_case: string;
 }
 
 const ElectricGraph: React.FC<ElectricGraphProps> = ({
   inroom_timestamp,
   inroom_value,
+  graph_case,
 }) => {
   const inroom_data = inroom_timestamp.map((time, index) => ({
     x: time,
     y: inroom_value[index],
   }));
 
-  const electric_cost_data = [];
+  //   const electric_cost_data = [];
 
-  const startDate = new Date("2025-02-28");
-  const endDate = new Date("2025-03-13");
-  let cost = 100;
-  const dailyIncrement = 5;
-  for (
-    let date = new Date(startDate);
-    date <= endDate;
-    date.setDate(date.getDate() + 1)
-  ) {
-    electric_cost_data.push({
-      x: new Date(date),
-      y: cost,
-    });
-    cost += dailyIncrement;
-  }
+  //   const startDate = new Date("2025-02-28");
+  //   const endDate = new Date("2025-03-13");
+  //   let cost = 100;
+  //   const dailyIncrement = 5;
+  //   for (
+  //     let date = new Date(startDate);
+  //     date <= endDate;
+  //     date.setDate(date.getDate() + 1)
+  //   ) {
+  //     electric_cost_data.push({
+  //       x: new Date(date),
+  //       y: cost,
+  //     });
+  //     cost += dailyIncrement;
+  //   }
+
+  // สมมติว่า ค่าไฟเริ่มต้นที่ 10 และสิ้นสุดที่ 50 ในช่วงเวลานั้น
+  const startElectricity = 10;
+  const endElectricity = 50;
+
+  const electric_cost_data: DataPoint[] = inroom_timestamp.map(
+    (timestamp, index) => {
+      const totalTimestamps = inroom_timestamp.length - 1;
+      const electricity =
+        startElectricity +
+        (endElectricity - startElectricity) * (index / totalTimestamps);
+      return { x: timestamp, y: electricity };
+    }
+  );
 
   return (
     <div
@@ -68,6 +89,7 @@ const ElectricGraph: React.FC<ElectricGraphProps> = ({
     >
       <div className={styles["aqgraph-textarea"]}>
         <p className={styles["aqgraph-title"]}>เปรียบเทียบค่าไฟฟ้ากับ PM2.5</p>
+        <p className={styles["aqgraph-unit"]}>{graph_case}</p>
       </div>
       <div className={styles["aqgraph-chartarea"]}>
         {inroom_value.length > 1 ? (
@@ -91,7 +113,7 @@ const ElectricGraph: React.FC<ElectricGraphProps> = ({
                   backgroundColor: "rgb(255, 176, 72)",
                   pointRadius: 0,
                   pointHoverRadius: 5,
-                  borderColor: "rgba(255, 176, 72, 0.5)",
+                  borderColor: "rgba(255, 176, 72, 0.7)",
                   borderWidth: 2,
                   yAxisID: "y_electricity",
                 },

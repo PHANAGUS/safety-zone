@@ -561,6 +561,17 @@ const Dashboard: React.FC = () => {
               <ElectricGraph
                 inroom_timestamp={inroom_timestamp}
                 inroom_value={inroom_pm25}
+                graph_case="เปิดเฉพาะเครื่องกรองอากาศ"
+              />
+              <ElectricGraph
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_pm25}
+                graph_case="เปิดเฉพาะพัดลมอัดอากาศ"
+              />
+              <ElectricGraph
+                inroom_timestamp={inroom_timestamp}
+                inroom_value={inroom_pm25}
+                graph_case="เปิดทั้งเครื่องกรองอากาศ และพัดลมอัดอากาศ"
               />
               <AirQualityGraph
                 title={"PM2.5"}
