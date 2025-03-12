@@ -102,11 +102,21 @@ export async function create_room_setting(
   create_room_setting_url,
   room_id,
   create_by,
-  diffPressure_threshold,
-  temperature_threshold,
-  humidity_threshold,
-  pm25_threshold,
-  co2_threshold
+  // diffPressure_threshold,
+  // temperature_threshold,
+  // humidity_threshold,
+  // pm25_threshold,
+  // co2_threshold
+  diffPressure_threshold_high,
+  diffPressure_threshold_low,
+  temperature_threshold_high,
+  temperature_threshold_low,
+  humidity_threshold_high,
+  humidity_threshold_low,
+  pm25_threshold_high,
+  pm25_threshold_low,
+  co2_threshold_high,
+  co2_threshold_low
 ) {
   if (room_id === "" || create_by === "")
     return { message: "กรุณาลองใหม่อีกครั้ง" };
@@ -122,11 +132,22 @@ export async function create_room_setting(
       body: JSON.stringify({
         room_id: room_id,
         create_by: create_by,
-        diffPressure_threshold: diffPressure_threshold,
-        temperature_threshold: temperature_threshold,
-        humidity_threshold: humidity_threshold,
-        pm25_threshold: pm25_threshold,
-        co2_threshold: co2_threshold,
+
+        diffPressure_threshold_high: diffPressure_threshold_high,
+        diffPressure_threshold_low: diffPressure_threshold_low,
+
+        temperature_threshold_high: temperature_threshold_high,
+        temperature_threshold_low: temperature_threshold_low,
+
+        humidity_threshold_high: humidity_threshold_high,
+        humidity_threshold_low: humidity_threshold_low,
+
+        pm25_threshold_high: pm25_threshold_high,
+        pm25_threshold_low: pm25_threshold_low,
+
+        co2_threshold_high: co2_threshold_high,
+        co2_threshold_low: co2_threshold_low,
+
         auto_control_enabled: 0,
       }),
     });
@@ -152,11 +173,16 @@ export async function update_room_setting(
   update_room_setting_url,
   room_id,
   update_by,
-  diffPressure_threshold,
-  temperature_threshold,
-  humidity_threshold,
-  pm25_threshold,
-  co2_threshold,
+  diffPressure_threshold_high,
+  diffPressure_threshold_low,
+  temperature_threshold_high,
+  temperature_threshold_low,
+  humidity_threshold_high,
+  humidity_threshold_low,
+  pm25_threshold_high,
+  pm25_threshold_low,
+  co2_threshold_high,
+  co2_threshold_low,
   auto_control_enabled
 ) {
   if (room_id === "" || update_by === "")
@@ -176,11 +202,16 @@ export async function update_room_setting(
           update_room_setting_url,
           room_id,
           update_by,
-          diffPressure_threshold,
-          temperature_threshold,
-          humidity_threshold,
-          pm25_threshold,
-          co2_threshold,
+          diffPressure_threshold_high,
+          diffPressure_threshold_low,
+          temperature_threshold_high,
+          temperature_threshold_low,
+          humidity_threshold_high,
+          humidity_threshold_low,
+          pm25_threshold_high,
+          pm25_threshold_low,
+          co2_threshold_high,
+          co2_threshold_low,
           auto_control_enabled
         );
         return post_response;
@@ -198,11 +229,21 @@ export async function update_room_setting(
           body: JSON.stringify({
             room_id: room_id,
             update_by: update_by,
-            diffPressure_threshold: diffPressure_threshold,
-            temperature_threshold: temperature_threshold,
-            humidity_threshold: humidity_threshold,
-            pm25_threshold: pm25_threshold,
-            co2_threshold: co2_threshold,
+
+            diffPressure_threshold_high: diffPressure_threshold_high,
+            diffPressure_threshold_low: diffPressure_threshold_low,
+
+            temperature_threshold_high: temperature_threshold_high,
+            temperature_threshold_low: temperature_threshold_low,
+
+            humidity_threshold_high: humidity_threshold_high,
+            humidity_threshold_low: humidity_threshold_low,
+
+            pm25_threshold_high: pm25_threshold_high,
+            pm25_threshold_low: pm25_threshold_low,
+
+            co2_threshold_high: co2_threshold_high,
+            co2_threshold_low: co2_threshold_low,
             auto_control_enabled: auto_control_enabled,
           }),
         });

@@ -12,7 +12,7 @@ import { useGlobalState } from "@/context/GlobalStateContext";
 // import styles from "../layout.module.css";
 import styles from "./page.module.css";
 
-import AirQualityCard from "./components/AirQualityCard";
+import AirQualityCard from "./components/AQCard_v2";
 import AirQualityGraph from "./components/AirQualityGraph";
 import DeviceCard from "./components/DeviceCard";
 import RoomSettingModal from "./components/Modal_RoomSetting";
@@ -63,11 +63,16 @@ interface devices {
 
 interface settings {
   room_id: number;
-  diffPressure_threshold: number;
-  temperature_threshold: number;
-  humidity_threshold: number;
-  pm25_threshold: number;
-  co2_threshold: number;
+  diffPressure_threshold_low: number;
+  diffPressure_threshold_high: number;
+  temperature_threshold_low: number;
+  temperature_threshold_high: number;
+  humidity_threshold_low: number;
+  humidity_threshold_high: number;
+  pm25_threshold_low: number;
+  pm25_threshold_high: number;
+  co2_threshold_low: number;
+  co2_threshold_high: number;
   auto_control_enabled: number;
 }
 
@@ -140,12 +145,20 @@ const Dashboard: React.FC = () => {
   );
 
   // จัดการ Threshold ==============================================================================================================================
-  const [latestPm25Threshold, setLatestPm25Threshold] = useState<number>(10);
-  const [latestCo2Threshold, setLatestCo2Threshold] = useState<number>(400);
-  const [latestDiffPresThreshold, setLatestDiffPresThreshold] =
-    useState<number>(5);
-  const [latestTempThreshold, setLatestTempThreshold] = useState<number>(25);
-  const [latestHumidThreshold, setLatestHumidThreshold] = useState<number>(60);
+  const [latestPm25_l, setLatestPm25_l] = useState<number>(10);
+  const [latestPm25_h, setLatestPm25_h] = useState<number>(20);
+
+  const [latestCo2_l, setLatestCo2_l] = useState<number>(400);
+  const [latestCo2_h, setLatestCo2_h] = useState<number>(600);
+
+  const [latestDiffPres_l, setLatestDiffPres_l] = useState<number>(5);
+  const [latestDiffPres_h, setLatestDiffPres_h] = useState<number>(10);
+
+  const [latestTemp_l, setLatestTemp_l] = useState<number>(25);
+  const [latestTemp_h, setLatestTemp_h] = useState<number>(27);
+
+  const [latestHumid_l, setLatestHumid_l] = useState<number>(55);
+  const [latestHumid_h, setLatestHumid_h] = useState<number>(60);
 
   const [isAutoOn, setIsAutoOn] = useState<number>(0);
   const toggleAuto = () => {
@@ -163,11 +176,16 @@ const Dashboard: React.FC = () => {
       main_url,
       room.room_id,
       userID,
-      latestDiffPresThreshold,
-      latestTempThreshold,
-      latestHumidThreshold,
-      latestPm25Threshold,
-      latestCo2Threshold,
+      latestDiffPres_h,
+      latestDiffPres_l,
+      latestTemp_h,
+      latestTemp_l,
+      latestHumid_h,
+      latestHumid_l,
+      latestPm25_h,
+      latestPm25_l,
+      latestCo2_h,
+      latestCo2_l,
       x
     );
   };
@@ -184,21 +202,35 @@ const Dashboard: React.FC = () => {
           main_url,
           room.room_id,
           userID,
-          latestDiffPresThreshold,
-          latestTempThreshold,
-          latestHumidThreshold,
-          latestPm25Threshold,
-          latestCo2Threshold
+          latestDiffPres_h,
+          latestDiffPres_l,
+          latestTemp_h,
+          latestTemp_l,
+          latestHumid_h,
+          latestHumid_l,
+          latestPm25_h,
+          latestPm25_l,
+          latestCo2_h,
+          latestCo2_l
         );
         setIsAutoOn(0);
       } else {
         const latest_threshold = setting_response.devices[0];
 
-        setLatestPm25Threshold(latest_threshold.pm25_threshold);
-        setLatestCo2Threshold(latest_threshold.co2_threshold);
-        setLatestDiffPresThreshold(latest_threshold.diffPressure_threshold);
-        setLatestTempThreshold(latest_threshold.temperature_threshold);
-        setLatestHumidThreshold(latest_threshold.humidity_threshold);
+        setLatestPm25_l(latest_threshold.pm25_threshold_low);
+        setLatestPm25_h(latest_threshold.pm25_threshold_high);
+
+        setLatestCo2_l(latest_threshold.co2_threshold_low);
+        setLatestCo2_h(latest_threshold.co2_threshold_high);
+
+        setLatestDiffPres_l(latest_threshold.diffPressure_threshold_low);
+        setLatestDiffPres_h(latest_threshold.diffPressure_threshold_high);
+
+        setLatestTemp_l(latest_threshold.temperature_threshold_low);
+        setLatestTemp_h(latest_threshold.temperature_threshold_high);
+
+        setLatestHumid_l(latest_threshold.humidity_threshold_low);
+        setLatestHumid_h(latest_threshold.humidity_threshold_high);
 
         setIsAutoOn(latest_threshold.auto_control_enabled);
         // console.log("เซ็ตค่าใหม่");
@@ -475,43 +507,52 @@ const Dashboard: React.FC = () => {
 
         {displayMode ? (
           airQualityView === "card" ? (
+            // <div className={styles["aqcard-container"]} key={aqContainerKey}>
+            //   <AirQualityCard
+            //     title="PM2.5"
+            //     cal_value={cal_pm25[cal_pm25.length - 1]}
+            //     outside_value={outside_pm25[outside_pm25.length - 1]}
+            //     inroom_value={inroom_pm25[inroom_pm25.length - 1]}
+            //     unit="µg/m³"
+            //   />
+            //   <AirQualityCard
+            //     title="CO2"
+            //     cal_value={cal_co2[cal_co2.length - 1]}
+            //     outside_value={outside_co2[outside_co2.length - 1]}
+            //     inroom_value={inroom_co2[inroom_co2.length - 1]}
+            //     unit="ppm"
+            //   />
+            //   <AirQualityCard
+            //     title="ความต่างความกดอากาศ"
+            //     cal_value={cal_diffPressure[cal_diffPressure.length - 1]}
+            //     outside_value={outside_pressure[outside_pressure.length - 1]}
+            //     inroom_value={inroom_pressure[inroom_pressure.length - 1]}
+            //     unit="Pascal"
+            //   />
+            //   <AirQualityCard
+            //     title="อุณหภูมิ"
+            //     cal_value={cal_temperature[cal_temperature.length - 1]}
+            //     outside_value={
+            //       outside_temperature[outside_temperature.length - 1]
+            //     }
+            //     inroom_value={inroom_temperature[inroom_temperature.length - 1]}
+            //     unit="°C"
+            //   />
+            //   <AirQualityCard
+            //     title="ความชื้นสัมพัทธ์"
+            //     cal_value={cal_humidity[cal_humidity.length - 1]}
+            //     outside_value={outside_humidity[outside_humidity.length - 1]}
+            //     inroom_value={inroom_humidity[inroom_humidity.length - 1]}
+            //     unit="%"
+            //   />
+            // </div>
             <div className={styles["aqcard-container"]} key={aqContainerKey}>
               <AirQualityCard
-                title="PM2.5"
-                cal_value={cal_pm25[cal_pm25.length - 1]}
-                outside_value={outside_pm25[outside_pm25.length - 1]}
-                inroom_value={inroom_pm25[inroom_pm25.length - 1]}
-                unit="µg/m³"
-              />
-              <AirQualityCard
-                title="CO2"
-                cal_value={cal_co2[cal_co2.length - 1]}
-                outside_value={outside_co2[outside_co2.length - 1]}
-                inroom_value={inroom_co2[inroom_co2.length - 1]}
-                unit="ppm"
-              />
-              <AirQualityCard
-                title="ความต่างความกดอากาศ"
-                cal_value={cal_diffPressure[cal_diffPressure.length - 1]}
-                outside_value={outside_pressure[outside_pressure.length - 1]}
-                inroom_value={inroom_pressure[inroom_pressure.length - 1]}
-                unit="Pascal"
-              />
-              <AirQualityCard
-                title="อุณหภูมิ"
-                cal_value={cal_temperature[cal_temperature.length - 1]}
-                outside_value={
-                  outside_temperature[outside_temperature.length - 1]
-                }
-                inroom_value={inroom_temperature[inroom_temperature.length - 1]}
-                unit="°C"
-              />
-              <AirQualityCard
-                title="ความชื้นสัมพัทธ์"
-                cal_value={cal_humidity[cal_humidity.length - 1]}
-                outside_value={outside_humidity[outside_humidity.length - 1]}
-                inroom_value={inroom_humidity[inroom_humidity.length - 1]}
-                unit="%"
+                pm25={inroom_pm25[inroom_pm25.length - 1]}
+                co2={inroom_co2[inroom_co2.length - 1]}
+                temperature={inroom_temperature[inroom_temperature.length - 1]}
+                humidity={inroom_humidity[inroom_humidity.length - 1]}
+                pressure={inroom_pressure[inroom_pressure.length - 1]}
               />
             </div>
           ) : (

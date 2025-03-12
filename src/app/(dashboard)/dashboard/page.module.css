@@ -445,6 +445,24 @@
   color: rgb(100, 100, 100);
 }
 
+/* .aqcard-container {
+  width: 100%;
+  margin-top: calc(1vw + 1em);
+  padding-top: 5px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 5px;
+
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  column-gap: 20px;
+  row-gap: 1em;
+
+  max-height: calc(100dvh - 15dvh - 5dvw);
+  overflow-y: scroll;
+} */
 .aqcard-container {
   width: 100%;
   margin-top: calc(1vw + 1em);
@@ -455,14 +473,14 @@
 
   position: relative;
 
-  /* display: flex;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5em; */
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5em;
+  /* display: grid;
+  grid-template-columns: minmax(300px, 650px);
   column-gap: 20px;
-  row-gap: 1em;
+  row-gap: 1em; */
 
   max-height: calc(100dvh - 15dvh - 5dvw);
   overflow-y: scroll;

@@ -92,3 +92,7 @@ a {
     color-scheme: dark;
   }
 }
+
+[data-radix-slider-thumb] {
+  display: block;
+}
