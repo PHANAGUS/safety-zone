@@ -1,32 +1,38 @@
 คู่มือการ setup project
 
 ## การติดตั้งและการรันแอปพลิเคชัน
-ขั้นตอนในการติดตั้งและรันโปรเจกต์มีดังนี้:
 
 ขั้นตอนที่ 1: โคลน Repository
-เปิด terminal และรันคำสั่งต่อไปนี้:
 
 ```bash
 git clone https://github.com/PHANAGUS/safety-zone.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ขั้นตอนที่ 2: ติดตั้ง Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ขั้นตอนที่ 3: รัน Development Server
 
-## Learn More
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+ขั้นตอนที่ 4: เปิดโปรเจกต์ในเว็บบราวเซอร์
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+เมื่อเซิร์ฟเวอร์รันเสร็จแล้ว, จะเห็นข้อความใน terminal เช่น
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+Local: http://localhost:3000
+```
 
-## Deploy on Vercel
+เปิดเว็บบราวเซอร์แล้วไปที่ URL นี้เพื่อดูโปรเจกต์
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## การปิดเซิฟเวอร์
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+เมื่อเสร็จสิ้นการทำงานแล้ว หากต้องการปิดเซิร์ฟเวอร์ 
+    สามารถกด \texttt{Ctrl + C} จากนั้นพิมพ์ \texttt{Y} 
+    แล้วกด \texttt{Enter} เพื่อยืนยันการปิดเซิร์ฟเวอร์ 
+    ใน terminal ที่กำลังรันโปรเจกต์
